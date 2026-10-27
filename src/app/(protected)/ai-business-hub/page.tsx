@@ -153,6 +153,8 @@ function useCountUp(endValue: number, duration = 1000) {
       }
     };
 
+    
+
     rafRef.current = requestAnimationFrame(step);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
