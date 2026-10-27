@@ -310,7 +310,7 @@ function SectionHeading({
 }) {
   return (
     <div className="mb-5 flex items-start gap-3">
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-50 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700 dark:bg-cyan-400/10 dark:text-cyan-300">
         <Icon className="h-5 w-5" />
       </span>
       <div>
@@ -400,10 +400,10 @@ function RecordsTable({
 
   return (
     <section className="relative mt-2 overflow-hidden rounded-2xl border border-slate-200/70 bg-white/90 shadow-xl dark:border-slate-700/60 dark:bg-slate-900/75 sm:rounded-3xl">
-      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-amber-500 via-yellow-500 to-yellow-500" />
+      <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
       <div className="p-4 sm:p-6 md:p-8">
         <h3 className="mb-5 flex items-center gap-3 text-lg font-bold text-slate-800 dark:text-white sm:text-xl">
-          <span className="h-7 w-1 rounded-full bg-amber-500" />
+          <span className="h-7 w-1 rounded-full bg-[#1680ff]" />
           {title}
         </h3>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
@@ -415,7 +415,7 @@ function RecordsTable({
                 setPageSize(Number(event.target.value));
                 setPageIndex(0);
               }}
-              className="rounded-xl border-2 border-slate-200 bg-white p-1.5 text-sm font-normal text-slate-900 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+              className="rounded-xl border-2 border-slate-200 bg-white p-1.5 text-sm font-normal text-slate-900 outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
             >
               {[10, 25, 50, 100].map((size) => (
                 <option key={size} value={size}>
@@ -434,7 +434,7 @@ function RecordsTable({
                 setPageIndex(0);
               }}
               placeholder="Search records..."
-              className="w-48 rounded-xl border-2 border-slate-200 bg-white px-3 py-2 text-sm font-normal outline-none transition placeholder:text-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 sm:w-56"
+              className="w-48 rounded-xl border-2 border-slate-200 bg-white px-3 py-2 text-sm font-normal outline-none transition placeholder:text-slate-400 focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 sm:w-56"
             />
           </label>
         </div>
@@ -442,7 +442,7 @@ function RecordsTable({
           <table
             className={`w-full ${withdrawalStatement ? "min-w-[1200px]" : p2pTransfer ? "min-w-[800px]" : incomeTransfer ? "min-w-[600px]" : "min-w-[900px]"} text-center text-xs sm:text-sm`}
           >
-            <thead className="border-b border-slate-200 bg-gradient-to-r from-amber-50/80 to-yellow-50/80 text-slate-600 dark:border-slate-700 dark:from-amber-900/20 dark:to-yellow-900/20 dark:text-slate-400">
+            <thead className="border-b border-slate-200 bg-gradient-to-r from-blue-50/80 to-violet-50/80 text-slate-600 dark:border-slate-700 dark:from-blue-900/20 dark:to-violet-900/20 dark:text-slate-400">
               <tr>
                 {(incomeTransfer
                   ? ["#", "Date", "Credit", "Debit", "Remark"]
@@ -490,7 +490,7 @@ function RecordsTable({
               {pageRecords.map((record, index) => (
                 <tr
                   key={record.id}
-                  className={`border-b border-slate-100 text-slate-700 transition-colors hover:bg-amber-50/50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-amber-900/10 ${index % 2 === 0 ? "bg-white/50 dark:bg-slate-800/30" : ""
+                  className={`border-b border-slate-100 text-slate-700 transition-colors hover:bg-blue-50/50 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-blue-900/10 ${index % 2 === 0 ? "bg-white/50 dark:bg-slate-800/30" : ""
                     }`}
                 >
                   <td className="p-3">{currentPage * pageSize + index + 1}</td>
@@ -525,11 +525,11 @@ function RecordsTable({
                   ) : withdrawalStatement ? (
                     <>
                       <td className="p-3">
-                        <span className="rounded-full border border-amber-200 bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/30 dark:text-amber-300">
+                        <span className="rounded-full border border-blue-200 bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700 dark:border-cyan-700/50 dark:bg-cyan-900/30 dark:text-cyan-300">
                           {record.walletType || "General"}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap p-3 font-medium text-amber-700 dark:text-amber-300">
+                      <td className="whitespace-nowrap p-3 font-medium text-blue-700 dark:text-cyan-300">
                         {record.amount > 0 ? money(record.amount, record.currency ?? "USD") : "—"}
                       </td>
                       <td className="whitespace-nowrap p-3 font-medium text-rose-700 dark:text-rose-300">
@@ -560,7 +560,7 @@ function RecordsTable({
                               onClick={() => void copyReference(record.reference)}
                               title="Copy transaction reference"
                               aria-label="Copy transaction reference"
-                              className="shrink-0 text-slate-400 transition-colors hover:text-amber-600"
+                              className="shrink-0 text-slate-400 transition-colors hover:text-blue-600 dark:hover:text-cyan-300"
                             >
                               <Copy className="h-3.5 w-3.5" />
                             </button>
@@ -587,7 +587,7 @@ function RecordsTable({
                             type="button"
                             onClick={() => void copyReference(record.walletAddress ?? "")}
                             title="Copy wallet address"
-                            className="inline-flex max-w-40 items-center gap-1 text-xs text-slate-600 hover:text-amber-600 dark:text-slate-300"
+                            className="inline-flex max-w-40 items-center gap-1 text-xs text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-cyan-300"
                           >
                             <span className="truncate">{record.walletAddress}</span>
                             <Copy className="h-3.5 w-3.5 shrink-0" />
@@ -607,7 +607,7 @@ function RecordsTable({
                               onClick={() => void copyReference(record.hash ?? "")}
                               title="Copy transaction hash"
                               aria-label="Copy transaction hash"
-                              className="text-slate-400 hover:text-amber-600"
+                              className="text-slate-400 hover:text-blue-600 dark:hover:text-cyan-300"
                             >
                               <Copy className="h-3.5 w-3.5" />
                             </button>
@@ -626,7 +626,7 @@ function RecordsTable({
                     colSpan={incomeTransfer ? 5 : p2pTransfer ? 6 : withdrawalStatement ? 9 : 7}
                     className="p-8 text-center"
                   >
-                    <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" />
+                    <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading" />
                   </td>
                 </tr>
               )}
@@ -684,8 +684,8 @@ function RecordsTable({
                   (index < 2 && currentPage === 0) || (index > 2 && currentPage >= pageCount - 1)
                 }
                 className={`rounded-lg px-3 py-1.5 text-sm transition disabled:cursor-not-allowed disabled:opacity-40 ${item.current
-                  ? "font-bold text-amber-600"
-                  : "text-slate-600 hover:bg-amber-100 dark:text-slate-400 dark:hover:bg-amber-900/30"
+                  ? "font-bold text-blue-600 dark:text-cyan-300"
+                  : "text-slate-600 hover:bg-blue-100 dark:text-slate-400 dark:hover:bg-blue-900/30"
                   }`}
               >
                 {item.label}
@@ -725,7 +725,7 @@ function TextField({
         type={type}
         min={min}
         required={required}
-        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 font-normal outline-none transition placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 dark:border-slate-700 dark:bg-slate-950"
+        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 font-normal outline-none transition placeholder:text-slate-400 focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/15 dark:border-slate-700 dark:bg-slate-950"
       />
     </label>
   );
@@ -749,7 +749,7 @@ function PrimaryButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#e98d09] to-[#f3a526] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#e98d09]/40 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#1680ff]/40 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
     >
       {children}
     </button>
@@ -1674,7 +1674,7 @@ export default function FundDirectorPage() {
   return (
     <div className="mx-auto w-full space-y-5 pb-8 sm:space-y-6">
       <Surface className="relative overflow-hidden rounded-2xl bg-white/80 shadow-lg backdrop-blur-xl dark:bg-slate-800/80 sm:rounded-3xl">
-        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-amber-500 via-amber-500 to-yellow-500" />
+        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
         <div className="relative p-2 sm:p-3 md:p-4">
           <div
             role="tablist"
@@ -1697,8 +1697,8 @@ export default function FundDirectorPage() {
                       setOtp("");
                     }}
                     className={`relative inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold transition sm:px-4 sm:text-sm md:px-6 md:py-3 ${selected
-                      ? "bg-[#e98d09] text-white shadow-sm shadow-[#e98d09]/20"
-                      : "text-slate-700 hover:bg-[#e98d09]/10 hover:text-[#c57600] dark:text-slate-200 dark:hover:bg-[#e98d09]/15 dark:hover:text-[#f3a526]"
+                      ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white shadow-sm shadow-blue-500/20"
+                      : "text-slate-700 hover:bg-blue-500/10 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-300"
                       }`}
                   >
                     {selected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
@@ -1735,7 +1735,7 @@ export default function FundDirectorPage() {
               <Surface className="overflow-hidden p-5 sm:p-6 md:p-8">
                 <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                   <h2 className="flex items-center gap-3 text-lg font-bold text-slate-800 dark:text-white sm:text-xl">
-                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-yellow-600" />
+                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-[#1680ff] to-[#7d75ff]" />
                     Self Deposit
                   </h2>
                   <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
@@ -1746,12 +1746,12 @@ export default function FundDirectorPage() {
 
                 {selfDepositLoading ? (
                   <div className="flex min-h-[24rem] items-center justify-center">
-                    <Loader2 className="h-10 w-10 animate-spin text-[#F5C451]" aria-label="Loading self deposit data" />
+                    <Loader2 className="h-10 w-10 animate-spin text-[#1680ff]" aria-label="Loading self deposit data" />
                   </div>
                 ) : (
                   <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
                     <div className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-700 dark:bg-slate-950/40 sm:p-6">
-                      <div className="grid aspect-square w-full max-w-[272px] place-items-center rounded-2xl border border-amber-200 bg-white p-3 shadow-md ring-4 ring-amber-50 dark:border-slate-600 dark:bg-white dark:ring-amber-950/40">
+                      <div className="grid aspect-square w-full max-w-[272px] place-items-center rounded-2xl border border-blue-200 bg-white p-3 shadow-md ring-4 ring-blue-50 dark:border-slate-600 dark:bg-white dark:ring-blue-950/40">
                         {walletAddress ? (
                           <QRCodeSVG
                             value={walletAddress}
@@ -1826,7 +1826,7 @@ export default function FundDirectorPage() {
                             onClick={copyAddress}
                             disabled={!walletAddress}
                             aria-label="Copy wallet address"
-                            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold text-amber-700 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-amber-300 dark:hover:bg-amber-900/30"
+                            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-cyan-300 dark:hover:bg-cyan-900/30"
                           >
                             <Copy className="h-4 w-4" />
                             Copy
@@ -1885,7 +1885,7 @@ export default function FundDirectorPage() {
                           setFiatCurrency("USDT");
                           setFiatStep(2);
                         }}
-                        className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left transition hover:border-amber-500 hover:bg-amber-50/60 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-amber-900/20"
+                        className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left transition hover:border-[#1680ff] hover:bg-blue-50/60 focus:outline-none focus:ring-2 focus:ring-[#1680ff] dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-blue-900/20"
                       >
                         <span className="text-3xl" aria-hidden="true">
                           {mode.flag}
@@ -1903,12 +1903,12 @@ export default function FundDirectorPage() {
                   </div>
                 </Surface>
               ) : selectedNetwork && fiatStep === 2 ? (
-                <Surface className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-white to-amber-50/50 p-5 shadow-xl dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/20 sm:p-8 lg:p-10">
+                <Surface className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-white to-blue-50/70 p-5 shadow-xl dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30 sm:p-8 lg:p-10">
                   <div className="grid items-start gap-8 md:grid-cols-2 md:gap-12">
                     <div className="mx-auto w-full max-w-sm rounded-2xl border border-slate-100 bg-gradient-to-br from-white to-slate-50 p-5 shadow-xl dark:border-slate-700 dark:from-slate-800 dark:to-slate-700">
                       <div className="space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
-                        <div className="rounded-xl border border-amber-100 bg-amber-50/60 p-3 dark:border-amber-800/40 dark:bg-amber-900/20">
-                          <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                        <div className="rounded-xl border border-blue-100 bg-blue-50/60 p-3 dark:border-blue-800/40 dark:bg-blue-900/20">
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-300">
                             💎 Payment Mode
                           </p>
                           <p className="text-sm font-bold text-slate-800 dark:text-white">
@@ -1937,7 +1937,7 @@ export default function FundDirectorPage() {
                                 void copyFiatValue(fiatDepositDetails[selectedNetwork].walletAddress)
                               }
                               aria-label="Copy wallet address"
-                              className="rounded-lg p-2 text-amber-600 hover:bg-amber-100 dark:text-amber-400 dark:hover:bg-amber-900/30 shrink-0"
+                              className="shrink-0 rounded-lg p-2 text-blue-600 hover:bg-blue-100 dark:text-cyan-300 dark:hover:bg-cyan-900/30"
                             >
                               <Copy className="h-4 w-4" />
                             </button>
@@ -1960,7 +1960,7 @@ export default function FundDirectorPage() {
                             onClick={() =>
                               void copyFiatValue(fiatDepositDetails[selectedNetwork].walletAddress)
                             }
-                            className="rounded-lg bg-amber-100 px-4 py-1.5 text-xs font-bold text-amber-600 hover:bg-amber-200 dark:bg-amber-900/50 dark:text-amber-400"
+                            className="rounded-lg bg-blue-100 px-4 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:hover:bg-cyan-900/50"
                           >
                             Copy
                           </button>
@@ -2008,7 +2008,7 @@ export default function FundDirectorPage() {
                           <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
                             Selected Currency
                           </p>
-                          <span className="inline-block rounded-xl bg-amber-100 px-4 py-1.5 font-bold text-amber-700 dark:bg-amber-900/50 dark:text-amber-300">
+                          <span className="inline-block rounded-xl bg-blue-100 px-4 py-1.5 font-bold text-blue-700 dark:bg-cyan-900/30 dark:text-cyan-300">
                             {fiatCurrency}
                           </span>
                         </div>
@@ -2052,8 +2052,8 @@ export default function FundDirectorPage() {
                       You can find the transaction reference number in your wallet&apos;s
                       transaction history.
                     </p>
-                    <div className="space-y-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm dark:border-amber-800/30 dark:bg-amber-900/10">
-                      <p className="font-bold text-amber-700 dark:text-amber-300">📋 Next Steps:</p>
+                    <div className="space-y-2 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-violet-50 p-4 text-sm dark:border-blue-800/30 dark:from-blue-900/10 dark:to-violet-900/10">
+                      <p className="font-bold text-blue-700 dark:text-cyan-300">📋 Next Steps:</p>
                       <ul className="space-y-1.5 text-slate-600 dark:text-slate-400">
                         <li>• We will verify your transaction</li>
                         <li>• Your funds will be credited within 1–24 hours</li>
@@ -2083,18 +2083,18 @@ export default function FundDirectorPage() {
               <Surface className="p-5 sm:p-6 md:p-8">
                 <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                   <h2 className="flex items-center gap-3 text-lg font-bold text-slate-800 dark:text-white sm:text-xl">
-                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-yellow-600" />
+                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-[#1680ff] to-[#7d75ff]" />
                     Transfer To Deposit Wallet
                   </h2>
                   {!otpSent && (
                     <label className="flex w-full items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300 sm:w-auto">
-                      <Wallet className="h-5 w-5 shrink-0 text-amber-500 dark:text-amber-400" />
+                      <Wallet className="h-5 w-5 shrink-0 text-[#1680ff] dark:text-[#25c6e8]" />
                       <select
                         value={incomeWallet}
                         onChange={(event) =>
                           setIncomeWallet(event.target.value as "performance" | "yield")
                         }
-                        className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
+                        className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
                       >
                         <option value="performance">Working Wallet</option>
                         <option value="yield">ROI Wallet</option>
@@ -2103,7 +2103,7 @@ export default function FundDirectorPage() {
                   )}
                 </div>
 
-                <div className="mb-6 flex flex-col items-start justify-between gap-3 rounded-xl border border-amber-100/70 bg-gradient-to-r from-amber-50/70 to-yellow-50/70 p-4 dark:border-amber-800/30 dark:from-amber-900/10 dark:to-yellow-900/10 sm:flex-row sm:items-center">
+                <div className="mb-6 flex flex-col items-start justify-between gap-3 rounded-xl border border-blue-100/70 bg-gradient-to-r from-blue-50/70 to-violet-50/70 p-4 dark:border-blue-800/30 dark:from-blue-900/10 dark:to-violet-900/10 sm:flex-row sm:items-center">
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     {otpSent
                       ? "Transfer confirmation"
@@ -2111,7 +2111,7 @@ export default function FundDirectorPage() {
                   </p>
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Balance:{" "}
-                    <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] bg-clip-text text-transparent">
                       {money(otpSent ? balances.deposit : balances[incomeWallet])}
                     </span>
                   </p>
@@ -2158,7 +2158,7 @@ export default function FundDirectorPage() {
                           maxLength={6}
                           placeholder="Enter 6-digit OTP"
                           required
-                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                         />
                       </label>
                       <div className="flex flex-wrap gap-3">
@@ -2197,12 +2197,12 @@ export default function FundDirectorPage() {
               <Surface className="p-5 sm:p-6 md:p-8">
                 <div className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                   <h2 className="flex items-center gap-3 text-lg font-bold text-slate-800 dark:text-white sm:text-xl">
-                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-yellow-600" />
+                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-[#1680ff] to-[#7d75ff]" />
                     Transfer To Deposit Wallet
                   </h2>
-                  <div className="rounded-xl border border-amber-100/70 bg-gradient-to-r from-amber-50/70 to-yellow-50/70 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-amber-800/30 dark:from-amber-900/10 dark:to-yellow-900/10 dark:text-slate-300">
+                  <div className="rounded-xl border border-blue-100/70 bg-gradient-to-r from-blue-50/70 to-violet-50/70 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-blue-800/30 dark:from-blue-900/10 dark:to-violet-900/10 dark:text-slate-300">
                     Balance:{" "}
-                    <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] bg-clip-text text-transparent">
                       {money(balances.deposit)}
                     </span>
                   </div>
@@ -2225,7 +2225,7 @@ export default function FundDirectorPage() {
                               placeholder="Enter username"
                               autoComplete="username"
                               required
-                              className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                              className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                             />
                           </div>
                           {recipientLookupState === "loading" && (
@@ -2292,7 +2292,7 @@ export default function FundDirectorPage() {
                           maxLength={6}
                           placeholder="Enter 6-digit OTP"
                           required
-                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                         />
                         <span className="block text-xs font-normal text-slate-500 dark:text-slate-400">
                           Enter the 6-digit OTP sent to your registered email to confirm this
@@ -2334,7 +2334,7 @@ export default function FundDirectorPage() {
               <Surface className="p-5 sm:p-6 md:p-8">
                 <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                   <h2 className="flex items-center gap-3 text-lg font-bold text-slate-800 dark:text-white sm:text-xl">
-                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-yellow-600" />
+                    <span className="h-6 w-1 rounded-full bg-gradient-to-b from-[#1680ff] to-[#7d75ff]" />
                     Withdrawal Request
                   </h2>
                   <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
@@ -2343,15 +2343,15 @@ export default function FundDirectorPage() {
                   </div>
                 </div>
 
-                <div className="mb-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-amber-100/70 bg-gradient-to-r from-amber-50/70 to-yellow-50/70 p-4 dark:border-amber-800/30 dark:from-amber-900/10 dark:to-yellow-900/10 sm:flex-row sm:items-center">
+                <div className="mb-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-blue-100/70 bg-gradient-to-r from-blue-50/70 to-violet-50/70 p-4 dark:border-blue-800/30 dark:from-blue-900/10 dark:to-violet-900/10 sm:flex-row sm:items-center">
                   <label className="flex w-full items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300 sm:w-auto">
-                    <Wallet className="h-5 w-5 shrink-0 text-amber-500 dark:text-amber-400" />
+                    <Wallet className="h-5 w-5 shrink-0 text-[#1680ff] dark:text-[#25c6e8]" />
                     <select
                       value={withdrawWallet}
                       onChange={(event) =>
                         setWithdrawWallet(event.target.value as "performance" | "yield")
                       }
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
                     >
                       <option value="performance">Working Wallet</option>
                       <option value="yield">ROI Wallet</option>
@@ -2359,7 +2359,7 @@ export default function FundDirectorPage() {
                   </label>
                   <div className="whitespace-nowrap text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Balance:{" "}
-                    <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] bg-clip-text text-transparent">
                       {money(balances[withdrawWallet])}
                     </span>
                   </div>
@@ -2395,7 +2395,7 @@ export default function FundDirectorPage() {
                           No BEP20 address is saved.{" "}
                           <Link
                             href="/profile"
-                            className="font-semibold underline underline-offset-2 hover:text-amber-800 dark:hover:text-amber-200"
+                            className="font-semibold underline underline-offset-2 hover:text-blue-800 dark:hover:text-cyan-200"
                           >
                             Add one in your profile.
                           </Link>
@@ -2443,7 +2443,7 @@ export default function FundDirectorPage() {
                           maxLength={6}
                           disabled={checkingTwoFactor || validatingTwoFactor || twoFactorVerified}
                           placeholder="Enter 6-digit authenticator code"
-                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                         />
                         {!twoFactorVerified && (
                           <PrimaryButton
@@ -2502,7 +2502,7 @@ export default function FundDirectorPage() {
                             autoComplete="one-time-code"
                             maxLength={6}
                             placeholder="Enter 6-digit email code"
-                            className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                            className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-center text-lg font-semibold tracking-[6px] outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                           />
                         </label>
                       )}

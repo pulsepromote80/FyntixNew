@@ -31,8 +31,8 @@ export function Tabs({ tabs, defaultTab, className, card = false }: TabsProps) {
               className={cn(
                 "flex-shrink-0 rounded-lg border px-3 py-2 text-xs font-medium transition-colors sm:px-4 sm:py-2.5 sm:text-sm",
                 activeTab === tab.id
-                  ? "border-amber-500 bg-amber-400 text-gray-900"
-                  : "border-gray-200 bg-white text-gray-500 hover:border-amber-400 hover:text-amber-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-amber-300"
+                  ? "border-transparent bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white shadow-sm shadow-blue-500/20"
+                  : "border-gray-200 bg-white text-gray-500 hover:border-blue-300 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-cyan-700 dark:hover:text-cyan-300"
               )}
               aria-current={activeTab === tab.id ? "page" : undefined}
             >
@@ -40,7 +40,7 @@ export function Tabs({ tabs, defaultTab, className, card = false }: TabsProps) {
             </button>
           ))}
         </nav>
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
+        <div className="overflow-hidden rounded-2xl border border-blue-200/70 bg-white shadow-sm dark:border-blue-900/50 dark:bg-gray-800">
           <div className="p-4 sm:p-6">{activeTabData?.content}</div>
         </div>
       </div>

@@ -176,8 +176,8 @@ export function EditProfileForm() {
       <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5">
         {/* Personal Information Section */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-amber-500">
-            <FaUserCircle className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-blue-500">
+            <FaUserCircle className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
               Personal Information
             </h3>
@@ -186,7 +186,7 @@ export function EditProfileForm() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <FaUser className="w-4 h-4 text-amber-500" />
+                <FaUser className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
                 First Name <span className="text-red-500">*</span>
               </label>
               <FormInput
@@ -197,7 +197,7 @@ export function EditProfileForm() {
 
             <div>
               <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <FaUser className="w-4 h-4 text-amber-500" />
+                <FaUser className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
                 Last Name <span className="text-red-500">*</span>
               </label>
               <FormInput
@@ -210,8 +210,8 @@ export function EditProfileForm() {
 
         {/* Contact Information Section */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-amber-500">
-            <FaEnvelope className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-blue-500">
+            <FaEnvelope className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
               Contact Information
             </h3>
@@ -219,7 +219,7 @@ export function EditProfileForm() {
 
           <div>
             <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <FaEnvelope className="w-4 h-4 text-amber-500" />
+              <FaEnvelope className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
               Email
             </label>
             <FormInput
@@ -234,7 +234,7 @@ export function EditProfileForm() {
           <div className="grid grid-cols-12 gap-3 mt-4">
             <div className="col-span-3 sm:col-span-2">
               <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <FaGlobe className="w-4 h-4 text-amber-500" />
+                <FaGlobe className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
                 Code
               </label>
               <input
@@ -247,7 +247,7 @@ export function EditProfileForm() {
             </div>
             <div className="col-span-9 sm:col-span-10">
               <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <FaPhone className="w-4 h-4 text-amber-500" />
+                <FaPhone className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
                 Mobile
               </label>
               <FormInput
@@ -261,8 +261,8 @@ export function EditProfileForm() {
 
         {/* Location Section */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-amber-500">
-            <FaGlobe className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-blue-500">
+            <FaGlobe className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
               Location
             </h3>
@@ -270,7 +270,7 @@ export function EditProfileForm() {
 
           <div className="relative w-full">
             <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <FaGlobe className="w-4 h-4 text-amber-500" />
+              <FaGlobe className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
               Country <span className="text-red-500">*</span>
             </label>
             <FormSelect
@@ -282,7 +282,7 @@ export function EditProfileForm() {
 
           <div className="mt-4">
             <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <FaMapMarkerAlt className="w-4 h-4 text-amber-500" />
+              <FaMapMarkerAlt className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
               Address
             </label>
             <FormInput
@@ -294,8 +294,8 @@ export function EditProfileForm() {
 
         {/* Wallet Section */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-amber-500">
-            <FaWallet className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-blue-500">
+            <FaWallet className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
               Wallet Information
             </h3>
@@ -303,7 +303,7 @@ export function EditProfileForm() {
 
           <div>
             <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <FaWallet className="w-4 h-4 text-amber-400" />
+              <FaWallet className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
               Wallet Address (BEP20)
             </label>
             <FormInput
@@ -321,8 +321,8 @@ export function EditProfileForm() {
 
         {/* OTP Verification Section */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-amber-500">
-            <FaPaperPlane className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 mb-4 pb-2 border-b-2 border-blue-500">
+            <FaPaperPlane className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
               OTP Verification
             </h3>
@@ -344,7 +344,7 @@ export function EditProfileForm() {
                 type="button"
                 onClick={handleSendOtp}
                 disabled={sendingOtp || otpSent}
-                className="w-full sm:w-auto px-4 py-2.5 font-semibold text-gray-900 bg-amber-400 hover:bg-amber-500 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                className="w-full sm:w-auto rounded-lg bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-4 py-2.5 font-semibold text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {sendingOtp ? "Sending..." : otpSent ? "OTP Sent" : "Send OTP"}
               </Button>
@@ -356,7 +356,7 @@ export function EditProfileForm() {
         <Button
           type="submit"
           disabled={isSubmitting || !otpSent}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 font-semibold text-gray-900 bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-500 hover:to-yellow-500 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-6 py-3 font-semibold text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
         >
           <FaSave className="w-4 h-4" />
           {isSubmitting ? "Saving..." : "Save Changes"}

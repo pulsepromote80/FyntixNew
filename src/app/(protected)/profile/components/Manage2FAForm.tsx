@@ -333,7 +333,7 @@ export function Manage2FAForm() {
       <div className="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">
         <div>
           <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800 sm:text-2xl dark:text-white">
-            <Shield className="w-5 h-5 text-amber-500" />
+            <Shield className="w-5 h-5 text-[#1680ff] dark:text-[#25c6e8]" />
             Two-Factor Authentication
           </h2>
           <p className="mt-1 text-sm text-gray-500">
@@ -398,7 +398,7 @@ export function Manage2FAForm() {
           <div className="grid items-start grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="flex flex-col items-center gap-4 p-4 border rounded-xl bg-white/70 dark:bg-gray-800/40 border-gray-200/60 dark:border-gray-700/60">
               <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                <QrCode className="w-4 h-4 text-amber-500" />
+                <QrCode className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
                 {twoFAState.otpauthUrl ? "Scan this QR" : "Generate QR Code"}
               </div>
               
@@ -427,7 +427,7 @@ export function Manage2FAForm() {
                 type="button"
                 onClick={generateQR}
                 disabled={loading}
-                className="flex items-center justify-center w-full gap-2 px-5 py-3 font-bold text-gray-900 transition-all shadow-lg rounded-xl bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-500 hover:to-yellow-500 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-5 py-3 font-bold text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? (
                   <>
@@ -466,7 +466,7 @@ export function Manage2FAForm() {
                 }}
                 inputMode="numeric"
                 maxLength={6}
-                className="w-full px-4 py-3 font-mono text-lg tracking-widest text-center text-gray-900 transition-all border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white/50 dark:bg-gray-800/50 dark:text-white focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10"
+                className="w-full rounded-xl border-2 border-gray-200 bg-white/50 px-4 py-3 text-center font-mono text-lg tracking-widest text-gray-900 transition-all focus:border-[#1680ff] focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-800/50 dark:text-white"
                 placeholder="· · · · · ·"
                 disabled={!twoFAState.secret || isEnabling || isValidating}
               />
@@ -475,7 +475,7 @@ export function Manage2FAForm() {
                 type="button"
                 onClick={handleEnable2FA}
                 disabled={isEnabling || isValidating || !twoFAState.secret || !otp}
-                className="flex items-center justify-center w-full gap-2 px-5 py-3 mt-4 font-bold text-white transition-colors shadow-lg rounded-xl bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-5 py-3 font-bold text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {(isEnabling || isValidating) ? (
                   <>

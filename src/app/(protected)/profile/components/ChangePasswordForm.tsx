@@ -99,12 +99,12 @@ export function ChangePasswordForm() {
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="space-y-6 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-900/50 dark:bg-amber-950/20 sm:p-6"
+        className="space-y-6 rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/50 p-4 dark:border-blue-900/50 dark:from-slate-900 dark:via-gray-900 dark:to-blue-950/30 sm:p-6"
       >
         {/* Current Password */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            <FaLock className="w-4 h-4 text-amber-500" />
+            <FaLock className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
             Current Password <span className="text-red-500">*</span>
           </label>
           <FormInput
@@ -117,7 +117,7 @@ export function ChangePasswordForm() {
         {/* New Password */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            <FaKey className="w-4 h-4 text-emerald-400" />
+            <FaKey className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
             New Password <span className="text-red-500">*</span>
           </label>
           <FormInput
@@ -130,7 +130,7 @@ export function ChangePasswordForm() {
         {/* Confirm Password */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            <FaKey className="w-4 h-4 text-emerald-400" />
+            <FaKey className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
             Confirm New Password <span className="text-red-500">*</span>
           </label>
           <FormInput
@@ -143,7 +143,7 @@ export function ChangePasswordForm() {
         {/* OTP Section */}
         <div>
           <label className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            <FaPaperPlane className="w-4 h-4 text-amber-500" />
+            <FaPaperPlane className="w-4 h-4 text-[#1680ff] dark:text-[#25c6e8]" />
             Enter OTP <span className="text-red-500">*</span>
           </label>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
@@ -159,7 +159,7 @@ export function ChangePasswordForm() {
               onClick={handleSendOtp}
               disabled={sendingOtp || otpSent}
               isLoading={sendingOtp}
-              className="h-10 w-full rounded-lg bg-amber-400 px-4 font-semibold text-gray-900 shadow-md transition-all duration-200 hover:bg-amber-500 focus-visible:ring-amber-400 sm:w-auto"
+              className="h-10 w-full rounded-lg bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] px-4 font-semibold text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 focus-visible:ring-blue-400 sm:w-auto"
             >
               {otpSent ? "OTP Sent" : "Send OTP"}
             </Button>
@@ -170,7 +170,7 @@ export function ChangePasswordForm() {
           type="submit"
           disabled={isSubmitting || !otpSent}
           isLoading={isSubmitting}
-          className="w-full bg-amber-400 text-gray-900 hover:bg-amber-500 focus-visible:ring-amber-400"
+          className="w-full bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white hover:brightness-110 focus-visible:ring-blue-400"
         >
           Change Password
         </Button>

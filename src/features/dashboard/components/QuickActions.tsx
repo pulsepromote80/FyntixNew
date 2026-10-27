@@ -37,7 +37,7 @@ export function QuickActions() {
             <Button
               key={action.label}
               variant="outline"
-              className="h-16 sm:h-20 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-300 dark:hover:border-amber-700 hover:text-amber-700 dark:hover:text-amber-300"
+              className="h-16 sm:h-20 flex flex-col items-center justify-center gap-1 sm:gap-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-cyan-700 hover:text-blue-700 dark:hover:text-cyan-300"
               onClick={() => {
                 if (action.label === "Logout") {
                   logout.mutate();

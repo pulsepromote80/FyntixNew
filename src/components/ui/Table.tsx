@@ -37,7 +37,7 @@ export function Table<T>({ columns, data, getRowId, isLoading }: TableProps<T>) 
           {isLoading ? (
             <tr>
               <td colSpan={columns.length} className="px-4 py-10 text-center">
-                <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" />
+                <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading" />
               </td>
               </tr>
           ) : (

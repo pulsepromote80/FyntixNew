@@ -19,8 +19,8 @@ export function GlobalInfrastructure() {
   return (
     <div className="mt-4">
       <div className="mb-6 flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#F5C451]/10">
-          <TrendingUp className="h-5 w-5 text-[#D4A017]" aria-hidden />
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10">
+          <TrendingUp className="h-5 w-5 text-[#1680ff]" aria-hidden />
         </div>
         <div>
           <h2 className="text-lg text-gray-900 dark:text-white md:text-xl">Executing Trades</h2>
@@ -68,9 +68,9 @@ export function GlobalInfrastructure() {
           <Link
             href="/fund-director"
             aria-label="Go to Self Deposit"
-            className="block w-full max-w-[560px] rounded-2xl border border-gray-200 bg-gray-50 px-5 py-7 text-center transition-colors hover:border-[#F5C451] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C451] dark:border-[#1E293B] dark:bg-[#0b0b0e] dark:hover:bg-white/5 sm:px-8 sm:py-8"
+            className="block w-full max-w-[560px] rounded-2xl border border-gray-200 bg-gray-50 px-5 py-7 text-center transition-colors hover:border-[#25c6e8] hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1680ff] dark:border-[#1E293B] dark:bg-[#0b0b0e] dark:hover:border-cyan-700 dark:hover:bg-blue-950/30 sm:px-8 sm:py-8"
           >
-            <div className="mx-auto mb-4 flex h-[68px] w-[68px] items-center justify-center rounded-xl bg-gradient-to-br from-[#F5C451] to-[#D4A017] text-[#0B1021] shadow-[0_10px_22px_rgba(212,160,23,0.2)] sm:mb-5 sm:h-[76px] sm:w-[76px]">
+            <div className="mx-auto mb-4 flex h-[68px] w-[68px] items-center justify-center rounded-xl bg-gradient-to-br from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white shadow-[0_10px_22px_rgba(22,128,255,0.2)] sm:mb-5 sm:h-[76px] sm:w-[76px]">
               <CircleDollarSign aria-hidden="true" className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={2.2} />
             </div>
 

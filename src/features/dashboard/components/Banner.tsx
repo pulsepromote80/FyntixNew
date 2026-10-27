@@ -199,20 +199,20 @@ export function Banner() {
       className="relative rounded-3xl overflow-hidden mb-4 grid grid-cols-1 lg:grid-cols-2 items-center gap-4 sm:gap-7 p-4 sm:p-6 lg:p-8"
       style={{
         background: theme === 'dark'
-          ? "linear-gradient(120deg, #17130b 0%, #201a10 55%, #211b0d 100%)"
-          : "linear-gradient(120deg, #fffbeb 0%, #fef3c7 55%, #fffbeb 100%)",
+          ? "linear-gradient(120deg, #0b1021 0%, #111a31 55%, #171a36 100%)"
+          : "linear-gradient(120deg, #eff6ff 0%, #e0f2fe 55%, #f5f3ff 100%)",
         border: theme === 'dark'
-          ? "1px solid rgba(245, 196, 81, 0.25)"
-          : "1px solid rgba(245, 196, 81, 0.4)",
+          ? "1px solid rgba(37, 198, 232, 0.25)"
+          : "1px solid rgba(22, 128, 255, 0.22)",
       }}
     >
       {/* ================= LEFT SIDE ================= */}
       <div className="relative z-10">
         <div className={`inline-flex items-center gap-2 rounded-full font-semibold px-3.5 py-[7px] text-[11px] border mb-4 ${theme === 'dark'
-            ? "bg-[rgba(245,196,81,.1)] border-[rgba(245,196,81,.35)] text-[#f5c451]"
-            : "bg-[rgba(245,196,81,.15)] border-[rgba(245,196,81,.4)] text-[#a16207]"
+            ? "bg-[rgba(37,198,232,.1)] border-[rgba(37,198,232,.35)] text-[#25c6e8]"
+            : "bg-[rgba(22,128,255,.1)] border-[rgba(22,128,255,.3)] text-[#1680ff]"
           }`}>
-          <span className="rounded-full w-[7px] h-[7px] bg-[#f5c451]" />
+          <span className="rounded-full w-[7px] h-[7px] bg-[#25c6e8]" />
           Trade with AI-Assisted Risk Intelligence
         </div>
 
@@ -221,7 +221,7 @@ export function Banner() {
           style={{ fontFamily: '"Space Grotesk", sans-serif' }}
         >
           Your financial command center, powered by{" "}
-          <span className="bg-gradient-to-r from-amber-400 to-yellow-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] bg-clip-text text-transparent">
             AI intelligence.
           </span>
         </h1>
@@ -273,8 +273,8 @@ export function Banner() {
         }`}>
         <div className={`flex justify-between text-[9px] sm:text-[10px] tracking-[.08em] mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
           <span>Live Market Feed</span>
-          <b className="text-[#e0ac2e] font-semibold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e0ac2e] animate-ping" />
+          <b className="text-[#25c6e8] font-semibold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#25c6e8] animate-ping" />
             LIVE
           </b>
         </div>
@@ -320,12 +320,12 @@ export function Banner() {
               >
                 <defs>
                   <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#F43F5E" stopOpacity="0.35" />
-                    <stop offset="100%" stopColor="#F43F5E" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#1680ff" stopOpacity="0.35" />
+                    <stop offset="100%" stopColor="#1680ff" stopOpacity="0" />
                   </linearGradient>
                   <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#FB7185" />
-                    <stop offset="100%" stopColor="#F43F5E" />
+                    <stop offset="0%" stopColor="#1680ff" />
+                    <stop offset="100%" stopColor="#25c6e8" />
                   </linearGradient>
                 </defs>
 
@@ -360,14 +360,14 @@ export function Banner() {
                         cx={lastPt.x}
                         cy={lastPt.y}
                         r="3.5"
-                        fill="#F43F5E"
+                        fill="#25c6e8"
                       />
                       <circle
                         cx={lastPt.x}
                         cy={lastPt.y}
                         r="7"
                         fill="none"
-                        stroke="#F43F5E"
+                        stroke="#25c6e8"
                         strokeOpacity="0.4"
                         strokeWidth="1.5"
                       >
@@ -423,7 +423,7 @@ export function Banner() {
           </div>
           <div className="text-center flex-1">
             <div
-              className="font-semibold text-[13px] sm:text-[15px] text-[#e0ac2e]"
+              className="font-semibold text-[13px] sm:text-[15px] text-[#25c6e8]"
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               Low

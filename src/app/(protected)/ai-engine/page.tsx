@@ -28,7 +28,7 @@ interface DepthRow {
   askSize: number;
 }
 
-const GOLD_COLOR = "#f5c451";
+const ACCENT_COLOR = "#1680ff";
 
 export default function AIEnginePage() {
   const [uptime, setUptime] = useState("69d 15:21:38");
@@ -227,10 +227,10 @@ export default function AIEnginePage() {
       SCAN: "#9ca3af",
       ROUTE: "#e5e7eb",
       SIM: "#9ca3af",
-      EXEC: GOLD_COLOR,
+      EXEC: ACCENT_COLOR,
       SETTLE: "#22c55e",
       RISK: "#f59e0b",
-      HEARTBEAT: GOLD_COLOR,
+      HEARTBEAT: ACCENT_COLOR,
     };
     return colors[type];
   };
@@ -249,10 +249,10 @@ export default function AIEnginePage() {
       <div className="card p-5 sm:p-6 mb-5 bg-white dark:bg-[#0B1021] border border-gray-200 dark:border-[#1E293B] rounded-lg">
         <div className="flex flex-wrap items-center gap-6">
           <div className="flex items-center gap-3">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 dark:bg-cyan-900/30">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: GOLD_COLOR }}></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: GOLD_COLOR }}></span>
+                <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: ACCENT_COLOR }}></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: ACCENT_COLOR }}></span>
               </span>
             </span>
             <div>
@@ -270,7 +270,7 @@ export default function AIEnginePage() {
             <StatPill label="UPTIME" value={uptime} />
             <StatPill label="STRATEGIES" value={strategies} />
             <StatPill label="OPEN POSITIONS" value={openPositions} />
-            <StatPill label="REALISED TODAY" value={realisedToday} color={GOLD_COLOR} />
+            <StatPill label="REALISED TODAY" value={realisedToday} color={ACCENT_COLOR} />
             <StatPill label="WIN RATE" value={winRate} />
             <StatPill label="LAST SETTLE" value={lastSettle} />
           </div>
@@ -283,8 +283,8 @@ export default function AIEnginePage() {
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: GOLD_COLOR }}></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: GOLD_COLOR }}></span>
+                <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: ACCENT_COLOR }}></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: ACCENT_COLOR }}></span>
               </span>
               <span className="text-xs font-mono font-semibold tracking-wide text-gray-500 dark:text-gray-400">
                 CONSOLE TAILING
@@ -383,7 +383,7 @@ export default function AIEnginePage() {
                     <circle
                       key={venue.name}
                       r="4"
-                      fill={GOLD_COLOR}
+                      fill={ACCENT_COLOR}
                       cx={x}
                       cy={y}
                       opacity="0.9"
@@ -399,7 +399,7 @@ export default function AIEnginePage() {
                     className="flex items-center justify-between text-[11px] font-mono"
                   >
                     <span className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
-                      <span className="h-1 w-1 rounded-full" style={{ background: GOLD_COLOR }}></span>
+                      <span className="h-1 w-1 rounded-full" style={{ background: ACCENT_COLOR }}></span>
                       {venue.name}
                     </span>
                     <span className="font-medium text-gray-900 dark:text-white">
@@ -426,7 +426,7 @@ export default function AIEnginePage() {
                     cy="100"
                     r="72"
                     fill="none"
-                    stroke={GOLD_COLOR}
+                    stroke={ACCENT_COLOR}
                     strokeOpacity="0.12"
                     strokeWidth="18"
                     strokeDasharray="18 220"
@@ -457,7 +457,7 @@ export default function AIEnginePage() {
                     y1="100"
                     x2={pos.x}
                     y2={pos.y}
-                    stroke={i === activeRouteIndex ? GOLD_COLOR : "#e5e7eb"}
+                    stroke={i === activeRouteIndex ? ACCENT_COLOR : "#e5e7eb"}
                     strokeWidth={i === activeRouteIndex ? 2.5 : 1.5}
                     opacity={i === activeRouteIndex ? 1 : 0.7}
                   />
@@ -477,7 +477,7 @@ export default function AIEnginePage() {
                       cy={node.y}
                       r={i === activeRouteIndex ? 21 : 19}
                       fill="white"
-                      stroke={i === activeRouteIndex ? GOLD_COLOR : "#e5e7eb"}
+                      stroke={i === activeRouteIndex ? ACCENT_COLOR : "#e5e7eb"}
                       strokeWidth="1.5"
                     />
                     <text
@@ -530,13 +530,13 @@ export default function AIEnginePage() {
             <div className="h-2 rounded-full overflow-hidden mb-3 bg-gray-200 dark:bg-gray-700">
               <div
                 className="h-full transition-all duration-500"
-                style={{ width: `${midBarWidth}%`, background: GOLD_COLOR }}
+                style={{ width: `${midBarWidth}%`, background: ACCENT_COLOR }}
               ></div>
             </div>
 
             <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5 font-mono">
               <span className="flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: GOLD_COLOR }}></span>
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: ACCENT_COLOR }}></span>
                 BIDS
               </span>
               <span>ASKS</span>
@@ -550,11 +550,11 @@ export default function AIEnginePage() {
                 >
                   <div className="flex justify-end">
                     <div
-                      className="h-3 rounded-sm bg-yellow-100 dark:bg-yellow-900/30"
+                      className="h-3 rounded-sm bg-blue-100 dark:bg-blue-900/30"
                       style={{ width: `${(row.bidSize / 4000) * 100}%` }}
                     ></div>
                   </div>
-                  <div className="text-right font-medium" style={{ color: GOLD_COLOR }}>{row.bidSize.toLocaleString()}</div>
+                  <div className="text-right font-medium text-blue-700 dark:text-cyan-300">{row.bidSize.toLocaleString()}</div>
                   <div className="text-gray-600 dark:text-gray-300">{row.bidPrice.toFixed(2)}</div>
                   <div className="flex">
                     <div
@@ -576,7 +576,7 @@ function StatPill({ label, value, color }: StatPill) {
   return (
     <div className="rounded-xl border border-gray-200 dark:border-[#1E293B] px-3 py-1.5 bg-white dark:bg-[#0B1021]">
       <div className="text-[10px] text-gray-400">{label}</div>
-      <div className="font-mono text-sm font-semibold" style={{ color: color || GOLD_COLOR }}>
+      <div className="font-mono text-sm font-semibold" style={{ color: color || ACCENT_COLOR }}>
         {value}
       </div>
     </div>

@@ -242,7 +242,7 @@ export function WalletManager() {
   return (
     <div className="space-y-5">
       <section className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/75">
-        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
+        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
         <div className="flex items-center gap-3 border-b border-slate-200 px-4 py-4 dark:border-slate-700 sm:px-6">
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-400/10 dark:text-blue-300">
             <Wallet className="h-5 w-5" aria-hidden />
@@ -268,8 +268,8 @@ export function WalletManager() {
                   onClick={() => selectTab(tab.id)}
                   aria-pressed={isActive}
                   className={`inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${isActive
-                      ? "bg-[#e98d09] text-white shadow-sm shadow-[#e98d09]/20"
-                      : "text-slate-700 hover:bg-[#e98d09]/10 hover:text-[#c57600] dark:text-slate-200 dark:hover:bg-[#e98d09]/15 dark:hover:text-[#f3a526]"
+                      ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white shadow-sm shadow-blue-500/20"
+                      : "text-slate-700 hover:bg-blue-500/10 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-300"
                     }`}
                 >
                   <Wallet className="h-4 w-4" aria-hidden />
@@ -282,7 +282,7 @@ export function WalletManager() {
       </section>
 
       {balance && (
-        <section className="flex items-center justify-between rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 shadow-sm dark:border-blue-800/50 dark:from-blue-950/40 dark:to-indigo-950/30">
+        <section className="flex items-center justify-between rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 via-cyan-50 to-violet-50 p-5 shadow-sm dark:border-blue-800/50 dark:from-blue-950/40 dark:via-cyan-950/20 dark:to-violet-950/30">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               {balance.label}
@@ -291,12 +291,12 @@ export function WalletManager() {
               {formatMoney(balance.value)}
             </p>
           </div>
-          <Wallet className="h-7 w-7 text-blue-500" aria-hidden />
+          <Wallet className="h-7 w-7 text-[#1680ff] dark:text-[#25c6e8]" aria-hidden />
         </section>
       )}
 
       <section className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/75">
-        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
+        <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
         <div className="flex flex-col gap-4 border-b border-slate-200 p-4 dark:border-slate-700 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
             <h2 className="font-bold text-slate-900 dark:text-white">
@@ -315,7 +315,7 @@ export function WalletManager() {
                   setPageIndex(0);
                 }}
                 aria-label="Filter by transaction type"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
               >
                 <option value="all">All Transactions</option>
                 {availableTypes.map((type) => (
@@ -337,7 +337,7 @@ export function WalletManager() {
                   setPageIndex(0);
                 }}
                 placeholder="Search records..."
-                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-52"
+                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-52"
               />
             </label>
             <label className="sr-only" htmlFor="wallet-report-page-size">
@@ -350,7 +350,7 @@ export function WalletManager() {
                 setPageSize(Number(event.target.value));
                 setPageIndex(0);
               }}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
             >
               {[5, 10, 25, 50].map((size) => (
                 <option key={size} value={size}>
@@ -395,7 +395,7 @@ export function WalletManager() {
         {!error && (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
-              <thead className="bg-blue-50/80 text-xs uppercase tracking-wider text-slate-600 dark:bg-blue-900/20 dark:text-slate-300">
+              <thead className="bg-gradient-to-r from-blue-50/80 via-cyan-50/60 to-violet-50/80 text-xs uppercase tracking-wider text-slate-600 dark:from-blue-900/20 dark:via-cyan-900/10 dark:to-violet-900/20 dark:text-slate-300">
                 <tr>
                   <th className="whitespace-nowrap px-4 py-3">#</th>
                   {columns.map((column) => (
@@ -412,7 +412,7 @@ export function WalletManager() {
                       colSpan={columns.length + 1}
                       className="px-4 py-10 text-center"
                     >
-                      <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" />
+                      <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading" />
                     </td>
                   </tr>
                 ) : pageRows.length === 0 ? (
@@ -430,7 +430,7 @@ export function WalletManager() {
                       key={String(
                         row.Id ?? row.ID ?? row.id ?? `${activeTab}-${page * pageSize + index}`,
                       )}
-                      className="text-slate-700 transition-colors hover:bg-blue-50/50 dark:text-slate-200 dark:hover:bg-blue-900/10"
+                      className="text-slate-700 transition-colors hover:bg-blue-50/50 dark:text-slate-200 dark:hover:bg-cyan-900/10"
                     >
                       <td className="px-4 py-3">{page * pageSize + index + 1}</td>
                       {columns.map((column) => {
@@ -482,7 +482,7 @@ export function WalletManager() {
             Showing <span className="font-semibold">{loading || error ? 0 : pageRows.length}</span>{" "}
             of <span className="font-semibold">{visibleRows.length}</span> entries
             {transactionType !== "all" && (
-              <span className="ml-1 text-blue-600 dark:text-blue-400">(filtered)</span>
+              <span className="ml-1 text-blue-700 dark:text-cyan-300">(filtered)</span>
             )}
           </span>
           <div className="flex items-center gap-1">
@@ -491,7 +491,7 @@ export function WalletManager() {
               aria-label="Go to first page"
               disabled={page === 0 || loading || Boolean(error)}
               onClick={() => setPageIndex(0)}
-              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-blue-900/30"
+              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-cyan-900/30"
             >
               «
             </button>
@@ -500,11 +500,11 @@ export function WalletManager() {
               aria-label="Go to previous page"
               disabled={page === 0 || loading || Boolean(error)}
               onClick={() => setPageIndex((current) => Math.max(0, current - 1))}
-              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-blue-900/30"
+              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-cyan-900/30"
             >
               ‹
             </button>
-            <span className="px-3 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400">
+            <span className="px-3 py-1.5 text-sm font-semibold text-blue-700 dark:text-cyan-300">
               {page + 1} / {totalPages}
             </span>
             <button
@@ -512,7 +512,7 @@ export function WalletManager() {
               aria-label="Go to next page"
               disabled={page >= totalPages - 1 || loading || Boolean(error)}
               onClick={() => setPageIndex((current) => Math.min(totalPages - 1, current + 1))}
-              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-blue-900/30"
+              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-cyan-900/30"
             >
               ›
             </button>
@@ -521,7 +521,7 @@ export function WalletManager() {
               aria-label="Go to last page"
               disabled={page >= totalPages - 1 || loading || Boolean(error)}
               onClick={() => setPageIndex(totalPages - 1)}
-              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-blue-900/30"
+              className="rounded-lg px-3 py-1.5 text-slate-600 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-cyan-900/30"
             >
               »
             </button>

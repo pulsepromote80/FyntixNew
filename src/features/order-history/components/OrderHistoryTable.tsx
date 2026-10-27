@@ -67,7 +67,7 @@ export function OrderHistoryTable() {
           onClick={() => setActiveTab("investment-fund")}
           className={`flex-1 py-3 px-2 rounded-sm font-medium text-xs transition-all duration-200 ${
             activeTab === "investment-fund"
-              ? "bg-[#F3A31F] text-black font-bold shadow-sm"
+              ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white font-bold shadow-sm shadow-blue-500/20"
               : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
           }`}
         >
@@ -77,7 +77,7 @@ export function OrderHistoryTable() {
           onClick={() => setActiveTab("booster")}
           className={`flex-1 py-3 px-2 rounded-sm font-medium text-xs transition-all duration-200 ${
             activeTab === "booster"
-              ? "bg-[#F3A31F] text-black font-bold shadow-sm"
+              ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white font-bold shadow-sm shadow-blue-500/20"
               : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
           }`}
         >
