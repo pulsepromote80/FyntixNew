@@ -23,16 +23,18 @@ interface PersonalTeamMember {
 }
 
 interface LeftRightDownlineMember {
-  name?: string;
-  loginid?: string;
-  mobile?: string;
-  sponserId?: string;
-  regDate?: string;
-  licneseAmount?: number;
-  deployAmount?: number;
-  leftLBuss?: number;
-  rightRBuss?: number;
-  introSide?: string;
+  uLvl?: number;
+  Loginid?: string;
+  Name?: string;
+  RegDate?: string;
+  Topup?: string;
+  Position?: string;
+  TopupDate?: string;
+  Package?: number;
+  TeamBusiness?: number;
+  Country_Code?: string;
+  Country_Name?: string;
+  CountryFlag?: string;
 }
 
 interface CommunityState {
@@ -49,7 +51,7 @@ interface CommunityState {
   clearDirectMemberData: () => void;
   clearPersonalTeamData: () => void;
   clearLeftRightData: () => void;
-  fetchLeftRightData: (params: { LoginId: string; side: string; FromDate: string; ToDate: string }) => Promise<void>;
+  fetchLeftRightData: (params: { uRank?: string; lvl?: string; statusId?: string }) => Promise<void>;
 }
 
 export const useCommunityStore = create<CommunityState>((set) => ({
@@ -69,12 +71,16 @@ export const useCommunityStore = create<CommunityState>((set) => ({
   fetchLeftRightData: async (params) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch("/api/Community/getLeftRightdownlineTeam", {
+      const response = await fetch("/api/Community/getPersonalTeam", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify({
+          uRank: params.uRank || "",
+          lvl: params.lvl || "",
+          statusId: params.statusId || ""
+        }),
       });
 
       const data = await response.json();

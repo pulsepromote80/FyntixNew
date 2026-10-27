@@ -47,7 +47,7 @@ export const primaryNav: NavItem[] = [
       { label: "Level Tree", href: "/network-tree" },
       // { label: "Level Partners Tree", href: "/intelligent-partner-view" },
       { label: "Downline Partners", href: "/downline" },
-      { label: "Downline Tree", href: "/binary-tree" },
+      // { label: "Downline Tree", href: "/binary-tree" },
     ],
   },
   {

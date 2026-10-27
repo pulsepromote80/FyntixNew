@@ -26,11 +26,18 @@ export default function DirectPartners() {
   const itemsPerPage = 10;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isPackageDropdownOpen, setIsPackageDropdownOpen] = useState(false);
+  const [selectedPackageStatus, setSelectedPackageStatus] = useState("All Team");
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const packageDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const togglePackageDropdown = () => {
+    setIsPackageDropdownOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -40,6 +47,12 @@ export default function DirectPartners() {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+      }
+      if (
+        packageDropdownRef.current &&
+        !packageDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsPackageDropdownOpen(false);
       }
     };
 
@@ -65,7 +78,8 @@ export default function DirectPartners() {
         }
 
         const data = {
-          statusId: statusId,
+          Authlogin: "",
+          statusId: "",
         };
 
         const response = await communityService.getDirectMember(data);
@@ -94,6 +108,12 @@ export default function DirectPartners() {
     setSearchTerm("");
   };
 
+  const handlePackageStatusChange = (status: string) => {
+    setSelectedPackageStatus(status);
+    setIsPackageDropdownOpen(false);
+    setCurrentPage(1);
+  };
+
   const handleSearchChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -108,16 +128,26 @@ export default function DirectPartners() {
 
   const filteredMembers =
     directMemberData?.filter((member) => {
-      // Search filter only
+      // Search filter
       if (searchTerm.trim()) {
         const search = searchTerm.toLowerCase();
 
-        return (
+        const matchesSearch =
           member.Name?.toLowerCase().includes(search) ||
           member.Loginid?.toLowerCase().includes(search) ||
           member.Mobile?.toLowerCase().includes(search) ||
-          member.Email?.toLowerCase().includes(search)
-        );
+          member.Email?.toLowerCase().includes(search);
+
+        if (!matchesSearch) return false;
+      }
+
+      // Package status filter
+      if (selectedPackageStatus === "Active Team") {
+        const packageValue = member.Package ?? 0;
+        return packageValue !== 0;
+      } else if (selectedPackageStatus === "Inactive Team") {
+        const packageValue = member.Package ?? 0;
+        return packageValue === 0;
       }
 
       return true;
@@ -170,63 +200,35 @@ export default function DirectPartners() {
                   className="w-40 px-3 py-2 text-xs text-gray-900 bg-white border-2 border-gray-300 dark:text-white dark:bg-gray-700 dark:border-gray-600 rounded-xl sm:w-56 sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-blue-400 dark:focus:border-blue-500 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 />
 
-                {/* Status Dropdown */}
-                <div
-                  className="relative"
-                  ref={dropdownRef}
-                >
-                  <div
-                    className="relative flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 border-2 border-blue-200 dark:border-gray-600 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg min-w-[120px] sm:min-w-[140px]"
-                    onClick={toggleDropdown}
+                {/* Package Status Dropdown */}
+                <div ref={packageDropdownRef} className="relative">
+                  <button
+                    onClick={togglePackageDropdown}
+                    className="w-32 px-3 py-2 text-xs text-gray-900 bg-white border-2 border-gray-300 dark:text-white dark:bg-gray-700 dark:border-gray-600 rounded-xl sm:w-40 sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-blue-400 dark:focus:border-blue-500"
                   >
-                    <span
-                      className={`text-xs sm:text-sm font-medium transition-colors duration-200 ${
-                        selectedStatus === ""
-                          ? "text-gray-500 dark:text-gray-400"
-                          : "text-blue-700 dark:text-blue-300"
-                      }`}
-                    >
-                      {selectedStatus === ""
-                        ? "Position"
-                        : selectedStatus}
-                    </span>
+                    {selectedPackageStatus}
+                  </button>
 
-                    <svg
-                      className={`ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4 text-blue-500 dark:text-blue-400 transition-transform duration-300 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-
-                  {isOpen && (
-                    <div
-                      className="absolute right-0 z-10 h-[80px] max-w-xs min-w-full mt-1 bg-white border-2 border-yellow-200 shadow-lg w-max rounded-xl"
-                      style={{ overflow: "auto" }}
-                    >
-                      {[
-                        "Left Team",
-                        "Right Team",
-                      ].map((option) => (
-                        <div
-                          key={option}
-                          className="px-3 py-2 text-xs font-medium text-yellow-700 border-b border-gray-100 cursor-pointer sm:text-sm whitespace-nowrap hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-50 last:border-b-0"
-                          onClick={() =>
-                            handleStatusChange(option)
-                          }
-                        >
-                          {option}
-                        </div>
-                      ))}
+                  {isPackageDropdownOpen && (
+                    <div className="absolute right-0 z-50 w-32 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600 sm:w-40">
+                      <button
+                        onClick={() => handlePackageStatusChange("All Team")}
+                        className="w-full px-3 py-2 text-left text-xs text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 sm:text-sm"
+                      >
+                        All Team
+                      </button>
+                      <button
+                        onClick={() => handlePackageStatusChange("Active Team")}
+                        className="w-full px-3 py-2 text-left text-xs text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 sm:text-sm"
+                      >
+                        Active Team
+                      </button>
+                      <button
+                        onClick={() => handlePackageStatusChange("Inactive Team")}
+                        className="w-full px-3 py-2 text-left text-xs text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 sm:text-sm"
+                      >
+                        Inactive Team
+                      </button>
                     </div>
                   )}
                 </div>
@@ -293,37 +295,24 @@ export default function DirectPartners() {
                             Reg. Date
                           </th>
 
-                          <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Position
-                          </th>
+                       
 
                           <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
                             Package
                           </th>
                           <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Activation Date
-                          </th>
-
-
-                          <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Urank
+                            Topup Date
                           </th>
 
                           <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Left Business
+                            Team Business
                           </th>
 
-                          <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Right Business
-                          </th>
+                          {/* <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
+                            Leadership Business
+                          </th> */}
 
-                          <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Total Team
-                          </th>
-
-                          <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                            Active Team
-                          </th>
+                         
                         </tr>
                       </thead>
 
@@ -375,55 +364,31 @@ export default function DirectPartners() {
                                   </div>
                                 </td>
 
-                                <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-pink-700 dark:text-pink-300 bg-pink-100 dark:bg-pink-900/40 rounded-full border border-pink-200 dark:border-pink-700/50">
-                                    {member.Position || ""}
-                                  </div>
-                                </td>
+                              
 
                                   <td className="px-4 py-3 text-sm whitespace-nowrap">
                                     <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/40 rounded-full border border-indigo-200 dark:border-indigo-700/50">
-                                      ${member.SubscriptionAmount || "0"}
+                                      ${member.Package || "0"}
                                     </div>
                                   </td>
 
                                   <td className="px-4 py-3 text-sm whitespace-nowrap">
                                     <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/40 rounded-full border border-green-200 dark:border-green-700/50">
-                                      {member.SubscribeDate || ""}
+                                      {member.TopupDate || ""}
                                     </div>
                                   </td>
 
-
-
                                 <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/40 rounded-full border border-amber-200 dark:border-amber-700/50">
-                                    {member.Urank || ""}
-                                  </div>
-                                </td>
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/40 rounded-full border border-indigo-200 dark:border-indigo-700/50">
+                                      ${member.TeamBusiness || "0"}
+                                    </div>
+                                  </td>
 
-                                <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/40 rounded-full border border-red-200 dark:border-red-700/50">
-                                    ${member.BinaryLbuss || "0"}
-                                  </div>
-                                </td>
-
-                                <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/40 rounded-full border border-green-200 dark:border-green-700/50">
-                                    ${member.BinaryRbuss || "0"}
-                                  </div>
-                                </td>
-
-                                <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-violet-700 dark:text-violet-300 bg-violet-100 dark:bg-violet-900/40 rounded-full border border-violet-200 dark:border-violet-700/50">
-                                    {member.BinaryTotTeam || "0"}
-                                  </div>
-                                </td>
-
-                                <td className="px-4 py-3 text-sm whitespace-nowrap">
+                                {/* <td className="px-4 py-3 text-sm whitespace-nowrap">
                                   <div className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-fuchsia-700 dark:text-fuchsia-300 bg-fuchsia-100 dark:bg-fuchsia-900/40 rounded-full border border-fuchsia-200 dark:border-fuchsia-700/50">
                                     {member.BinaryActiveTeam || "0"}
                                   </div>
-                                </td>
+                                </td> */}
                               </tr>
                             )
                           )
