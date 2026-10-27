@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { FiCopy, FiHelpCircle } from "react-icons/fi";
 import { Link as LinkIcon } from "lucide-react";
 import { FaWhatsapp, FaFacebookF, FaTwitter, FaTelegramPlane, FaFilePdf } from "react-icons/fa";
@@ -12,8 +11,7 @@ const ReferralLink = () => {
   const { user } = useAuthStore();
   const { data: dashboardData } = useDashboardSummary();
   const authLogin = dashboardData?.data?.[0]?.AuthLogin || user?.email || "user123";
-  const [position, setPosition] = useState("L");
-  const referralLink = `https://Kalkii.io/register?RefID=${authLogin}&Position=${position}`;
+  const referralLink = `https://Kalkii.io/register?RefID=${authLogin}`;
 
   const handleCopyClick = () => {
     const fullMessage = `🚀 𝐉𝐨𝐢𝐧 Kalikii – 𝐄𝐦𝐩𝐨𝐰𝐞𝐫𝐢𝐧𝐠 𝐭𝐡𝐞 𝐅𝐮𝐭𝐮𝐫𝐞 𝐨𝐟 𝐓𝐫𝐚𝐝𝐢𝐧𝐠.
@@ -37,38 +35,15 @@ const ReferralLink = () => {
   return (
     <div className="relative z-10">
       <div className="w-full max-w-xl mx-auto space-y-8 text-white rounded-2xl">
-        {/* Position Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-black dark:text-white">Position:</span>
-          <button
-            onClick={() => setPosition("L")}
-            className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${position === "L"
-              ? "bg-amber-400 text-gray-900 shadow-lg shadow-amber-500/20"
-              : "bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60 hover:bg-amber-100 dark:hover:bg-amber-400/15"
-              }`}
-          >
-            Left Position
-          </button>
-          <button
-            onClick={() => setPosition("R")}
-            className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${position === "R"
-              ? "bg-amber-400 text-gray-900 shadow-lg shadow-amber-500/20"
-              : "bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60 hover:bg-amber-100 dark:hover:bg-amber-400/15"
-              }`}
-          >
-            Right Position
-          </button>
-        </div>
-
         {/* Referral Box */}
-        <div className="p-4 rounded-lg shadow-inner bg-gradient-to-br from-amber-400 to-yellow-500 border border-amber-200/70">
+        <div className="rounded-lg border border-blue-300/70 bg-gradient-to-br from-[#1680ff] via-[#25c6e8] to-[#7d75ff] p-4 shadow-inner dark:border-blue-500/30">
           <div className="flex items-center gap-2">
-            <p className="relative z-10 text-sm font-semibold text-[#7A4B00]">
+            <p className="relative z-10 text-sm font-semibold text-white">
               Your Referral Link
             </p>
             <button
               onClick={handleCopy}
-              className="relative p-1 text-gray-900 rounded-md hover:bg-black/10"
+              className="relative rounded-md p-1 text-white transition-colors hover:bg-white/15"
             >
               <FiCopy className="" />
             </button>
@@ -84,7 +59,7 @@ const ReferralLink = () => {
             />
             <button
               onClick={handleCopyClick}
-              className="flex items-center justify-center gap-1 px-4 py-2 text-sm font-semibold text-amber-300 bg-gray-900 hover:bg-gray-800 rounded-lg transition-colors"
+              className="flex items-center justify-center gap-1 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
             >
               <LinkIcon size={16} />
               Copy
@@ -93,24 +68,24 @@ const ReferralLink = () => {
         </div>
 
         {/* How It Works */}
-        <div className="p-5 text-sm text-gray-800 border border-yellow-200 rounded-lg shadow-inner bg-yellow-50 sm:text-base">
+        <div className="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 via-cyan-50 to-violet-50 p-5 text-sm text-gray-800 shadow-inner dark:border-blue-800/60 dark:from-slate-900 dark:via-blue-950/40 dark:to-violet-950/30 dark:text-gray-100 sm:text-base">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center font-bold text-black bg-yellow-400 rounded-full w-7 h-7">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#1680ff] via-[#25c6e8] to-[#7d75ff] font-bold text-white">
               <FiHelpCircle className="text-lg" />
             </div>
-            <p className="text-[#7f551d] font-semibold">How Referrals Work</p>
+            <p className="font-semibold text-blue-800 dark:text-cyan-200">How Referrals Work</p>
           </div>
           <ul className="mt-1 list-disc list-inside lg:ml-5">
-            <li className="text-[#8a6528] text-sm">
+            <li className="text-sm text-slate-700 dark:text-slate-300">
               Share your unique referral link
             </li>
-            <li className="text-[#8a6528] text-sm">
+            <li className="text-sm text-slate-700 dark:text-slate-300">
               Friends sign up and activate their accounts
             </li>
-            <li className="text-[#8a6528] text-sm">
+            <li className="text-sm text-slate-700 dark:text-slate-300">
               You both earn commissions and bonuses
             </li>
-            <li className="text-[#8a6528] text-sm">
+            <li className="text-sm text-slate-700 dark:text-slate-300">
               Grow your network for more rewards
             </li>
           </ul>

@@ -309,7 +309,7 @@ export function Navbar() {
         className="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-white/5 lg:hidden"
         onClick={() => setMobileNavOpen(true)}
         aria-label="Open menu"
-        style={{ color: '#f5c451' }}
+        style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -339,9 +339,9 @@ export function Navbar() {
                     type="button"
                     className={cn(
                       "flex items-center gap-2 text-sm font-medium transition-colors",
-                      isActive ? "" : "hover:text-[#f5c451]",
+                      isActive ? "" : "hover:text-blue-600 dark:hover:text-cyan-300",
                     )}
-                    style={{ color: isActive ? '#f5c451' : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
+                    style={{ color: isActive ? (theme === "dark" ? "#25c6e8" : "#1680ff") : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
                     aria-expanded={openDropdown === item.label}
                   >
                     {item.img && (
@@ -372,7 +372,7 @@ export function Navbar() {
                                 }
                               }}
                               className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-white/5"
-                              style={{ color: pathname === dropdownItem.href ? '#f5c451' : ((!mounted || theme === 'dark') ? '#E2E8F0' : '#334155') }}
+                              style={{ color: pathname === dropdownItem.href ? (theme === "dark" ? "#25c6e8" : "#1680ff") : ((!mounted || theme === 'dark') ? '#E2E8F0' : '#334155') }}
                             >
                               {dropdownItem.label}
                             </Link>
@@ -391,9 +391,9 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   "flex items-center gap-2 text-sm font-medium transition-colors",
-                  isActive ? "" : "hover:text-[#f5c451]",
+                  isActive ? "" : "hover:text-blue-600 dark:hover:text-cyan-300",
                 )}
-                style={{ color: isActive ? '#f5c451' : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
+                style={{ color: isActive ? (theme === "dark" ? "#25c6e8" : "#1680ff") : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
               >
                 {item.img && (
                   <img
@@ -413,7 +413,7 @@ export function Navbar() {
         <button
           className="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-white/5"
           aria-label="Toggle theme"
-          style={{ color: '#f5c451' }}
+          style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         >
           {mounted && theme === 'dark' ? <Sun className="h-4 sm:h-5 w-4 sm:w-5" /> : <Moon className="h-4 sm:h-5 w-4 sm:w-5" />}
@@ -425,7 +425,7 @@ export function Navbar() {
             onClick={() => setWalletOpen((open) => !open)}
             className="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-white/5"
             aria-label="Wallet"
-            style={{ color: '#f5c451' }}
+            style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}
           >
             <Wallet className="h-5 w-5" />
           </button>
@@ -490,7 +490,7 @@ export function Navbar() {
             className="relative rounded-md p-2 hover:bg-gray-100 dark:hover:bg-white/5"
             aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ""}`}
             aria-expanded={notificationsOpen}
-            style={{ color: "#f5c451" }}
+            style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}
           >
             <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
             {unreadCount > 0 && (
@@ -546,7 +546,7 @@ export function Navbar() {
                   </div>
                 ) : notificationsLoading ? (
                   <div className="flex justify-center px-4 py-8">
-                    <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading notifications" />
+                    <Loader2 className="h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading notifications" />
                   </div>
                 ) : unreadCount > 0 ? (
                   notifications.map((notification, index) => {
@@ -632,12 +632,12 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setAccountMenuOpen(true)}
-            className="flex h-10 items-center gap-2 rounded-full border px-2 py-1.5 text-xs transition hover:border-[#f5c451] hover:bg-gray-100 dark:hover:bg-white/5 sm:px-2.5 bg-white dark:bg-[#0B1021] border-gray-200 dark:border-[#1E293B]"
-            style={{ color: '#f5c451' }}
+            className="flex h-10 items-center gap-2 rounded-full border px-2 py-1.5 text-xs transition hover:border-blue-500 dark:hover:border-cyan-500 hover:bg-gray-100 dark:hover:bg-white/5 sm:px-2.5 bg-white dark:bg-[#0B1021] border-gray-200 dark:border-[#1E293B]"
+            style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}
             aria-expanded={accountMenuOpen}
             aria-label="Open account menu"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: 'linear-gradient(145deg, #f5c451, #d4a017)', color: '#0B1021' }}>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full text-white" style={{ background: 'linear-gradient(135deg, #1680ff, #25c6e8 50%, #7d75ff)' }}>
               <UserRound size={17} strokeWidth={2} />
             </span>
             <span className="hidden sm:block max-w-[96px] truncate font-semibold ">{displayAuthLogin || 'Account'}</span>
@@ -649,7 +649,7 @@ export function Navbar() {
               <div className="overflow-hidden rounded-2xl border shadow-2xl bg-white dark:bg-[#0B1021] border-gray-200 dark:border-[#1E293B] dark:shadow-black/50">
                 <div className="p-4 sm:p-5">
                   <div className="mb-3 text-[11px] font-semibold tracking-[0.18em]" style={{ color: theme === 'dark' ? '#64748B' : '#6B7280' }}>YOUR USER ID</div>
-                  <button type="button" onClick={copyAuthLogin} className="flex w-full items-center justify-between gap-3 rounded-xl p-2 text-left transition-transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-[#f5c451]" style={{ background: 'linear-gradient(135deg, #f5c451, #d4a017)', color: '#0B1021' }} aria-label="Copy your user ID">
+                  <button type="button" onClick={copyAuthLogin} className="flex w-full items-center justify-between gap-3 rounded-xl p-2 text-left transition-transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-[#1680ff]" style={{ background: 'linear-gradient(135deg, #1680ff, #25c6e8 50%, #7d75ff)', color: '#fff' }} aria-label="Copy your user ID">
                     <span className="flex min-w-0 items-center gap-3">
                       <span className="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide" style={{ background: 'rgba(255,255,255,0.22)' }}>ID</span>
                       <span className="truncate text-base font-semibold tracking-wide">{displayAuthLogin || 'Not available'}</span>
@@ -702,7 +702,7 @@ export function Navbar() {
           <div className="fixed inset-0 bg-black/50" onClick={() => setMobileNavOpen(false)} />
           <div className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-[#0B1021] shadow-xl overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-[#1E293B]">
-              <span className="font-bold" style={{ color: '#f5c451' }}>Menu</span>
+              <span className="font-bold" style={{ color: theme === "dark" ? "#25c6e8" : "#1680ff" }}>Menu</span>
               <button
                 onClick={() => setMobileNavOpen(false)}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-md"
@@ -722,9 +722,9 @@ export function Navbar() {
                         onClick={() => setMobileDropdownOpen(isDropdownOpen ? null : item.label)}
                         className={cn(
                           "w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                          isActive ? "bg-[#f5c451]/10 text-[#f5c451]" : "hover:bg-gray-100 dark:hover:bg-white/5"
+                          isActive ? "bg-blue-500/10 text-blue-700 dark:bg-cyan-400/10 dark:text-cyan-300" : "hover:bg-gray-100 dark:hover:bg-white/5"
                         )}
-                        style={{ color: isActive ? '#f5c451' : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
+                        style={{ color: isActive ? (theme === "dark" ? "#25c6e8" : "#1680ff") : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
                       >
                         <div className="flex items-center gap-3">
                           {item.img && (
@@ -755,12 +755,12 @@ export function Navbar() {
                                 className={cn(
                                   "block px-4 py-2 text-sm rounded-lg transition-colors",
                                   isDropdownItemActive
-                                    ? "bg-[#f5c451]/10 font-semibold"
+                                    ? "bg-blue-500/10 font-semibold dark:bg-cyan-400/10"
                                     : "hover:bg-gray-100 dark:hover:bg-white/5",
                                 )}
                                 style={{
                                   color: isDropdownItemActive
-                                    ? "#f5c451"
+                                    ? (theme === "dark" ? "#25c6e8" : "#1680ff")
                                     : (!mounted || theme === "dark")
                                       ? "#E2E8F0"
                                       : "#334155",
@@ -783,9 +783,9 @@ export function Navbar() {
                     onClick={() => setMobileNavOpen(false)}
                     className={cn(
                       "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
-                      isActive ? "bg-[#f5c451]/10 text-[#f5c451]" : "hover:bg-gray-100 dark:hover:bg-white/5"
+                      isActive ? "bg-blue-500/10 text-blue-700 dark:bg-cyan-400/10 dark:text-cyan-300" : "hover:bg-gray-100 dark:hover:bg-white/5"
                     )}
-                    style={{ color: isActive ? '#f5c451' : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
+                    style={{ color: isActive ? (theme === "dark" ? "#25c6e8" : "#1680ff") : (!mounted || theme === 'dark') ? '#E2E8F0' : '#334155' }}
                   >
                     {item.img && (
                       <img
@@ -804,9 +804,9 @@ export function Navbar() {
       )}
       {loadingInvestmentFund && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]/75 px-4 backdrop-blur-sm">
-          <div className="flex h-28 w-28 items-center justify-center rounded-full border border-amber-400/20 bg-[#0B1021] shadow-2xl shadow-amber-500/10">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-amber-400/20 bg-amber-400/10">
-              <Loader2 className="h-7 w-7 animate-spin text-[#F5C451]" aria-hidden />
+          <div className="flex h-28 w-28 items-center justify-center rounded-full border border-blue-400/20 bg-[#0B1021] shadow-2xl shadow-blue-500/10">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-cyan-400/20 bg-cyan-400/10">
+              <Loader2 className="h-7 w-7 animate-spin text-[#25c6e8]" aria-hidden />
             </div>
           </div>
         </div>

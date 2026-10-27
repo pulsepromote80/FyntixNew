@@ -13,7 +13,7 @@ interface ExecutionRow {
   latency: number;
 }
 
-const GOLD_COLOR = "#f5c451";
+const ACCENT_COLOR = "#1680ff";
 
 export default function AnalyticsPage() {
   const [opsValue, setOpsValue] = useState(1716);
@@ -180,8 +180,8 @@ export default function AnalyticsPage() {
       <header className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: GOLD_COLOR }}></span>
-            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: GOLD_COLOR }}></span>
+            <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: ACCENT_COLOR }}></span>
+            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: ACCENT_COLOR }}></span>
           </span>
           <span className="text-xs font-mono font-semibold tracking-wide text-gray-500 dark:text-gray-400">
             HYPERGEN ENGINE
@@ -209,7 +209,7 @@ export default function AnalyticsPage() {
                     position: "absolute",
                     top: "0px",
                     left: "0px",
-                    background: `conic-gradient(from -125deg, ${GOLD_COLOR} 0deg ${(opsValue / 1800) * 250}deg, #e5e7eb ${(opsValue / 1800) * 250}deg 250deg, transparent 250deg 360deg)`,
+                    background: `conic-gradient(from -125deg, ${ACCENT_COLOR} 0deg ${(opsValue / 1800) * 250}deg, #e5e7eb ${(opsValue / 1800) * 250}deg 250deg, transparent 250deg 360deg)`,
                   }}
                 ></div>
                 <div style={{ width: "172px", height: "172px", borderRadius: "50%", background: "white", position: "absolute", top: "24px", left: "24px" }} className="dark:bg-[#0B1021]"></div>
@@ -218,7 +218,7 @@ export default function AnalyticsPage() {
                     style={{
                       width: "3px",
                       height: "88px",
-                      background: GOLD_COLOR,
+                      background: ACCENT_COLOR,
                       borderRadius: "2px",
                       position: "absolute",
                       bottom: "0px",
@@ -237,10 +237,10 @@ export default function AnalyticsPage() {
           <div>
             <div className="text-[11px] font-medium text-gray-400 tracking-wide mb-3">AVG SPREAD CAPTURED</div>
             <div className="flex items-baseline gap-1 mb-3">
-              <span className="font-mono text-5xl font-bold" style={{ color: GOLD_COLOR }}>
+              <span className="font-mono text-5xl font-bold text-blue-700 dark:text-cyan-300" style={{ color: ACCENT_COLOR }}>
                 {spreadValue.toFixed(3)}
               </span>
-              <span className="font-mono text-2xl font-semibold" style={{ color: GOLD_COLOR }}>%</span>
+              <span className="font-mono text-2xl font-semibold text-blue-700 dark:text-cyan-300" style={{ color: ACCENT_COLOR }}>%</span>
             </div>
             <div className="flex gap-[3px] mb-2">
               {Array.from({ length: 20 }).map((_, i) => (
@@ -251,7 +251,7 @@ export default function AnalyticsPage() {
                     width: "10px",
                     height: "20px",
                     borderRadius: "2px",
-                    background: i < (spreadValue / 0.4) * 20 ? GOLD_COLOR : "#e5e7eb",
+                    background: i < (spreadValue / 0.4) * 20 ? ACCENT_COLOR : "#e5e7eb",
                     opacity: i < (spreadValue / 0.4) * 20 ? 1 : 0.6,
                   }}
                 ></div>
@@ -294,7 +294,7 @@ export default function AnalyticsPage() {
           <div>
             <div className="text-[11px] text-gray-400 mb-1">CIRCUIT BREAKER</div>
             <div className="flex items-center gap-1.5 text-lg font-bold text-gray-900 dark:text-white">
-              <span className="h-1.5 w-1.5 rounded-full animate-ping" style={{ background: GOLD_COLOR }}></span>
+              <span className="h-1.5 w-1.5 rounded-full animate-ping" style={{ background: ACCENT_COLOR }}></span>
               ARMED
             </div>
             <div className="text-[11px] text-gray-400 mt-0.5">no trips today</div>
@@ -324,8 +324,8 @@ export default function AnalyticsPage() {
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: GOLD_COLOR }}></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: GOLD_COLOR }}></span>
+              <span className="absolute inline-flex h-full w-full rounded-full animate-ping" style={{ background: ACCENT_COLOR }}></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: ACCENT_COLOR }}></span>
             </span>
             <span className="text-xs font-mono font-semibold tracking-wide text-gray-500 dark:text-gray-400">
               EXECUTION STREAM
@@ -337,7 +337,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <div className="text-[11px] text-gray-400 mb-1">ROUTED · LAST HOUR</div>
-            <div className="font-mono text-3xl font-bold" style={{ color: GOLD_COLOR }}>
+            <div className="font-mono text-3xl font-bold text-gradient" style={{ color: ACCENT_COLOR }}>
               {formatCurrency(routedValue)}
             </div>
           </div>
@@ -351,8 +351,8 @@ export default function AnalyticsPage() {
             <svg viewBox="0 0 300 60" className="w-full h-14">
               <defs>
                 <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={GOLD_COLOR} stopOpacity="0.25"></stop>
-                  <stop offset="100%" stopColor={GOLD_COLOR} stopOpacity="0"></stop>
+                  <stop offset="0%" stopColor={ACCENT_COLOR} stopOpacity="0.25"></stop>
+                  <stop offset="100%" stopColor={ACCENT_COLOR} stopOpacity="0"></stop>
                 </linearGradient>
               </defs>
               <path
@@ -362,12 +362,12 @@ export default function AnalyticsPage() {
               <path
                 d="M 4 54.8 L 16.7 47.6 L 29.4 37.9 L 42.1 37.1 L 54.8 43.4 L 67.5 56 L 80.2 47.6 L 92.9 48.2 L 105.6 36.4 L 118.3 29.5 L 130.9 29.6 L 143.7 17.4 L 156.3 14.7 L 169 19.9 L 181.7 12.2 L 194.4 4 L 207.1 9 L 219.8 7.4 L 232.5 5.8 L 245.2 10.7 L 257.9 14.1 L 270.6 13.3 L 283.3 24.9 L 296 16.6"
                 fill="none"
-                stroke={GOLD_COLOR}
+                stroke={ACCENT_COLOR}
                 strokeWidth="1.75"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               ></path>
-              <circle cx="296" cy="16.6" r="3" fill={GOLD_COLOR}></circle>
+              <circle cx="296" cy="16.6" r="3" fill={ACCENT_COLOR}></circle>
             </svg>
           </div>
         </div>
@@ -380,8 +380,8 @@ export default function AnalyticsPage() {
               onClick={() => setActiveChain(chain.name)}
               className={`rounded-full px-3 py-1.5 text-xs font-mono font-medium flex items-center gap-1.5 transition-colors ${
                 activeChain === chain.name
-                  ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
+                  ? "bg-blue-600 text-white dark:bg-cyan-400 dark:text-slate-950"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-cyan-900/20 dark:hover:text-cyan-300"
               }`}
             >
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: activeChain === chain.name ? "currentColor" : "#9ca3af" }}></span>

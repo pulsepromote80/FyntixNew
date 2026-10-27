@@ -69,27 +69,27 @@ export default function TransactionData({ transType }: { transType: string }) {
                 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 .animate-shimmer { background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite; }
                 .animate-slideUp { animation: slideUp 0.4s ease-out; }
-                .velvora-gradient { background: linear-gradient(135deg, #2196F3, #3F51B5, #3F51B5); }
+                .velvora-gradient { background: linear-gradient(135deg, #1680ff 0%, #25c6e8 50%, #7d75ff 100%); }
                 .glass-effect { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-                .dark .glass-effect { background: rgba(17,24,39,0.7); }
+                .dark .glass-effect { background: rgba(11,16,33,0.82); }
                 .gradient-border { position: relative; }
-                .gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; padding: 2px; background: linear-gradient(135deg, #2196F3, #3F51B5, #3F51B5); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+                .gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; padding: 2px; background: linear-gradient(135deg, #1680ff 0%, #25c6e8 50%, #7d75ff 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
             `}</style>
 
             <div className="wallet-reports-container">
                 {/* Main Card */}
-                <div className="relative overflow-hidden transition-all duration-300 border shadow-xl bg-white/80 dark:bg-gray-800/80 border-gray-200/50 dark:border-gray-700/50 rounded-2xl gradient-border glass-effect">
-                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 via-blue-500 to-violet-500 animate-shimmer"></div>
+                <div className="relative overflow-hidden transition-all duration-300 border shadow-xl bg-white/80 dark:bg-[#0b1021]/90 border-gray-200/50 dark:border-[#1E293B] rounded-2xl gradient-border glass-effect">
+                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] animate-shimmer"></div>
 
                     {/* Header */}
                     <div className="relative p-4 sm:p-6">
                         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                             <div className="flex items-center gap-3">
-                                <div className="w-1 h-8 rounded-full bg-gradient-to-b from-blue-500 to-blue-500"></div>
+                                <div className="w-1 h-8 rounded-full bg-gradient-to-b from-[#1680ff] to-[#7d75ff]"></div>
                                 <h3 className="text-lg font-bold text-gray-800 sm:text-xl dark:text-white">
                                     Income Report
                                 </h3>
-                                <span className="text-xs px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                                <span className="text-xs px-2.5 py-1 rounded-full bg-blue-100 dark:bg-cyan-900/30 text-blue-700 dark:text-cyan-300">
                                     {filteredTransactions.length} Records
                                 </span>
                             </div>
@@ -104,7 +104,7 @@ export default function TransactionData({ transType }: { transType: string }) {
                                         placeholder="Search transactions..."
                                         value={searchTerm}
                                         onChange={handleSearchChange}
-                                        className="w-full py-2 pr-8 text-sm text-gray-900 placeholder-gray-400 transition-all border-2 border-gray-200 pl-9 dark:border-gray-700 rounded-xl bg-white/50 dark:bg-gray-800/50 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:text-white dark:placeholder-gray-500"
+                                        className="w-full py-2 pr-8 text-sm text-gray-900 placeholder-gray-400 transition-all border-2 border-gray-200 pl-9 dark:border-[#1E293B] rounded-xl bg-white/50 dark:bg-[#0b1021]/50 focus:outline-none focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:text-white dark:placeholder-gray-500"
                                     />
                                     {searchTerm && (
                                         <button
@@ -124,7 +124,7 @@ export default function TransactionData({ transType }: { transType: string }) {
                         <div className="overflow-x-auto border rounded-xl border-gray-200/50 dark:border-gray-700/50">
                             <table className="min-w-full text-xs sm:text-sm">
                                 <thead>
-                                    <tr className="border-b border-gray-200 bg-gradient-to-r from-blue-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-blue-900/20 dark:border-gray-700">
+                                    <tr className="border-b border-gray-200 bg-gradient-to-r from-blue-50/80 via-cyan-50/60 to-violet-50/80 dark:from-blue-900/20 dark:via-cyan-900/10 dark:to-violet-900/20 dark:border-[#1E293B]">
                                         <th className="px-3 py-3 text-xs font-bold tracking-wider text-center text-gray-600 uppercase sm:px-6 dark:text-gray-400 whitespace-nowrap">
                                             #
                                         </th>
@@ -160,8 +160,8 @@ export default function TransactionData({ transType }: { transType: string }) {
                                         currentItems.map((rank, index) => (
                                             <tr 
                                                 key={index + indexOfFirstItem} 
-                                                className={`transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/10 ${
-                                                    index % 2 === 0 ? "bg-white/50 dark:bg-gray-800/30" : ""
+                                                className={`transition-colors hover:bg-blue-50/50 dark:hover:bg-cyan-900/10 ${
+                                                    index % 2 === 0 ? "bg-white/50 dark:bg-[#111a31]/50" : ""
                                                 }`}
                                             >
                                                 <td className="px-3 sm:px-6 py-3.5 text-center text-sm font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">
@@ -204,31 +204,31 @@ export default function TransactionData({ transType }: { transType: string }) {
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <button
-                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-cyan-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={() => paginate(1)}
                                         disabled={currentPage === 1}
                                     >
                                         «
                                     </button>
                                     <button
-                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-cyan-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={() => paginate(currentPage - 1)}
                                         disabled={currentPage === 1}
                                     >
                                         ‹
                                     </button>
-                                    <span className="px-3 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                                    <span className="px-3 py-1.5 text-sm font-semibold text-blue-700 dark:text-cyan-300">
                                         {currentPage} / {totalPages}
                                     </span>
                                     <button
-                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-cyan-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={() => paginate(currentPage + 1)}
                                         disabled={currentPage === totalPages}
                                     >
                                         ›
                                     </button>
                                     <button
-                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-3 py-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-cyan-900/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={() => paginate(totalPages)}
                                         disabled={currentPage === totalPages}
                                     >

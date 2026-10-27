@@ -163,7 +163,7 @@ export function RecentActivity() {
         </div>
 
         <div className="border-b border-gray-200 px-4 py-2 dark:border-gray-800">
-          <span className="inline-flex rounded-md bg-amber-500/15 px-2.5 py-1 text-[10px] text-amber-600 shadow-[0_0_8px_rgba(245,158,11,0.1)] dark:text-amber-400">
+          <span className="inline-flex rounded-md bg-blue-500/10 px-2.5 py-1 text-[10px] text-blue-700 dark:text-cyan-300">
             All Activity
           </span>
         </div>
@@ -188,7 +188,7 @@ export function RecentActivity() {
         <div className=" overflow-y-auto">
           {isLoading ? (
             <div className="flex justify-center px-4 py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading recent activity" />
+              <Loader2 className="h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading recent activity" />
             </div>
           ) : error && activities.length === 0 ? (
             <div className="px-4 py-6 text-center">
@@ -199,7 +199,7 @@ export function RecentActivity() {
                   setIsLoading(true);
                   void loadActivities();
                 }}
-                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-amber-700 underline dark:text-amber-400"
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-blue-700 underline dark:text-cyan-300"
               >
                 <RefreshCw className="h-3 w-3" aria-hidden />
                 Retry
@@ -225,7 +225,7 @@ export function RecentActivity() {
                   key={String(id)}
                   className="group flex items-start gap-3 border-b border-gray-100 px-4 py-3 transition-colors last:border-b-0 hover:bg-gray-50 dark:border-gray-800/50 dark:hover:bg-gray-800/30"
                 >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-700 dark:text-cyan-300">
                     <Bell className="h-4 w-4" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1">

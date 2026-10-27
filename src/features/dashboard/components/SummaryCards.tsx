@@ -12,7 +12,7 @@ export function SummaryCards() {
   if (isLoading) {
     return (
       <div className="flex min-h-28 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#F5C451]" aria-label="Loading dashboard data" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#1680ff]" aria-label="Loading dashboard data" />
       </div>
     );
   }
