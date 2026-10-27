@@ -301,7 +301,9 @@ export default function AIBUSINESSHUB() {
   ];
 
   const incomeTotal = incomeHistory.reduce((a, i) => a + i.amount, 0);
-  const topStream = incomeHistory.reduce((m, i) => (i.amount > m.amount ? i : m), incomeHistory[0]);
+  const topStream = incomeHistory.length > 0
+    ? incomeHistory.reduce((m, i) => (i.amount > m.amount ? i : m), incomeHistory[0]!)
+    : null;
 
   const palette = ["#1f6fe5", "#0a9b62", "#8a5cf0", "#e8920a", "#e0334f", "#14a8c9"];
 
@@ -402,13 +404,13 @@ export default function AIBUSINESSHUB() {
                   <Donut
                     size={120}
                     stroke={16}
-                    parts={incomeHistory.filter((i) => i.amount > 0).map((i, n) => ({ pct: (i.amount / incomeTotal) * 100, color: palette[n % palette.length] }))}
+                    parts={incomeHistory.filter((i) => i.amount > 0).map((i, n) => ({ pct: (i.amount / incomeTotal) * 100, color: palette[n % palette.length] || '#666' }))}
                     center={<><b style={{ fontSize: 16 }}>{money(incomeTotal)}</b><small>EARNED</small></>}
                   />
                   <div style={{ flex: 1, minWidth: 160 }}>
                     <small className="hub-lbl">Top stream</small>
-                    <div style={{ fontWeight: 800, fontSize: 17, margin: '4px 0' }}>{topStream.name}</div>
-                    <div className="sub">{((topStream.amount / incomeTotal) * 100).toFixed(0)}% of total income</div>
+                    <div style={{ fontWeight: 800, fontSize: 17, margin: '4px 0' }}>{topStream?.name || 'N/A'}</div>
+                    <div className="sub">{topStream ? ((topStream.amount / incomeTotal) * 100).toFixed(0) : 0}% of total income</div>
                   </div>
                 </div>
                 {incomeHistory.map((i) => {

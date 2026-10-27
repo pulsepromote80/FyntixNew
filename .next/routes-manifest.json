@@ -1,1 +1,271 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[{"source":"/:path*","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"X-Frame-Options","value":"DENY"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}],"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))?(?:\\/)?$"}]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    }
+  ],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/fund-director/[action]",
+      "regex": "^/api/fund\\-director/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPaction": "nxtPaction"
+      },
+      "namedRegex": "^/api/fund\\-director/(?<nxtPaction>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/support/[action]",
+      "regex": "^/api/support/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPaction": "nxtPaction"
+      },
+      "namedRegex": "^/api/support/(?<nxtPaction>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/wallet-manager/[action]",
+      "regex": "^/api/wallet\\-manager/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPaction": "nxtPaction"
+      },
+      "namedRegex": "^/api/wallet\\-manager/(?<nxtPaction>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/ai-business-hub",
+      "regex": "^/ai\\-business\\-hub(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ai\\-business\\-hub(?:/)?$"
+    },
+    {
+      "page": "/ai-engine",
+      "regex": "^/ai\\-engine(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ai\\-engine(?:/)?$"
+    },
+    {
+      "page": "/analytics",
+      "regex": "^/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/analytics(?:/)?$"
+    },
+    {
+      "page": "/auth/callback",
+      "regex": "^/auth/callback(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/callback(?:/)?$"
+    },
+    {
+      "page": "/binary-tree",
+      "regex": "^/binary\\-tree(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/binary\\-tree(?:/)?$"
+    },
+    {
+      "page": "/booster",
+      "regex": "^/booster(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/booster(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/direct-partners",
+      "regex": "^/direct\\-partners(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/direct\\-partners(?:/)?$"
+    },
+    {
+      "page": "/downline",
+      "regex": "^/downline(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/downline(?:/)?$"
+    },
+    {
+      "page": "/forgot-password",
+      "regex": "^/forgot\\-password(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/forgot\\-password(?:/)?$"
+    },
+    {
+      "page": "/fund-director",
+      "regex": "^/fund\\-director(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/fund\\-director(?:/)?$"
+    },
+    {
+      "page": "/income-reports",
+      "regex": "^/income\\-reports(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/income\\-reports(?:/)?$"
+    },
+    {
+      "page": "/investment-amount",
+      "regex": "^/investment\\-amount(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/investment\\-amount(?:/)?$"
+    },
+    {
+      "page": "/level-partners",
+      "regex": "^/level\\-partners(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/level\\-partners(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/network-tree",
+      "regex": "^/network\\-tree(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/network\\-tree(?:/)?$"
+    },
+    {
+      "page": "/order-history",
+      "regex": "^/order\\-history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/order\\-history(?:/)?$"
+    },
+    {
+      "page": "/privacy",
+      "regex": "^/privacy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/rank",
+      "regex": "^/rank(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/rank(?:/)?$"
+    },
+    {
+      "page": "/register",
+      "regex": "^/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/register(?:/)?$"
+    },
+    {
+      "page": "/reports",
+      "regex": "^/reports(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reports(?:/)?$"
+    },
+    {
+      "page": "/reset-password",
+      "regex": "^/reset\\-password(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reset\\-password(?:/)?$"
+    },
+    {
+      "page": "/settings",
+      "regex": "^/settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings(?:/)?$"
+    },
+    {
+      "page": "/support",
+      "regex": "^/support(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/support(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    },
+    {
+      "page": "/transactions",
+      "regex": "^/transactions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/transactions(?:/)?$"
+    },
+    {
+      "page": "/users",
+      "regex": "^/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/users(?:/)?$"
+    },
+    {
+      "page": "/welcome-letter",
+      "regex": "^/welcome\\-letter(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/welcome\\-letter(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
