@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" fill="none">
+  <defs>
+    <linearGradient id="flow" x1="174" y1="183" x2="1017" y2="183" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#23C9E8"/>
+      <stop offset=".5" stop-color="#1680FF"/>
+      <stop offset="1" stop-color="#8575FF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 182 -498 0 601 180)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1680FF" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#1680FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="93" y="104" width="1014" height="154" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+  <path fill="url(#glow)" d="M0 0h1200v360H0z"/>
+  <g stroke="#4382C7" stroke-opacity=".16">
+    <path d="M70 65h1060M70 122h1060M70 179h1060M70 236h1060M70 293h1060"/>
+    <path d="M150 40v280M330 40v280M510 40v280M690 40v280M870 40v280M1050 40v280"/>
+  </g>
+  <path d="M180 181h840" stroke="url(#flow)" stroke-linecap="round" stroke-width="4"/>
+  <path d="M180 181h840" stroke="url(#flow)" stroke-linecap="round" stroke-width="20" filter="url(#soft)" opacity=".58"/>
+  <g fill="#07172F" stroke="url(#flow)" stroke-width="3">
+    <circle cx="190" cy="181" r="57"/>
+    <circle cx="395" cy="181" r="19"/>
+    <circle cx="600" cy="181" r="57"/>
+    <circle cx="805" cy="181" r="19"/>
+    <circle cx="1010" cy="181" r="57"/>
+  </g>
+  <g stroke="#DDF4FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+    <path d="M174 172v-12a16 16 0 0 1 32 0v12"/>
+    <rect x="169" y="172" width="42" height="31" rx="7"/>
+    <path d="m589 167 11-10 11 10v25h-22v-25Z"/>
+    <path d="M596 192v-13h8v13M1000 183l8 8 16-19"/>
+    <circle cx="1010" cy="181" r="28"/>
+  </g>
+  <g fill="#06172E" stroke="#70BFFF" stroke-width="2">
+    <circle cx="395" cy="181" r="7"/>
+    <circle cx="805" cy="181" r="7"/>
+  </g>
+  <g font-family="ui-monospace,monospace" text-anchor="middle">
+    <text x="190" y="276" font-size="12" letter-spacing="2" fill="#AFC8E8">WALLET SIGNED</text>
+    <text x="600" y="276" font-size="12" letter-spacing="2" fill="#AFC8E8">CONTRACT VERIFIED</text>
+    <text x="1010" y="276" font-size="12" letter-spacing="2" fill="#AFC8E8">SETTLED ON-CHAIN</text>
+    <text x="190" y="298" font-size="10" letter-spacing="1.5" fill="#6F93BE">USER AUTHORIZES TRADE</text>
+    <text x="600" y="298" font-size="10" letter-spacing="1.5" fill="#6F93BE">RULES VALIDATE REQUEST</text>
+    <text x="1010" y="298" font-size="10" letter-spacing="1.5" fill="#6F93BE">FUNDS MOVE DIRECTLY</text>
+  </g>
+</svg>

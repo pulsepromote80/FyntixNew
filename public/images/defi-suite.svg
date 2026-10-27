@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" fill="none">
+  <defs>
+    <linearGradient id="card" x1="160" y1="55" x2="491" y2="254" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#132F58"/>
+      <stop offset="1" stop-color="#09182D"/>
+    </linearGradient>
+    <linearGradient id="bars" x1="267" y1="193" x2="425" y2="106" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#26C5E8"/>
+      <stop offset=".55" stop-color="#1680FF"/>
+      <stop offset="1" stop-color="#8175FF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 145 -235 0 321 150)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1680FF" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#1680FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#glow)" d="M0 0h640v300H0z"/>
+  <g stroke="#4E89CF" stroke-opacity=".2">
+    <path d="M75 55h490M75 105h490M75 155h490M75 205h490M75 255h490"/>
+    <path d="M125 30v240M222 30v240M319 30v240M416 30v240M513 30v240"/>
+  </g>
+  <rect x="148" y="49" width="344" height="204" rx="16" fill="url(#card)" stroke="#347FCE" stroke-opacity=".8" stroke-width="2"/>
+  <path d="M148 84h344" stroke="#347FCE" stroke-opacity=".65"/>
+  <circle cx="170" cy="67" r="4" fill="#35D7FF"/>
+  <circle cx="185" cy="67" r="4" fill="#1680FF"/>
+  <circle cx="200" cy="67" r="4" fill="#8175FF"/>
+  <rect x="168" y="104" width="124" height="123" rx="10" fill="#0B1D37" stroke="#24538B"/>
+  <path d="M188 203v-24h14v24M212 203v-49h14v49M236 203v-36h14v36M260 203v-61h14v61" fill="url(#bars)" opacity=".88"/>
+  <path d="m187 166 30-22 25 11 29-27" stroke="#76C7FF" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  <rect x="310" y="104" width="162" height="55" rx="10" fill="#0B1D37" stroke="#24538B"/>
+  <circle cx="332" cy="131" r="10" fill="#1680FF" fill-opacity=".25" stroke="#52AEFF"/>
+  <path d="M328 131h8M332 127v8" stroke="#A9DDFF" stroke-linecap="round" stroke-width="2"/>
+  <path d="M351 123h94M351 138h69" stroke="#83A8D3" stroke-linecap="round" stroke-width="4"/>
+  <rect x="310" y="172" width="162" height="55" rx="10" fill="#0B1D37" stroke="#24538B"/>
+  <circle cx="332" cy="199" r="10" fill="#1680FF" fill-opacity=".25" stroke="#52AEFF"/>
+  <path d="M327 199h10M332 194v10" stroke="#A9DDFF" stroke-linecap="round" stroke-width="2"/>
+  <path d="M351 191h94M351 206h69" stroke="#83A8D3" stroke-linecap="round" stroke-width="4"/>
+  <g font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" fill="#8CB6E6">
+    <text x="176" y="96">MARKET ANALYTICS</text>
+    <text x="316" y="96">DEFI TOOLS</text>
+  </g>
+</svg>

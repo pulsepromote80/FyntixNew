@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" fill="none">
+  <defs>
+    <linearGradient id="line" x1="97" y1="395" x2="886" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#25C6E8"/>
+      <stop offset=".52" stop-color="#1680FF"/>
+      <stop offset="1" stop-color="#7D75FF"/>
+    </linearGradient>
+    <linearGradient id="area" x1="493" y1="135" x2="493" y2="433" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1680FF" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#1680FF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientTransform="matrix(0 230 -440 0 510 244)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1680FF" stop-opacity=".19"/>
+      <stop offset="1" stop-color="#1680FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="62" y="54" width="884" height="414" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <path fill="url(#halo)" d="M0 0h1000v520H0z"/>
+  <g stroke="#4788D8" stroke-opacity=".16">
+    <path d="M90 74v350M226 74v350M362 74v350M498 74v350M634 74v350M770 74v350M906 74v350"/>
+    <path d="M90 98h816M90 166h816M90 234h816M90 302h816M90 370h816M90 424h816"/>
+  </g>
+  <g stroke="#5D8BC5" stroke-opacity=".4" stroke-dasharray="5 9">
+    <path d="M90 166h816M90 302h816"/>
+  </g>
+  <path d="m90 354 70-38 65 18 74-72 68 22 70-95 67 34 69-70 69 20 65-49 69 18 68-61 62 17v356H90V354Z" fill="url(#area)"/>
+  <path d="m90 354 70-38 65 18 74-72 68 22 70-95 67 34 69-70 69 20 65-49 69 18 68-61 62 17" stroke="url(#line)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+  <path d="m90 354 70-38 65 18 74-72 68 22 70-95 67 34 69-70 69 20 65-49 69 18 68-61 62 17" stroke="url(#line)" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" filter="url(#glow)" opacity=".46"/>
+  <g fill="#1680FF" stroke="#D9F4FF" stroke-width="3">
+    <circle cx="299" cy="262" r="7"/>
+    <circle cx="437" cy="189" r="7"/>
+    <circle cx="573" cy="153" r="7"/>
+    <circle cx="707" cy="104" r="7"/>
+    <circle cx="837" cy="61" r="8"/>
+  </g>
+  <g font-family="ui-monospace,monospace" font-size="15" letter-spacing="2" fill="#79A9E5">
+    <text x="90" y="474">EUR / USDT</text>
+    <text x="742" y="474">LIVE LIQUIDITY</text>
+  </g>
+  <rect x="738" y="49" width="142" height="38" rx="19" fill="#0B2345" stroke="#237BEA" stroke-opacity=".7"/>
+  <circle cx="758" cy="68" r="5" fill="#20D78A"/>
+  <text x="773" y="73" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1.5" fill="#DCEBFF">MARKET LIVE</text>
+</svg>

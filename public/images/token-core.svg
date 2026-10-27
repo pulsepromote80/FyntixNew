@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" fill="none">
+  <defs>
+    <radialGradient id="backlight" cx="0" cy="0" r="1" gradientTransform="matrix(0 204 -281 0 360 208)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1680FF" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#1680FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="coin" x1="244" y1="79" x2="478" y2="341" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#43C8FF"/>
+      <stop offset=".45" stop-color="#1680FF"/>
+      <stop offset="1" stop-color="#123F98"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="225" y1="104" x2="490" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B8ECFF"/>
+      <stop offset=".45" stop-color="#438FFF"/>
+      <stop offset="1" stop-color="#6B72FF"/>
+    </linearGradient>
+    <filter id="coin-shadow" x="158" y="27" width="404" height="405" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="17"/>
+    </filter>
+    <filter id="soft-glow" x="158" y="27" width="404" height="405" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+  <path fill="url(#backlight)" d="M0 0h720v420H0z"/>
+  <g stroke="#4382C7" stroke-opacity=".17">
+    <path d="M62 82h596M62 146h596M62 210h596M62 274h596M62 338h596"/>
+    <path d="M104 50v320M206 50v320M308 50v320M410 50v320M512 50v320M614 50v320"/>
+  </g>
+  <circle cx="360" cy="205" r="135" fill="#1680FF" opacity=".22" filter="url(#coin-shadow)"/>
+  <circle cx="360" cy="197" r="117" fill="#07172F" stroke="url(#rim)" stroke-width="4"/>
+  <circle cx="360" cy="197" r="102" fill="url(#coin)" stroke="#B8E8FF" stroke-opacity=".82" stroke-width="2"/>
+  <circle cx="360" cy="197" r="86" stroke="#DDF6FF" stroke-opacity=".32" stroke-width="1.5"/>
+  <circle cx="360" cy="197" r="76" stroke="#061B38" stroke-opacity=".45" stroke-width="2"/>
+  <path d="M405 130h-65c-25 0-39 13-39 34 0 15 8 24 21 29-17 5-27 16-27 34 0 23 17 37 45 37h65v-23h-62c-15 0-23-6-23-17 0-12 8-18 23-18h48v-22h-47c-14 0-21-6-21-17s8-16 23-16h59v-21Z" fill="#E9F8FF"/>
+  <path d="m322 294 76-195" stroke="#A8E7FF" stroke-linecap="round" stroke-width="8" opacity=".82" filter="url(#soft-glow)"/>
+  <path d="m322 294 76-195" stroke="#EAF9FF" stroke-linecap="round" stroke-width="4"/>
+  <g stroke="#439AFF" stroke-opacity=".75" stroke-dasharray="4 7">
+    <path d="M119 197h91"/>
+    <path d="M510 197h91"/>
+    <path d="M360 53v27"/>
+    <path d="M360 314v34"/>
+  </g>
+  <g fill="#51BFFF">
+    <circle cx="119" cy="197" r="4"/>
+    <circle cx="601" cy="197" r="4"/>
+    <circle cx="360" cy="53" r="4"/>
+    <circle cx="360" cy="348" r="4"/>
+  </g>
+  <g font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.7" fill="#8FB7E4">
+    <text x="70" y="180">UTILITY</text>
+    <text x="533" y="180">ON-CHAIN</text>
+    <text x="313" y="381">FYNTIX TOKEN</text>
+  </g>
+</svg>

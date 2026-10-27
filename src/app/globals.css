@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222 20% 12%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --border: 220 13% 91%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --radius: 0.5rem;
+
+  /* FYNTIX Landing Page Custom Variables - Light Mode */
+  --ink: 0 0% 98%;
+  --panel: 0 0% 100%;
+  --line: 220 13% 91%;
+  --subtle: 220 14% 96%;
+  --field: 0 0% 98%;
+  --mint: 210 100% 50%;
+  --text-gradient: linear-gradient(135deg, #1680ff 0%, #25c6e8 50%, #7d75ff 100%);
+}
+
+.dark {
+  --background: 220 15% 5%;
+  --foreground: 0 0% 98%;
+  --muted: 220 15% 8%;
+  --muted-foreground: 220 10% 60%;
+  --border: 220 15% 15%;
+  --primary: 45 90% 55%;
+  --primary-foreground: 220 15% 5%;
+  --destructive: 0 63% 55%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* FYNTIX Landing Page Custom Variables - Dark Mode (Default) */
+  --ink: 220 15% 5%;
+  --panel: 220 15% 8%;
+  --line: 220 15% 15%;
+  --subtle: 220 15% 12%;
+  --field: 220 15% 10%;
+  --mint: 210 100% 50%;
+  --text-gradient: linear-gradient(135deg, #1680ff 0%, #25c6e8 50%, #7d75ff 100%);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* FYNTIX Landing Page Custom Styles */
+.text-gradient {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: hsla(var(--panel), 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsla(var(--line), 0.3);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(22, 128, 255, 0.15);
+}
+
+.token-section-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(22, 128, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.roadmap-backdrop {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.landing-illustration {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-grid {
+  min-height: 100vh;
+}
+
+.home-liquidity-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 3s ease-out forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.home-liquidity-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FYNTIX Custom Color Classes */
+.bg-ink {
+  background-color: hsl(var(--ink));
+}
+
+.bg-panel {
+  background-color: hsl(var(--panel));
+}
+
+.bg-subtle {
+  background-color: hsl(var(--subtle));
+}
+
+.bg-field {
+  background-color: hsl(var(--field));
+}
+
+.text-mint {
+  color: hsl(var(--mint));
+}
+
+.bg-mint {
+  background-color: hsl(var(--mint));
+}
+
+.text-ink {
+  color: hsl(var(--ink));
+}
+
+.border-line {
+  border-color: hsl(var(--line));
+}
+
+.text-muted {
+  color: hsl(var(--muted-foreground));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+/* Light mode specific adjustments for landing page */
+html:not(.dark) .bg-ink {
+  background-color: hsl(0 0% 98%);
+}
+
+html:not(.dark) .bg-panel {
+  background-color: hsl(0 0% 100%);
+}
+
+html:not(.dark) .bg-subtle {
+  background-color: hsl(220 14% 96%);
+}
+
+html:not(.dark) .bg-field {
+  background-color: hsl(0 0% 98%);
+}
+
+html:not(.dark) .border-line {
+  border-color: hsl(220 13% 91%);
+}
+
+html:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
