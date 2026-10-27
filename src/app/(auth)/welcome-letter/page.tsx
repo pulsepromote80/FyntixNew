@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/auth.store";
-import Image from "next/image";
+import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import { Loader2, Sparkles } from "lucide-react";
@@ -75,9 +75,7 @@ export default function WelcomeLetter() {
                 {/* ═══ Header ═══ */}
                 <div className="flex flex-col items-center text-center mb-8">
                   <Link href="/" className="mb-5">
-                    <Image
-                      src="/logos/kalki-horizontal-logo.png"
-                      alt="KALKII"
+                    <ThemeLogo
                       width={150}
                       height={64}
                       className="h-auto w-36 sm:w-44"

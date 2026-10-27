@@ -28,7 +28,8 @@ import {
 } from "react-icons/fa";
 import { ArrowRight, Loader2, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import { ThemeLogo } from "@/components/common/ThemeLogo";
+import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 
 type RegistrationCountry = {
   Country_Id?: string | number;
@@ -44,7 +45,6 @@ export function RegistrationForm() {
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isPositionLocked, setIsPositionLocked] = useState(false);
   const [referralName, setReferralName] = useState("");
   const [referralError, setReferralError] = useState("");
 
@@ -62,7 +62,7 @@ export function RegistrationForm() {
       lastName: "",
       mobile: "",
       email: "",
-      teamPosition: undefined,
+      teamPosition: "L",
       password: "",
       termsAccepted: undefined,
     },
@@ -91,7 +91,6 @@ export function RegistrationForm() {
     }
     if (position === "L" || position === "R") {
       form.setValue("teamPosition", position);
-      setIsPositionLocked(true);
     }
   }, [mounted, searchParams, form]);
 
@@ -167,13 +166,8 @@ export function RegistrationForm() {
   );
 
   return (
-    <div
-      className="relative min-h-screen w-full overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(ellipse at top, #1a1038 0%, #0a0a1a 45%, #050510 100%)",
-      }}
-    >
+    <div className="auth-screen relative min-h-screen w-full overflow-hidden">
+      <AuthThemeToggle />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-700/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -190,7 +184,7 @@ export function RegistrationForm() {
 
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 py-10">
         <div className="w-full max-w-2xl">
-          <div className="relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
+          <div className="auth-card relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
             <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#f5c451] to-transparent" />
 
             <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-[#d4a017]/40 rounded-tl-2xl pointer-events-none" />
@@ -201,9 +195,7 @@ export function RegistrationForm() {
             <div className="p-6 sm:p-8 md:p-10">
               <div className="flex flex-col items-center text-center mb-8">
                 <Link href="/" className="mb-5">
-                  <Image
-                    src="/logos/kalki-horizontal-logo.png"
-                    alt="KALKII"
+                  <ThemeLogo
                     width={150}
                     height={64}
                     className="h-auto w-36 sm:w-44"
@@ -260,7 +252,7 @@ export function RegistrationForm() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="grid grid-cols-1 gap-5">
                         <div>
                           <label className="block text-xs font-medium text-slate-300 mb-2.5 flex items-center gap-1.5">
                             <span className="w-1 h-1 rounded-full bg-[#f5c451]" />
@@ -315,68 +307,6 @@ export function RegistrationForm() {
                             <p className="mt-1.5 text-xs font-medium text-emerald-400 flex items-center gap-1.5  px-3 py-1.5 ">
                               <FaCheckCircle className="text-[10px]" />{" "}
                               {referralName}
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-medium text-slate-300 mb-2.5 flex items-center gap-1.5">
-                            <span className="w-1 h-1 rounded-full bg-[#f5c451]" />
-                            Placement Side <span className="text-[#f5c451]">*</span>
-                          </label>
-                          <button
-                            type="button"
-                            role="switch"
-                            aria-label="Team placement"
-                            aria-checked={form.watch("teamPosition") === "R"}
-                            disabled={isPositionLocked}
-                            onClick={() => {
-                              const currentPosition = form.getValues("teamPosition");
-                              form.setValue(
-                                "teamPosition",
-                                currentPosition === "L" ? "R" : "L",
-                                { shouldDirty: true, shouldValidate: true },
-                              );
-                            }}
-                            className={cn(
-                              "relative flex h-14 w-full items-center rounded-full border border-[#d4a017]/30 bg-[#0d0d20]/80 p-1.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f5c451]",
-                              isPositionLocked && "cursor-not-allowed opacity-50",
-                            )}
-                          >
-                            <span
-                              className={cn(
-                                "absolute left-1.5 top-1.5 h-11 w-[calc(50%-0.375rem)] rounded-full bg-gradient-to-r from-[#f5c451] to-[#d4a017] shadow-[0_0_16px_rgba(245,196,81,0.3)] transition-transform duration-300",
-                                form.watch("teamPosition") === "R" && "translate-x-full",
-                                !form.watch("teamPosition") && "opacity-40",
-                              )}
-                            />
-                            <span
-                              className={cn(
-                                "relative z-10 flex-1 transition-colors",
-                                form.watch("teamPosition") === "L" ? "text-black" : "text-slate-300",
-                              )}
-                            >
-                              Left Team
-                            </span>
-                            <span
-                              className={cn(
-                                "relative z-10 flex-1 transition-colors",
-                                form.watch("teamPosition") === "R" ? "text-black" : "text-slate-300",
-                              )}
-                            >
-                              Right Team
-                            </span>
-                          </button>
-                          {isPositionLocked && (
-                            <p className="mt-2 text-xs text-[#f5c451] flex items-center gap-1.5 bg-[#d4a017]/10 px-3 py-1.5 rounded-lg border border-[#d4a017]/20">
-                              <ShieldCheck className="w-3 h-3" /> Locked via
-                              referral link
-                            </p>
-                          )}
-                          {form.formState.errors.teamPosition && (
-                            <p className="mt-2 text-xs text-red-400 flex items-center gap-1">
-                              <FaTimesCircle className="text-[10px]" />
-                              {form.formState.errors.teamPosition.message}
                             </p>
                           )}
                         </div>
