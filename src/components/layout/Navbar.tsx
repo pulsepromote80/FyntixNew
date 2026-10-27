@@ -11,6 +11,7 @@ import { useDashboardSummary } from "@/features/dashboard/hooks/useDashboardSumm
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { ThemeLogo } from "@/components/common/ThemeLogo";
 import type { NavItem } from "@/types/common";
 
 type HeaderNotification = Record<string, unknown>;
@@ -315,9 +316,7 @@ export function Navbar() {
 
       <div className="flex items-center gap-4 sm:gap-8 flex-1">
         <div className="flex items-center gap-2">
-          <Image
-            src="/logos/kalki-horizontal-logo.png"
-            alt="KALKII Logo"
+          <ThemeLogo
             width={150}
             height={40}
             className="h-10 w-auto object-contain"
