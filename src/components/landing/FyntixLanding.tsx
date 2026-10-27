@@ -22,7 +22,7 @@ export default function FyntixLanding() {
   }
 
   return (
-    <main className="overflow-hidden bg-ink text-foreground">
+    <main className="overflow-clip bg-ink text-foreground">
       <header className="sticky top-0 z-40 border-b border-line/80 bg-ink/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
           <a className="flex items-center" href="/">

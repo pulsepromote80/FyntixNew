@@ -94,7 +94,7 @@ export function ForgotPasswordForm() {
 
                 {/* Display heading */}
                 <h1
-                  className="text-3xl sm:text-4xl font-bold tracking-wide uppercase"
+                  className="text-3xl sm:text-4xl font-bold  uppercase"
                   style={{
                     fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
                     background: "linear-gradient(180deg, #f5c451 0%, #d4a017 60%, #b8860b 100%)",
