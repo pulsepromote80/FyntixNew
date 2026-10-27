@@ -1,13 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-// import { NftSection } from "@/app/components/NftSection";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-// import { getPageName } from "@/app/utils/utils";
-
-// Import icons
-import { FaCalendarAlt } from "react-icons/fa";
 
 import {
   RiTimerLine,
@@ -19,16 +14,118 @@ import {
   RiGroupLine,
   RiBankCardLine,
   RiMoneyDollarCircleLine,
-  RiUserStarLine,
   RiTeamLine,
   RiKeyLine,
   RiBarChartLine,
   RiBriefcaseLine,
+  RiArrowUpLine,
+  RiRefreshLine,
 } from "react-icons/ri";
-import { ExternalLink, Link, PercentIcon } from "lucide-react";
 
 function classNames(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
+}
+
+// Simple UI Components
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+  return <div style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.6s ease-out' }}>{children}</div>;
+}
+
+function CountUp({ value, prefix = "", dec = 2 }: { value: number; prefix?: string; dec?: number }) {
+  const animatedValue = useCountUp(value, 1000);
+  return <span>{prefix}{animatedValue.toFixed(dec)}</span>;
+}
+
+function Ring({ pct, size = 100, color = "#3b8bff", sub = "" }: { pct: number; size?: number; color?: string; sub?: string }) {
+  const radius = (size - 16) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const offset = circumference - (pct / 100) * circumference;
+  return (
+    <div className="ring-wrap" style={{ position: 'relative', width: size, height: size }}>
+      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+        <circle cx={size/2} cy={size/2} r={radius} stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
+        <circle cx={size/2} cy={size/2} r={radius} stroke={color} strokeWidth="8" fill="none" strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" />
+      </svg>
+      <div className="ring-txt" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: 18, fontWeight: 'bold' }}>{pct.toFixed(0)}%</span>
+        {sub && <span style={{ fontSize: 10 }}>{sub}</span>}
+      </div>
+    </div>
+  );
+}
+
+function Bar({ pct = 0 }: { pct: number }) {
+  return (
+    <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+      <div style={{ width: `${Math.min(100, pct)}%`, height: '100%', background: 'linear-gradient(90deg, #3b8bff, #8a5cf0)', borderRadius: 3, transition: 'width 0.5s ease' }} />
+    </div>
+  );
+}
+
+function Donut({ size = 100, stroke = 12, parts = [], center }: { size?: number; stroke?: number; parts: Array<{ pct: number; color: string }>; center?: React.ReactNode }) {
+  const radius = (size - stroke) / 2;
+  const circumference = radius * 2 * Math.PI;
+  let offset = 0;
+  return (
+    <div style={{ position: 'relative', width: size, height: size }}>
+      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+        {parts.map((part, i) => {
+          const segmentLength = (part.pct / 100) * circumference;
+          const segment = (
+            <circle
+              key={i}
+              cx={size/2}
+              cy={size/2}
+              r={radius}
+              stroke={part.color}
+              strokeWidth={stroke}
+              fill="none"
+              strokeDasharray={segmentLength}
+              strokeDashoffset={-offset}
+              strokeLinecap="round"
+            />
+          );
+          offset += segmentLength;
+          return segment;
+        })}
+      </svg>
+      {center && <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'white' }}>{center}</div>}
+    </div>
+  );
+}
+
+function Icon({ name, size = 16 }: { name: string; size?: number }) {
+  const icons: Record<string, any> = {
+    arrowUp: RiArrowUpLine,
+    refresh: RiRefreshLine,
+    share: RiShareLine,
+    rocket: RiRocketLine,
+    chart: RiLineChartLine,
+    award: RiAwardLine,
+    group: RiGroupLine,
+    briefcase: RiBriefcaseLine,
+  };
+  const IconComponent = icons[name] || RiArrowUpLine;
+  return <IconComponent size={size} />;
+}
+
+function Spark({ data = [], color = "#3b8bff" }: { data: number[]; color: string }) {
+  const max = Math.max(...data, 1);
+  const points = data.map((v, i) => `${i * 10},${30 - (v / max) * 25}`).join(' ');
+  return (
+    <svg width={data.length * 10} height={30} viewBox={`0 0 ${data.length * 10} 30`}>
+      <polyline points={points} fill="none" stroke={color} strokeWidth={2} />
+    </svg>
+  );
+}
+
+function money(value: number, dec = 2): string {
+  return `$${value.toFixed(dec)}`;
 }
 
 // ---------- Count-up hook ----------
@@ -56,6 +153,8 @@ function useCountUp(endValue: number, duration = 1000) {
       }
     };
 
+    
+
     rafRef.current = requestAnimationFrame(step);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -66,67 +165,19 @@ function useCountUp(endValue: number, duration = 1000) {
   return value;
 }
 
-function useCountUpAny(rawValue: string | number | undefined | null, duration = 1000) {
-  const [display, setDisplay] = useState(rawValue ?? "");
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (rawValue === undefined || rawValue === null || rawValue === "") {
-      setDisplay(rawValue ?? "");
-      return;
-    }
-
-    const str = String(rawValue);
-    const match = str.match(/^(-?\d+(\.\d+)?)/);
-
-    if (!match || !match[1]) {
-      setDisplay(str);
-      return;
-    }
-
-    const target = parseFloat(match[1]);
-    const suffix = str.slice(match[1].length);
-    const decimals = match[1].includes(".") ? (match[1].split(".")[1]?.length || 0) : 0;
-    let startTime: number | null = null;
-
-    const step = (timestamp: number) => {
-      if (startTime === null) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const current = target * progress;
-      setDisplay(current.toFixed(decimals) + suffix);
-
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(step);
-      } else {
-        setDisplay(target.toFixed(decimals) + suffix);
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(step);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rawValue, duration]);
-
-  return display;
-}
-
 export default function AIBUSINESSHUB() {
-  const pathname = usePathname();
-//   const pageName = getPageName(pathname);
+  const router = useRouter();
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [affiliate, setAffiliate] = useState<any>(null);
-  const [directMemberData, setDirectMemberData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         const response = await fetch('/api/Authentication/affiliate-network');
-
         const data = await response.json();
         if (data.statusCode === 200 && data.data && data.data.length > 0) {
           setAffiliate(data.data[0]);
@@ -137,7 +188,6 @@ export default function AIBUSINESSHUB() {
         setLoading(false);
       }
     };
-
     fetchDashboardData();
   }, []);
 
@@ -160,460 +210,403 @@ export default function AIBUSINESSHUB() {
         setSeconds(0);
       }
     };
-
     updateTimer();
     const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
   }, [affiliate?.BoosterRemDateTime]);
 
-  // Animated values
-  const countedTotalInvestment = affiliate?.TotalInvestment || 0;
-  const countedTotalEarning = affiliate?.TotalEarning || 0;
-  const countedEarningLimit = affiliate?.EarningLimit || 0;
-  const countedRemainingLimit = affiliate?.RemainingLimit || 0;
-  const countedActiveDirectMembers = affiliate?.ActiveDirectMembers || 0;
-  const countedDirectBusiness = affiliate?.DirectBusiness || 0;
-  const countedTeamDownline = affiliate?.Subscription || 0;
-  const countedTeamBusiness = affiliate?.ROIAmt || 0;
+  const say = (m: string) => {
+    setToast(m);
+    setTimeout(() => setToast(""), 1800);
+  };
 
-  const countedDirectBonus = affiliate?.DirectBonus || 0;
-  const countedCommunityBuildingBonus = affiliate?.MatchingIncome || 0;
-  const countedRewardBonus = affiliate?.RewardBonus || 0;
-  const countedRankBonus = affiliate?.RankBonus || 0;
-  const countedRoyaltyBonus = affiliate?.LevelIncome || 0;
-  const countedYieldIncome = affiliate?.YieldIncome || 0;
-  const countedLevelIncome = affiliate?.LevelIncome || 0;
-  const CreditRevenueShare  = useCountUp(affiliate?.MatchingIncome || 0);
+  // Data from affiliate
+  const totalInvestment = affiliate?.TotalInvestment || 0;
+  const totalEarning = affiliate?.TotalEarning || 0;
+  const earningLimit = affiliate?.EarningLimit || 0;
+  const remainingLimit = affiliate?.RemainingLimit || 0;
+  const activeDirectMembers = affiliate?.ActiveDirectMembers || 0;
+  const directBusiness = affiliate?.DirectBusiness || 0;
+  const subscription = affiliate?.Subscription || 0;
+  const teamBusiness = affiliate?.ROIAmt || 0;
+  const directBonus = affiliate?.DirectBonus || 0;
+  const matchingIncome = affiliate?.MatchingIncome || 0;
+  const rewardBonus = affiliate?.RewardBonus || 0;
+  const yieldIncome = affiliate?.YieldIncome || 0;
+  const levelIncome = affiliate?.LevelIncome || 0;
+  const performanceWithdrawal = affiliate?.PerformanceWithdrawal || 0;
+  const yieldWithdrawal = affiliate?.YieldWithdrawal || 0;
+  const tradingPackage = affiliate?.TradingPackage || 0;
+  const smartBonds = affiliate?.RebornPacakge || 0;
+  const leftBusvolume = affiliate?.LeftBusvolume || 0;
+  const rightBusvolume = affiliate?.RightBusvolume || 0;
+  const strongLegID = affiliate?.Reborn2Pacakge || "N/A";
+  const leadershipRank = affiliate?.LeadershipRank || "N/A";
+  const rankPercentage = affiliate?.Levelopen || 0;
 
-  const countedPerformanceWithdrawal = useCountUp(affiliate?.PerformanceWithdrawal || 0);
-  const countedYieldWithdrawal = affiliate?.YieldWithdrawal || 0;
+  // Calculated values
+  const teamTotal = leftBusvolume + rightBusvolume;
+  const powerLeg = Math.max(leftBusvolume, rightBusvolume);
+  const weakLeg = Math.min(leftBusvolume, rightBusvolume);
 
-  const countedOtherLegBus = affiliate?.TradingPackage || 0;
-  const countedStrongLegBus = affiliate?.RebornPacakge || 0;
-  const countedLeftBusvolume = affiliate?.LeftBusvolume || 0;
-  const countedRightBusvolume = affiliate?.RightBusvolume || 0;
+  const kpis = [
+    { label: "Direct Income", value: directBonus, prefix: "$", dec: 2, tone: "green", icon: "arrowUp", trend: "+12%", series: [12, 15, 18, 22, 25, 28, 30] },
+    { label: "Binary Income", value: matchingIncome, prefix: "$", dec: 2, tone: "blue", icon: "chart", trend: "+8%", series: [10, 12, 14, 16, 18, 20, 22] },
+    { label: "Rank & Reward", value: rewardBonus, prefix: "$", dec: 2, tone: "violet", icon: "award", trend: "+15%", series: [8, 10, 12, 15, 18, 20, 25] },
+    { label: "ROI Income", value: yieldIncome, prefix: "$", dec: 2, tone: "amber", icon: "rocket", trend: "+20%", series: [15, 18, 22, 25, 28, 32, 35] },
+    { label: "Level Income", value: levelIncome, prefix: "$", dec: 2, tone: "violet", icon: "group", trend: "+10%", series: [10, 12, 14, 16, 18, 20, 22] },
+  ];
 
-  const countedStrongLegID = affiliate?.Reborn2Pacakge || 0;
-  const countedLeadershipRank = affiliate?.LeadershipRank || "N/A";
-  const countedRankPercentage = affiliate?.Levelopen || 0;
+  const wallets = [
+    { label: "Subscription", value: subscription },
+    { label: "Trade Fund", value: teamBusiness },
+    { label: "Working Wallet", value: performanceWithdrawal },
+    { label: "ROI Wallet", value: yieldWithdrawal },
+  ];
+
+  const packages = [
+    { key: "lp", name: "Liquidity Provider", desc: "LP Trade", active: tradingPackage, total: tradingPackage, limit: 10000, pending: 5000, tone: "blue" },
+    { key: "sb", name: "Smart Bonds", desc: "Fixed returns", active: smartBonds, total: smartBonds, limit: 15000, pending: 7000, tone: "violet" },
+    { key: "sec", name: "Secure Bonds", desc: "Secure growth", active: smartBonds, total: smartBonds, limit: 20000, pending: 8000, tone: "amber" },
+  ];
+
+  const boosters = [
+    { key: "r", name: "Runner", icon: "🏃", reward: 20, req: "Sponsor 3 direct participants within 7 days", window: "", target: 3, progress: 2, state: "IN PROGRESS" },
+    { key: "b", name: "Biker", icon: "🚴", reward: 30, req: "Achieve 3 Runners within 15 days", window: "", target: 3, progress: 0, state: "LOCKED" },
+    { key: "f", name: "Fighter", icon: "🥊", reward: 50, req: "Achieve 3 Bikers within 30 days", window: "", target: 3, progress: 0, state: "LOCKED" },
+  ];
+
+  const dryTiers = [
+    { dir: 1, pct: 10 },
+    { dir: 3, pct: 15 },
+    { dir: 5, pct: 20 },
+    { dir: 10, pct: 30 },
+    { dir: 20, pct: 50 },
+    { dir: 50, pct: 100 },
+  ];
+
+  const unityTiers = [
+    { vol: "$10K", pct: 15 },
+    { vol: "$50K", pct: 25 },
+    { vol: "$100K", pct: 40 },
+    { vol: "$500K", pct: 60 },
+    { vol: "$1M", pct: 80 },
+    { vol: "$5M", pct: 100 },
+  ];
+
+  const incomeHistory = [
+    { name: "Direct Income", amount: directBonus, icon: "arrowUp" },
+    { name: "Binary Income", amount: matchingIncome, icon: "chart" },
+    { name: "Rank & Reward", amount: rewardBonus, icon: "award" },
+    { name: "ROI Income", amount: yieldIncome, icon: "rocket" },
+    { name: "Level Income", amount: levelIncome, icon: "group" },
+  ];
+
+  const incomeTotal = incomeHistory.reduce((a, i) => a + i.amount, 0);
+  const topStream = incomeHistory.length > 0
+    ? incomeHistory.reduce((m, i) => (i.amount > m.amount ? i : m), incomeHistory[0]!)
+    : null;
+
+  const palette = ["#1f6fe5", "#0a9b62", "#8a5cf0", "#e8920a", "#e0334f", "#14a8c9"];
 
   if (loading) {
     return (
-      <>
-        {/* <NftSection pageName={pageName} /> */}
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-[#F5C451]" aria-label="Loading" />
-        </div>
-      </>
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+      </div>
     );
   }
 
   return (
     <>
-      {/* <NftSection pageName={pageName} /> */}
+      <div className="hub-bg p-4 sm:p-6 lg:p-8">
 
-      <div className="px-4 sm:px-6 lg:px-8">
+      
 
-        {/* Header Card */}
-        <div
-          className="relative rounded-2xl overflow-hidden mb-6 shadow-[0_12px_48px_rgba(11,16,33,0.18)] dark:shadow-[0_12px_48px_rgba(0,0,0,0.4)]"
-          style={{ background: "linear-gradient(135deg,#0B1021 0%,#17213A 58%,#302817 100%)" }}
-        >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at 80% 50%, rgba(245,196,81,0.16) 0%, transparent 65%), radial-gradient(ellipse at 20% 80%, rgba(217,146,35,0.10) 0%, transparent 50%)",
-            }}
-          />
-          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-8 items-start lg:items-center p-6 sm:p-8 sm:px-9">
-            <div>
-              <div className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#F5C451] mb-2">
-                Total Investment
+
+        {/* Business Overview */}
+        <section className="mb-8">
+          <Reveal>
+            <div className="hub-card hub-biz">
+              <div>
+                <small className="mono">Team Business</small>
+                <div className="num mono"><CountUp value={teamTotal} prefix="$" dec={2} /></div>
+                <span className="hub-badge"><span className="hub-pulse" /> Network volume growing</span>
               </div>
-              <div className="text-[38px] sm:text-[52px] font-black text-white tracking-[-1.5px] leading-none break-all">
-                <span className="text-[#F5C451]">${countedTotalInvestment.toFixed(2)}</span>
-              </div>
-              <div className="text-[13px] text-white/50 mt-2">
-                Across all income streams · Updated just now
-              </div>
-              <div className="flex flex-wrap gap-5 mt-5 sm:gap-7">
-                <div>
-                  <div className="text-[20px] font-bold text-white">${countedTotalEarning.toFixed(2)}</div>
-                  <div className="text-[16px] text-white/40 mt-[2px]">Total Earning</div>
+              <div>
+                <div className="hub-legkey">
+                  <div><small><i className="hub-dot" style={{ background: 'var(--hub-green)' }} />Strong team</small><b className="mono">{money(powerLeg, 0)}</b></div>
+                  <div style={{ textAlign: 'right' }}><small><i className="hub-dot" style={{ background: 'var(--hub-amber)' }} />Other team</small><b className="mono">{money(weakLeg, 0)}</b></div>
                 </div>
-                <div>
-                  <div className="text-[20px] font-bold text-white">${countedEarningLimit.toFixed(2)}</div>
-                  <div className="text-[16px] text-white/40 mt-[2px]">Earning Limit</div>
+                <div className="hub-legbar">
+                  <div style={{ width: `${(powerLeg / teamTotal) * 100}%` }} />
+                  <div style={{ width: `${(weakLeg / teamTotal) * 100}%`, minWidth: 6 }} />
                 </div>
-                <div>
-                  <div className="text-[20px] font-bold text-white">${countedRemainingLimit.toFixed(2)}</div>
-                  <div className="text-[16px] text-white/40 mt-[2px]">Remaining Limit</div>
-                </div>
+                <div className="sub">Power leg carries {((powerLeg / teamTotal) * 100).toFixed(2)}% of total volume</div>
               </div>
+              <div className="hub-idcard"><small className="mono">Strong Team ID</small><b className="mono">{strongLegID}</b></div>
             </div>
-            <div className="flex flex-row gap-3 lg:flex-col lg:items-end">
-              <div className="flex-1 lg:flex-none bg-amber-300/[0.06] border border-amber-300/20 rounded-xl p-2 text-right backdrop-blur-sm lg:min-w-[180px]">
-                <div className="text-[10px] uppercase tracking-[0.07em] text-white/70 mb-1">
-                  Subscription
-                </div>
-                <div className="text-[18px] sm:text-[20px] font-extrabold text-white">
-                  ${(countedTeamDownline)}
-                </div>
-                <div className="text-[#F5C451] font-semibold mt-[3px]">
-                 (10%)
-                </div>
-              </div>
-              <div className="flex-1 lg:flex-none bg-amber-300/[0.06] border border-amber-300/20 rounded-xl p-2 text-right backdrop-blur-sm lg:min-w-[180px]">
-                <div className="text-[10px] uppercase tracking-[0.07em] text-white/70 mb-1">
-                  Trade Fund
-                </div>
-                <div className="text-[18px] sm:text-[20px] font-extrabold text-white">
-                  ${(countedTeamBusiness)}
-                </div>
-                <div className="text-[#F5C451] font-semibold mt-[3px]">
-                  (90%)
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </Reveal>
+        </section>
 
- <div className="p-4 transition-colors bg-white border rounded-lg shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30 dark:border-gray-700 sm:p-6">
-          <div className="flex items-center mb-4 space-x-3 sm:mb-6">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600">
-              <RiBriefcaseLine className="text-lg text-white sm:text-xl" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-700 dark:text-gray-200 sm:text-md lg:text-md geidt-font">
-                Packages
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 geidt-font">
-                Your Package Information
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 mb-4 sm:gap-4 sm:mb-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Trading Package */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-teal-200 rounded-lg sm:p-4 bg-gradient-to-r from-teal-50 via-cyan-50 to-teal-50 dark:from-teal-900/30 dark:via-cyan-900/30 dark:to-teal-900/30 text-slate-800 dark:text-slate-200 dark:border-teal-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-teal-700 sm:text-sm dark:text-teal-300 geidt-font">Liquidity Provider</h4>
-                  <p className="text-sm font-bold text-teal-900 dark:text-teal-200">${countedOtherLegBus.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-teal-200/70 dark:bg-teal-700/50">
-                  <RiBarChartLine className="text-lg text-teal-600 dark:text-teal-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-teal-300/30 dark:bg-teal-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-cyan-300/20 dark:bg-cyan-500/10"></div>
-            </div>
-
-            {/* Reborn Package */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-indigo-200 rounded-lg sm:p-4 bg-gradient-to-r from-indigo-50 via-blue-50 to-indigo-50 dark:from-indigo-900/30 dark:via-blue-900/30 dark:to-indigo-900/30 text-slate-800 dark:text-slate-200 dark:border-indigo-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-indigo-700 sm:text-sm dark:text-indigo-300 geidt-font">Smart Bonds</h4>
-                  <p className="text-sm font-bold text-purple-900 dark:text-purple-200">${countedStrongLegBus.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-indigo-200/70 dark:bg-indigo-700/50">
-                  <RiFlowChart className="text-lg text-indigo-600 dark:text-indigo-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-indigo-300/30 dark:bg-indigo-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-blue-300/20 dark:bg-blue-500/10"></div>
-            </div>
-
-         
-
-            {/* Booster Package */}
-            <div className="relative p-3 overflow-hidden transition-colors border rounded-lg sm:p-4 bg-gradient-to-r from-rose-50 via-red-50 to-rose-50 dark:from-rose-900/30 dark:via-red-900/30 dark:to-rose-900/30 text-slate-800 dark:text-slate-200 border-rose-200 dark:border-rose-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium sm:text-sm text-rose-700 dark:text-rose-300 geidt-font">Secure Bonds</h4>
-                  <p className="text-sm font-bold text-rose-900 dark:text-rose-200">${countedStrongLegBus.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-rose-200/70 dark:bg-rose-700/50">
-                  <RiRocketLine className="text-lg text-rose-600 dark:text-rose-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-rose-300/30 dark:bg-rose-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-red-300/20 dark:bg-red-500/10"></div>
-            </div>
-
-          
-          </div>
-
-         
-        </div>
-        {/* Incomes & Withdrawals */}
-        <div className="p-4 mb-6 transition-colors bg-white border rounded-lg shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30 dark:border-gray-700 sm:p-6 sm:mb-8">
-          <h3 className="flex items-center p-3 mb-3 font-semibold text-gray-700 dark:text-gray-200 sm:text-md lg:text-md geidt-font">
-            <RiMoneyDollarCircleLine className="mr-2 text-xl text-green-600 dark:text-green-400 sm:mr-3 sm:text-2xl geidt-font" />
-            Incomes
-          </h3>
-
-          <div className="grid grid-cols-1 gap-3 mb-4 sm:gap-4 sm:mb-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Direct Bonus */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-blue-100 rounded-lg sm:p-4 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-blue-700 sm:text-sm dark:text-blue-300 geidt-font">
-                    Direct Income
-                  </h4>
-                  <p className="text-lg font-bold text-blue-900 sm:text-xl dark:text-blue-200">
-                    ${countedDirectBonus.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full sm:w-10 sm:h-10 dark:bg-blue-800/50">
-                  <RiFlowChart className="text-blue-600 dark:text-blue-300 sm:text-lg" />
-                </div>
-              </div>
-            </div>
-
-            <div className="relative p-3 overflow-hidden transition-colors border border-purple-100 rounded-lg sm:p-4 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-purple-700 sm:text-sm dark:text-purple-300 geidt-font">
-                   Binary Income
-                  </h4>
-                  <p className="text-lg font-bold text-purple-900 sm:text-xl dark:text-purple-200">
-                    ${CreditRevenueShare.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-full sm:w-10 sm:h-10 dark:bg-purple-800/50">
-                  <RiMoneyDollarCircleLine className="text-purple-600 dark:text-purple-300 sm:text-lg" />
-                </div>
-              </div>
-            </div>
-
-            {/* Matching Income */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-green-200 rounded-lg sm:p-4 bg-green-50 dark:bg-green-900/20 dark:border-green-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-green-700 sm:text-sm dark:text-green-300 geidt-font">
-                    Rank & Reward 
-                  </h4>
-                  <p className="text-lg font-bold text-green-900 sm:text-xl dark:text-green-200">
-                    ${countedRewardBonus.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full sm:w-10 sm:h-10 dark:bg-green-800/50">
-                  <FaCalendarAlt className="text-green-600 dark:text-green-300 sm:text-lg" />
-                </div>
-              </div>
-            </div>
-
-            {/* Reward Bonus */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-blue-100 rounded-lg sm:p-4 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-blue-700 sm:text-sm dark:text-blue-300 geidt-font">
-                    ROI Income
-                  </h4>
-                  <p className="text-lg font-bold text-blue-900 sm:text-xl dark:text-blue-200">
-                    ${countedYieldIncome.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full sm:w-10 sm:h-10 dark:bg-blue-800/50">
-                  <RiRocketLine className="text-blue-600 dark:text-blue-300 sm:text-lg" />
-                </div>
-              </div>
-            </div>
-
-           
-
-            {/* Royalty Bonus */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-yellow-300 rounded-lg sm:p-4 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-yellow-700 sm:text-sm dark:text-yellow-300">
-                    Level Income
-                  </h4>
-                  <p className="text-lg font-bold text-yellow-900 sm:text-xl dark:text-yellow-200">
-                    ${countedRoyaltyBonus.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full sm:w-10 sm:h-10 dark:bg-yellow-800/50">
-                  <RiAwardLine className="text-yellow-600 dark:text-yellow-300 sm:text-lg" />
-                </div>
-              </div>
-            </div>
-
-           
-          </div>
-
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 sm:pt-6">
-            <h3 className="flex items-center p-3 mb-3 font-semibold text-gray-700 dark:text-gray-200 sm:text-md lg:text-md geidt-font">
-              Withdrawals
-            </h3>
-            <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2">
-              <div
-                className="relative p-3 overflow-hidden transition-colors border border-blue-200 rounded-lg sm:p-4 bg-gradient-to-r from-sky-100 via-blue-100 to-blue-100 dark:from-sky-900/40 dark:via-blue-900/40 dark:to-blue-900/40 text-slate-800 dark:text-slate-200 dark:border-blue-800"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h4 className="mb-1 text-xs font-medium sm:text-sm text-slate-600 dark:text-slate-300 geidt-font">
-                      Working Withdrawal
-                    </h4>
-                    <p className="text-lg font-bold sm:text-xl text-slate-900 dark:text-white">
-                      ${countedPerformanceWithdrawal.toFixed(2)}
-                    </p>
+        {/* KPI Tiles */}
+        <section className="mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {kpis.map((k, i) => (
+              <Reveal key={k.label} delay={i * 90}>
+                <div className={`hub-card hub-k2 hub-tone-${k.tone}`}>
+                  <div className="hub-k2-top">
+                    <div className="ico"><Icon name={k.icon} size={20} /></div>
+                    <span className="trend">{k.trend}</span>
                   </div>
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-blue-200/70 dark:bg-blue-700/50">
-                    <RiBankCardLine className="text-sm text-blue-700 dark:text-blue-300 sm:text-lg" />
+                  <small className="mono">{k.label}</small>
+                  <b className="mono"><CountUp value={k.value} prefix={k.prefix} dec={k.dec} /></b>
+                  <div className="spark">
+                    <Spark data={k.series} color={k.tone === "green" ? "var(--hub-green)" : k.tone === "blue" ? "var(--hub-blue)" : k.tone === "violet" ? "var(--hub-violet)" : "var(--hub-amber)"} />
                   </div>
                 </div>
-                <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-blue-300/30 dark:bg-blue-500/20"></div>
-                <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-blue-300/20 dark:bg-blue-500/10"></div>
-              </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
 
-              <div
-                className="relative p-3 overflow-hidden transition-colors border border-orange-200 rounded-lg sm:p-4 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-900/40 dark:via-amber-900/40 dark:to-yellow-900/40 text-slate-800 dark:text-slate-200 dark:border-orange-800"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h4 className="mb-1 text-xs font-medium sm:text-sm text-slate-600 dark:text-slate-300 geidt-font">
-                      ROI Withdrawal
-                    </h4>
-                    <p className="text-lg font-bold sm:text-xl text-slate-900 dark:text-white">
-                      ${countedYieldWithdrawal.toFixed(2)}
-                    </p>
+        {/* Wallets + Income History */}
+        <section className="mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Reveal>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <h3>Wallet Overview</h3>
+                  <span className="hub-chip green">Live</span>
+                </div>
+                <div className="hub-total-bal">
+                  <div><small className="hub-lbl">Total balance</small><b className="mono" style={{ display: 'block' }}><CountUp value={wallets.reduce((a, w) => a + w.value, 0)} prefix="$" dec={2} /></b></div>
+                  <span className="hub-badge" style={{ marginTop: 0 }}>4 wallets</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3" style={{ gap: 12 }}>
+                  {wallets.map((w, i) => (
+                    <div className={`hub-wc w${i + 1}`} key={w.label}>
+                      <div className="row"><small>{w.label}</small><span className="chipmark" /></div>
+                      <b className="mono"><CountUp value={w.value} prefix="$" dec={2} /></b>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-3" style={{ marginTop: 16 }}>
+                  <button className="hub-btn blue" style={{ flex: 1 }} onClick={() => say("Withdraw request started")}><Icon name="arrowUp" size={14} /> Withdraw</button>
+                  <button className="hub-btn" style={{ flex: 1 }} onClick={() => say("Reinvest request started")}><Icon name="refresh" size={14} /> Reinvest</button>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <h3>Income History</h3>
+                </div>
+                <div className="hub-inc-top">
+                  <Donut
+                    size={120}
+                    stroke={16}
+                    parts={incomeHistory.filter((i) => i.amount > 0).map((i, n) => ({ pct: (i.amount / incomeTotal) * 100, color: palette[n % palette.length] || '#666' }))}
+                    center={<><b style={{ fontSize: 16 }}>{money(incomeTotal)}</b><small>EARNED</small></>}
+                  />
+                  <div style={{ flex: 1, minWidth: 160 }}>
+                    <small className="hub-lbl">Top stream</small>
+                    <div style={{ fontWeight: 800, fontSize: 17, margin: '4px 0' }}>{topStream?.name || 'N/A'}</div>
+                    <div className="sub">{topStream ? ((topStream.amount / incomeTotal) * 100).toFixed(0) : 0}% of total income</div>
                   </div>
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-orange-200/70 dark:bg-orange-700/50">
-                    <RiMoneyDollarCircleLine className="text-sm text-orange-700 dark:text-orange-300 sm:text-lg" />
+                </div>
+                {incomeHistory.map((i) => {
+                  const n = incomeHistory.filter((x) => x.amount > 0).findIndex((x) => x.name === i.name);
+                  const col = n >= 0 ? palette[n % palette.length] : "var(--hub-muted)";
+                  return (
+                    <div className="hub-inc2" key={i.name}>
+                      <div className="ic" style={{ background: col }}><Icon name={i.icon} size={16} /></div>
+                      <div>
+                        <div className="nm">{i.name}<span>{((i.amount / incomeTotal) * 100).toFixed(1)}%</span></div>
+                        <div className="hub-bar"><div style={{ width: `${(i.amount / incomeTotal) * 100}%` }} /></div>
+                      </div>
+                      <div className={`am mono ${i.amount ? "" : "zero"}`}>+{money(i.amount)}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Trading Packages */}
+        <section className="mb-8">
+          <div className="flex items-baseline gap-3 mb-4">
+            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '.2px' }}>Trading Packages</h2>
+            <span style={{ color: 'var(--hub-muted)', fontSize: 13 }}>Fund from $10 — choose how your capital works</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {packages.map((p, i) => {
+              const pct = ((p.limit - p.pending) / p.limit) * 100;
+              return (
+                <Reveal key={p.key} delay={i * 100}>
+                  <div className="hub-card pkg">
+                    <div className="hub-card-head">
+                      <div><h3>{p.name}</h3><div className="sub">{p.desc}</div></div>
+                      <span className="hub-chip green">Running</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Ring pct={pct} size={116} color={p.tone === "blue" ? "var(--hub-blue)" : p.tone === "violet" ? "var(--hub-violet)" : "var(--hub-amber)"} sub="of limit used" />
+                    </div>
+                    <div className="hub-pkg-grid">
+                      <div className="hub-pkg-cell"><small className="mono">Active Investment</small><b className="mono">{money(p.active)}</b></div>
+                      <div className="hub-pkg-cell"><small className="mono">Total Investment</small><b className="mono">{money(p.total)}</b></div>
+                      <div className="hub-pkg-cell"><small className="mono">Earning Limit</small><b className="mono">{money(p.limit)}</b></div>
+                      <div className="hub-pkg-cell"><small className="mono">Pending Limit</small><b className="mono">{money(p.pending)}</b></div>
+                    </div>
+                    <div className="hub-bar"><div style={{ width: `${pct}%` }} /></div>
+                    <div className="sub" style={{ marginTop: 6 }}>{pct.toFixed(0)}% of limit used</div>
+                    <div className="flex gap-3" style={{ marginTop: 16 }}>
+                      <button className="hub-btn blue" style={{ flex: 1 }} onClick={() => router.push('/investment-amount')}>Invest</button>
+                      <button className="hub-btn" style={{ flex: 1 }} onClick={() => router.push('/investment-amount')}>Reinvest</button>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Boosters */}
+        <section className="mb-8">
+          <div className="flex items-baseline gap-3 mb-4">
+            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '.2px' }}>Booster Profit Protocol</h2>
+            <span style={{ color: 'var(--hub-muted)', fontSize: 13 }}>Hit direct targets in sequence for 20% &rarr; 30% &rarr; 50% monthly profit</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {boosters.map((b, i) => (
+              <Reveal key={b.key} delay={i * 100}>
+                <div className={`hub-card boost ${b.state === "LOCKED" ? "locked" : ""}`}>
+                  <span className={`hub-chip ${b.state === "LOCKED" ? "muted" : b.state === "IN PROGRESS" ? "amber" : "green"}`} style={{ position: 'absolute', top: 14, right: 14 }}>{b.state}</span>
+                  <div className="emoji">{b.icon}</div>
+                  <h4>{b.name}</h4>
+                  <div className="rw"><CountUp value={b.reward} dec={0} />%</div>
+                  <div className="sub">Monthly Profit</div>
+                  <div className="rq">{b.req}</div>
+                  <div className="hub-bar"><div style={{ width: `${(b.progress / b.target) * 100}%` }} /></div>
+                  <div className="hub-steps">{Array.from({ length: b.target }).map((_, s) => <i key={s} className={s < b.progress ? "on" : ""} />)}</div>
+                  <div className="sub" style={{ marginTop: 8 }}>{b.progress}/{b.target} complete</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        {/* DRY + Unity */}
+        <section className="mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Reveal>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <div><h3>Dynamic Referral Yield</h3><div className="sub">Leader opportunity · 10% to 100%</div></div><span className="hub-chip blue">Leader</span>
+                </div>
+                <div className="hub-tiers">
+                  {dryTiers.map((t, i) => (
+                    <div className={`hub-tier ${t.dir === activeDirectMembers ? "current" : ""}`} key={t.dir}>
+                      <span className="mono">{t.dir} direct{t.dir > 1 ? "s" : ""}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b>
+                    </div>
+                  ))}
+                </div>
+                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[activeDirectMembers - 1]?.pct || 0}% yield</b></div>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <div><h3>Unity Revenue Yield</h3><div className="sub">Differential on total volume · 15% to 100%</div></div><span className="hub-chip green">Volume scaling</span>
+                </div>
+                <div className="hub-tiers">
+                  {unityTiers.map((t) => (
+                    <div className="hub-tier" key={t.vol}><span>{t.vol}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b></div>
+                  ))}
+                </div>
+                <div className="sub" style={{ marginTop: 12 }}>Higher volume → higher percentage. You earn the difference between your rate and your team's rate.</div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Performance Revenue Yield */}
+        <section className="mb-8">
+          <div className="flex items-baseline gap-3 mb-4">
+            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '.2px' }}>Performance Revenue Yield</h2>
+            <span style={{ color: 'var(--hub-muted)', fontSize: 13 }}>Weekly rank income on matching volume · 50% power leg + 50% weaker leg</span>
+          </div>
+          <Reveal>
+            <div className="hub-card">
+              <div className="flex items-center gap-6 mb-6">
+                <Ring pct={rankPercentage} size={104} color="var(--hub-amber)" sub={`to next rank`} />
+                <div style={{ flex: 1 }}>
+                  <h3>Current rank: {leadershipRank}</h3>
+                  <div className="sub">Next target needs matching volume</div>
+                  <div className="flex gap-4" style={{ marginTop: 14 }}>
+                    <div className="leg"><small>Power leg (50%)</small><b className="mono" style={{ color: 'var(--hub-green)' }}>{money(powerLeg, 0)}</b></div>
+                    <div className="leg"><small>Weaker leg (50%)</small><b className="mono" style={{ color: 'var(--hub-amber)' }}>{money(weakLeg, 0)}</b></div>
                   </div>
                 </div>
-                <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-orange-300/30 dark:bg-orange-500/20"></div>
-                <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-amber-300/20 dark:bg-amber-500/10"></div>
+              </div>
+              <div className="overflow-x-auto" style={{ marginTop: 18 }}>
+                <table className="hub-tbl">
+                  <thead><tr><th>Rank</th><th>Matching Business</th><th>Weekly Reward</th><th>Duration</th><th>Progress</th></tr></thead>
+                  <tbody>
+                    <tr><td><b>Bronze</b></td><td className="mono">{money(1000, 0)}</td><td className="reward mono">{money(50, 0)}</td><td>4 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '100%' }} /></div></td></tr>
+                    <tr><td><b>Silver</b></td><td className="mono">{money(5000, 0)}</td><td className="reward mono">{money(100, 0)}</td><td>6 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '75%' }} /></div></td></tr>
+                    <tr><td><b>Gold</b></td><td className="mono">{money(10000, 0)}</td><td className="reward mono">{money(200, 0)}</td><td>8 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '50%' }} /></div></td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
+          </Reveal>
+        </section>
+
+        {/* Team + Personal */}
+        <section className="mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Reveal>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <h3>Team Network</h3>
+                  <span className="hub-chip blue">Direct line</span>
+                </div>
+                <div className="grid grid-cols-3 gap-3" style={{ gap: 10, gridTemplateColumns: 'repeat(3,1fr)' }}>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct ID</small><b className="mono" style={{ color: 'var(--hub-text)' }}><CountUp value={affiliate?.UserId || 0} /></b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Active Direct</small><b className="mono"><CountUp value={activeDirectMembers} /></b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct Business</small><b className="mono"><CountUp value={directBusiness} prefix="$" dec={0} /></b></div>
+                </div>
+                <div className="hub-kv" style={{ marginTop: 14 }}><span>Current Booster Rank</span><span>{leadershipRank}</span></div>
+                <div style={{ marginTop: 10, fontSize: 12, color: 'var(--hub-muted)' }}>Booster Time</div>
+                <div className="hub-timer">
+                  <div><b className="mono">{String(hours).padStart(2, '0')}</b><small>hours</small></div>
+                  <div><b className="mono">{String(minutes).padStart(2, '0')}</b><small>minutes</small></div>
+                  <div><b className="mono">{String(seconds).padStart(2, '0')}</b><small>seconds</small></div>
+                </div>
+                <div className="hub-kv"><span>Booster Status</span><span>Active</span></div>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="hub-card">
+                <div className="hub-card-head">
+                  <h3>Personal Info</h3>
+                  <span className="hub-chip muted">Active</span>
+                </div>
+                <div className="hub-kv"><span>User ID</span><span className="mono">{affiliate?.UserId || "N/A"}</span></div>
+                <div className="hub-kv"><span>Sponsor</span><span className="mono">{affiliate?.SponsorId || "N/A"}</span></div>
+                <div className="hub-kv"><span>Current Rank</span><span>{leadershipRank}</span></div>
+                <div className="hub-kv"><span>Rank Progress</span><span>{rankPercentage}%</span></div>
+                <div className="hub-kv"><span>Strong Team ID</span><span className="mono">{strongLegID}</span></div>
+              </div>
+            </Reveal>
           </div>
-        </div>
+        </section>
 
-        {/* Business Information */}
-        <div className="p-4 transition-colors bg-white border rounded-lg shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30 dark:border-gray-700 sm:p-6">
-          <div className="flex items-center mb-4 space-x-3 sm:mb-6">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600">
-              <RiBriefcaseLine className="text-lg text-white sm:text-xl" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-700 dark:text-gray-200 sm:text-md lg:text-md geidt-font">
-                Business Information
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 geidt-font">
-                Your network performance overview
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3 mb-4 sm:gap-4 sm:mb-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Weaker Team Volume */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-teal-200 rounded-lg sm:p-4 bg-gradient-to-r from-teal-50 via-cyan-50 to-teal-50 dark:from-teal-900/30 dark:via-cyan-900/30 dark:to-teal-900/30 text-slate-800 dark:text-slate-200 dark:border-teal-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-teal-700 sm:text-sm dark:text-teal-300 geidt-font">Weaker Team Volume</h4>
-                  <p className="text-sm font-bold text-teal-900 dark:text-teal-200">${countedOtherLegBus.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-teal-200/70 dark:bg-teal-700/50">
-                  <RiBarChartLine className="text-lg text-teal-600 dark:text-teal-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-teal-300/30 dark:bg-teal-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-cyan-300/20 dark:bg-cyan-500/10"></div>
-            </div>
-
-            {/* Strong Team Volume */}
-            <div className="relative p-3 overflow-hidden transition-colors border border-indigo-200 rounded-lg sm:p-4 bg-gradient-to-r from-indigo-50 via-blue-50 to-indigo-50 dark:from-indigo-900/30 dark:via-blue-900/30 dark:to-indigo-900/30 text-slate-800 dark:text-slate-200 dark:border-indigo-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium text-indigo-700 sm:text-sm dark:text-indigo-300 geidt-font">Strong Team Volume</h4>
-                  <p className="text-sm font-bold text-purple-900 dark:text-purple-200">${countedStrongLegBus.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-indigo-200/70 dark:bg-indigo-700/50">
-                  <RiFlowChart className="text-lg text-indigo-600 dark:text-indigo-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-indigo-300/30 dark:bg-indigo-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-blue-300/20 dark:bg-blue-500/10"></div>
-            </div>
-
-            {/* Strong Team ID */}
-            <div className="relative p-3 overflow-hidden transition-colors border rounded-lg sm:p-4 bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 dark:from-emerald-900/30 dark:via-green-900/30 dark:to-emerald-900/30 text-slate-800 dark:text-slate-200 border-emerald-200 dark:border-emerald-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium sm:text-sm text-emerald-700 dark:text-emerald-300 geidt-font">Strong Team ID</h4>
-                  <p className="text-sm font-bold text-emerald-900 dark:text-emerald-200">{affiliate?.Reborn2Pacakge || "N/A"}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-emerald-200/70 dark:bg-emerald-700/50">
-                  <RiKeyLine className="text-lg text-emerald-600 dark:text-emerald-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-emerald-300/30 dark:bg-emerald-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-green-300/20 dark:bg-green-500/10"></div>
-            </div>
-
-            {/* Left Community Volume */}
-            <div className="relative p-3 overflow-hidden transition-colors border rounded-lg sm:p-4 bg-gradient-to-r from-rose-50 via-red-50 to-rose-50 dark:from-rose-900/30 dark:via-red-900/30 dark:to-rose-900/30 text-slate-800 dark:text-slate-200 border-rose-200 dark:border-rose-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium sm:text-sm text-rose-700 dark:text-rose-300 geidt-font">Left Community Volume</h4>
-                  <p className="text-sm font-bold text-rose-900 dark:text-rose-200">${countedLeftBusvolume.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-rose-200/70 dark:bg-rose-700/50">
-                  <RiGroupLine className="text-lg text-rose-600 dark:text-rose-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-rose-300/30 dark:bg-rose-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-red-300/20 dark:bg-red-500/10"></div>
-            </div>
-
-            {/* Right Community Volume */}
-            <div className="relative p-3 overflow-hidden transition-colors border rounded-lg sm:p-4 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 dark:from-amber-900/30 dark:via-yellow-900/30 dark:to-amber-900/30 text-slate-800 dark:text-slate-200 border-amber-200 dark:border-amber-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h4 className="mb-1 text-xs font-medium sm:text-sm text-amber-700 dark:text-amber-300 geidt-font">Right Community Volume</h4>
-                  <p className="text-sm font-bold text-amber-900 dark:text-amber-200">${countedRightBusvolume.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-amber-200/70 dark:bg-amber-700/50">
-                  <RiTeamLine className="text-lg text-amber-600 dark:text-amber-300" />
-                </div>
-              </div>
-              <div className="absolute w-12 h-12 rounded-full sm:w-16 sm:h-16 -right-1 sm:-right-2 -top-1 sm:-top-2 bg-amber-300/30 dark:bg-amber-500/20"></div>
-              <div className="absolute w-16 h-16 rounded-full sm:w-20 sm:h-20 -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 bg-yellow-300/20 dark:bg-yellow-500/10"></div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
-            {/* Current Rank */}
-            <div className="p-4 transition-colors border-l-4 border-purple-500 rounded-lg sm:p-6 bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 dark:from-purple-900/30 dark:via-pink-900/30 dark:to-purple-900/30">
-              <div className="flex items-center mb-3 space-x-3">
-                <RiFlowChart className="text-lg text-purple-600 dark:text-purple-400 sm:text-xl" />
-                <h4 className="text-base font-semibold text-purple-900 dark:text-purple-200 sm:text-lg">
-                  Current Rank
-                </h4>
-              </div>
-              <div className="text-xl font-semibold text-purple-900 dark:text-purple-200 sm:text-2xl">
-                {countedLeadershipRank}
-              </div>
-            </div>
-
-            {/* Rank Progress */}
-            <div className="p-4 transition-colors border-l-4 border-teal-500 rounded-lg sm:p-6 bg-gradient-to-r from-teal-50 via-cyan-50 to-teal-50 dark:from-teal-900/30 dark:via-cyan-900/30 dark:to-teal-900/30">
-              <div className="flex items-center mb-3 space-x-3">
-                <RiAwardLine className="text-lg text-teal-600 dark:text-teal-400 sm:text-xl" />
-                <h4 className="text-base font-semibold text-teal-900 dark:text-teal-200 sm:text-lg">
-                  Rank Progress
-                </h4>
-              </div>
-              <div className="mt-2 text-xl font-semibold text-teal-900 dark:text-teal-200 sm:text-2xl">
-                {countedRankPercentage}
-              </div>
-            </div>
-          </div>
-        </div>
+        <p className="foot">Risk notice — investing involves market risk. Past performance does not guarantee future results.</p>
       </div>
+      <div className={`hub-toast ${toast ? "show" : ""}`}>{toast}</div>
     </>
   );
 }
