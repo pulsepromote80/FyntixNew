@@ -2,6 +2,8 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import { ThemeLogo } from '@/components/common/ThemeLogo';
+import { LiquidityDashboard } from '@/components/landing/LiquidityDashboard';
 
 export default function FyntixLanding() {
   const { theme, setTheme } = useTheme();
@@ -20,11 +22,11 @@ export default function FyntixLanding() {
   }
 
   return (
-    <main className="overflow-hidden bg-ink text-foreground">
+    <main className="overflow-clip bg-ink text-foreground">
       <header className="sticky top-0 z-40 border-b border-line/80 bg-ink/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
           <a className="flex items-center" href="/">
-            <img src="https://fyntix.club/Asset/footer-logo.png" alt="FYNTIX" className="h-9 w-auto" />
+            <ThemeLogo width={1193} height={366} className="h-9 w-auto" />
           </a>
           <nav className="hidden items-center gap-7 text-sm text-muted lg:flex">
             <a href="#protocol" className="transition hover:text-foreground">Protocol</a>
@@ -149,7 +151,11 @@ export default function FyntixLanding() {
           </div>
           <div className="home-hero-art relative mx-auto w-full max-w-[500px]">
             <div className="absolute inset-10 rounded-full bg-mint/10 blur-[80px]"></div>
-            <div className="glass relative rounded-3xl p-5 shadow-glow sm:p-7">
+
+            <div className="relative dark:hidden">
+              <LiquidityDashboard />
+            </div>
+            <div className="glass relative hidden rounded-3xl p-5 shadow-glow dark:block sm:p-7">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[.16em] text-muted">EUR / USDT</p>
@@ -295,7 +301,13 @@ export default function FyntixLanding() {
           <div className="scroll-reveal is-visible" style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>
             <div className="glass rounded-3xl p-6 sm:p-9">
               <div className="landing-illustration h-56 sm:h-64">
-                <img alt="Illustration of a decentralized protocol network connecting traders, wallets, and liquidity" loading="lazy" decoding="async" data-nimg="fill" className="object-contain" style={{ position: 'absolute', height: '100%', width: '100%', left: 0, top: 0, right: 0, bottom: 0, color: 'transparent' }} src="/images/protocol-network.svg" />
+                <img
+                  src="/images/protocol-network.svg"
+                  alt="Illustration of the decentralized protocol network connecting traders, wallets, and liquidity"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-contain"
+                />
               </div>
               <div className="mt-3 flex items-center justify-between gap-3 text-center text-xs font-semibold uppercase tracking-[.14em]">
                 <span className="flex-1 rounded-xl border border-line bg-panel p-4">Traders</span>
@@ -1011,7 +1023,7 @@ export default function FyntixLanding() {
         <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.3fr_repeat(3,.7fr)_1.2fr]">
             <div>
-              <img src="https://fyntix.club/Asset/footer-logo.png" alt="FYNTIX" className="h-9 w-auto" />
+              <ThemeLogo width={1193} height={366} className="h-9 w-auto" />
               <p className="mt-5 max-w-xs text-sm leading-6 text-muted">A decentralised forex liquidity protocol connecting traders and liquidity providers through transparent, non-custodial smart contracts.</p>
               <div className="mt-5 flex gap-3">
                 <a href="#" className="grid size-9 place-items-center rounded-lg border border-line text-muted transition hover:border-mint/50 hover:text-mint">

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/auth.store";
-import Image from "next/image";
+import { ThemeLogo } from "@/components/common/ThemeLogo";
+import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import { Loader2, Sparkles } from "lucide-react";
@@ -33,12 +34,8 @@ export default function WelcomeLetter() {
           <Loader2 className="w-8 h-8 animate-spin text-white" />
         </div>
       )}
-      <div
-        className="relative min-h-screen w-full overflow-hidden"
-        style={{
-          background: "radial-gradient(ellipse at top, #1a1038 0%, #0a0a1a 45%, #050510 100%)",
-        }}
-      >
+      <div className="auth-screen relative min-h-screen w-full overflow-hidden">
+        <AuthThemeToggle />
         {/* Purple/blue glow from logo (top center) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-700/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
@@ -60,7 +57,7 @@ export default function WelcomeLetter() {
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4 py-10">
           <div className="w-full max-w-[530px]">
             {/* ═══ Main Card ═══ */}
-            <div className="relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
+            <div className="auth-card relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
 
               {/* Gold gradient top bar */}
               <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#f5c451] to-transparent" />
@@ -75,9 +72,7 @@ export default function WelcomeLetter() {
                 {/* ═══ Header ═══ */}
                 <div className="flex flex-col items-center text-center mb-8">
                   <Link href="/" className="mb-5">
-                    <Image
-                      src="/logos/kalki-horizontal-logo.png"
-                      alt="KALKII"
+                    <ThemeLogo
                       width={150}
                       height={64}
                       className="h-auto w-36 sm:w-44"

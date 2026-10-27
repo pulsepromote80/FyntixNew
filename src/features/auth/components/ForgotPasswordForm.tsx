@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
 import { FaUser, FaEnvelope } from "react-icons/fa";
 import { ArrowLeft, ArrowRight, Loader2, Sparkles, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import { ThemeLogo } from "@/components/common/ThemeLogo";
+import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 
 export function ForgotPasswordForm() {
   const router = useRouter();
@@ -36,12 +37,8 @@ export function ForgotPasswordForm() {
   );
 
   return (
-    <div
-      className="relative min-h-screen w-full overflow-hidden"
-      style={{
-        background: "radial-gradient(ellipse at top, #1a1038 0%, #0a0a1a 45%, #050510 100%)",
-      }}
-    >
+    <div className="auth-screen relative min-h-screen w-full overflow-hidden">
+      <AuthThemeToggle />
       {/* Purple/blue glow from logo (top center) */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-700/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
@@ -64,7 +61,7 @@ export function ForgotPasswordForm() {
         <div className="w-full max-w-md">
 
           {/* ═══ Main Card ═══ */}
-          <div className="relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
+          <div className="auth-card relative rounded-2xl overflow-hidden border border-[#d4a017]/20 shadow-[0_0_60px_-15px_rgba(212,160,23,0.3)] backdrop-blur-xl bg-[#0a0a1a]/70">
 
             {/* Gold gradient top bar */}
             <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#f5c451] to-transparent" />
@@ -80,9 +77,7 @@ export function ForgotPasswordForm() {
               {/* ═══ Header ═══ */}
               <div className="flex flex-col items-center text-center mb-8">
                 <Link href="/" className="mb-5">
-                  <Image
-                    src="/logos/kalki-horizontal-logo.png"
-                    alt="KALKII"
+                  <ThemeLogo
                     width={150}
                     height={64}
                     className="h-auto w-36 sm:w-44"
@@ -99,7 +94,7 @@ export function ForgotPasswordForm() {
 
                 {/* Display heading */}
                 <h1
-                  className="text-3xl sm:text-4xl font-bold tracking-wide uppercase"
+                  className="text-3xl sm:text-4xl font-bold  uppercase"
                   style={{
                     fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
                     background: "linear-gradient(180deg, #f5c451 0%, #d4a017 60%, #b8860b 100%)",
