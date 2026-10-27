@@ -1,0 +1,9 @@
+{
+  "/api/notifications/route": "app/api/notifications/route.js",
+  "/api/dashboard/route": "app/api/dashboard/route.js",
+  "/api/Authentication/affiliate-network/route": "app/api/Authentication/affiliate-network/route.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(protected)/dashboard/page": "app/(protected)/dashboard/page.js",
+  "/(protected)/ai-business-hub/page": "app/(protected)/ai-business-hub/page.js",
+  "/(protected)/investment-amount/page": "app/(protected)/investment-amount/page.js"
+}
