@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Wallet, Search, Download, RotateCcw, Calendar, User, CreditCard,
-  TrendingUp, TrendingDown, Loader2,
+  TrendingUp, TrendingDown, Loader2, Coins, BriefcaseBusiness,
 } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -14,6 +14,16 @@ import {
   type AccountStatementPayload,
   type AccountStatementRow,
 } from "../service/adminStatement.service";
+import {
+  getUserWalletDetails,
+} from "../../credit-debit-fund/service/creditDebit.service";
+
+const walletOptions = [
+  { value: 1, label: "Income Wallet" },
+  { value: 2, label: "Deposit Wallet" },
+  { value: 3, label: "Fund Wallet" },
+  { value: 4, label: "Mentor Wallet" },
+];
 
 export default function WalletStatement() {
   const [isSearched, setIsSearched] = useState(false);
@@ -25,6 +35,7 @@ export default function WalletStatement() {
   const [transType, setTransType] = useState("");
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
+  const [searchedWalletType, setSearchedWalletType] = useState<number | null>(null);
 
   // Results
   const [rows, setRows] = useState<AccountStatementRow[]>([]);
@@ -47,6 +58,14 @@ export default function WalletStatement() {
   const { data: userRes, isLoading: userLoading } = useQuery({
     queryKey: ["user-by-auth-login", debouncedUserId],
     queryFn: () => getUserByAuthLogin(debouncedUserId),
+    enabled: debouncedUserId.length >= 3,
+    staleTime: 1000 * 60 * 5,
+    retry: 0,
+  });
+
+  const walletBalancesQuery = useQuery({
+    queryKey: ["admin-user-wallet-balances", debouncedUserId],
+    queryFn: () => getUserWalletDetails(debouncedUserId),
     enabled: debouncedUserId.length >= 3,
     staleTime: 1000 * 60 * 5,
     retry: 0,
@@ -79,9 +98,10 @@ export default function WalletStatement() {
   // ============================================
   const statementMutation = useMutation({
     mutationFn: (payload: AccountStatementPayload) => getAccountStatement(payload),
-    onSuccess: (res) => {
+    onSuccess: (res, payload) => {
       const data = res.data ?? [];
       setRows(data);
+      setSearchedWalletType(payload.wtype);
       setIsSearched(true);
       if (data.length === 0) toast.info("No transactions found");
       else toast.success(`${data.length} transactions found`);
@@ -107,6 +127,11 @@ export default function WalletStatement() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!walletType) {
+      toast.error("Please select a wallet before searching.");
+      return;
+    }
+
     statementMutation.mutate({
       AuthLogin: userId.trim(),
       transtype: transType,
@@ -119,6 +144,9 @@ export default function WalletStatement() {
   const handleWalletChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setWalletType(e.target.value);
     setTransType("");
+    setRows([]);
+    setIsSearched(false);
+    setSearchedWalletType(null);
   };
 
   const handleRefresh = () => {
@@ -130,6 +158,7 @@ export default function WalletStatement() {
     setUsername("");
     setRows([]);
     setIsSearched(false);
+    setSearchedWalletType(null);
   };
 
   // Totals
@@ -137,6 +166,49 @@ export default function WalletStatement() {
   const totalDebit = rows.reduce((s, r) => s + (Number(r.Debit) || 0), 0);
 
   const fmt = (n: number) => `$${n.toFixed(4)}`;
+  const searchedWalletName =
+    walletOptions.find((wallet) => wallet.value === searchedWalletType)?.label ?? "";
+  const walletDetails = walletBalancesQuery.data?.data?.WalletDetails;
+  const showWalletBalances =
+    userId.trim().length >= 3 && userId.trim() === debouncedUserId;
+  const walletBalanceCards: {
+    label: string;
+    value: number;
+    icon: typeof TrendingUp;
+    valueClass: string;
+    iconClass: string;
+  }[] = walletDetails
+    ? [
+        {
+          label: "Income Wallet",
+          value: walletDetails.IncomeWallet,
+          icon: TrendingUp,
+          valueClass: "text-green-700 dark:text-green-400",
+          iconClass: "bg-green-100 text-green-600 dark:bg-green-500/15 dark:text-green-400",
+        },
+        {
+          label: "Deposit Wallet",
+          value: walletDetails.DepositWallet,
+          icon: CreditCard,
+          valueClass: "text-blue-700 dark:text-blue-400",
+          iconClass: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400",
+        },
+        {
+          label: "Fund Wallet",
+          value: walletDetails.FundWallet,
+          icon: Coins,
+          valueClass: "text-orange-700 dark:text-orange-400",
+          iconClass: "bg-orange-100 text-orange-600 dark:bg-orange-500/15 dark:text-orange-400",
+        },
+        {
+          label: "Mentor Wallet",
+          value: walletDetails.MentorWallet,
+          icon: BriefcaseBusiness,
+          valueClass: "text-purple-700 dark:text-purple-400",
+          iconClass: "bg-purple-100 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400",
+        },
+      ]
+    : [];
 
   return (
     <div className="flex w-full items-start justify-center px-4 pb-4 pt-1 font-sans text-gray-900 dark:text-gray-100">
@@ -247,13 +319,16 @@ export default function WalletStatement() {
                     <select
                       value={walletType}
                       onChange={handleWalletChange}
+                      disabled={statementMutation.isPending}
+                      required
                       className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                     >
                       <option value="">-- Select Wallet --</option>
-                      <option value="1">Working Wallet</option>
-                      <option value="2">Deposit Wallet</option>
-                      <option value="3">ROI Wallet</option>
-                      <option value="4">Transaction Wallet</option>
+                      {walletOptions.map((wallet) => (
+                        <option key={wallet.value} value={wallet.value}>
+                          {wallet.label}
+                        </option>
+                      ))}
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                       <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -332,6 +407,49 @@ export default function WalletStatement() {
                 </div>
               </div>
 
+              {showWalletBalances && (
+                <section className="mb-6" aria-live="polite">
+                  <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    <Wallet className="h-3.5 w-3.5 text-blue-600" />
+                    Current Wallet Balances
+                  </h3>
+                  {walletBalancesQuery.isFetching ? (
+                    <div className="flex items-center gap-2 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-300">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Loading wallet balances...
+                    </div>
+                  ) : walletBalancesQuery.isError ? (
+                    <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300">
+                      Unable to load current wallet balances.
+                    </p>
+                  ) : walletBalanceCards.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-3 rounded-lg border border-blue-100 bg-blue-50 p-3 dark:border-blue-900/50 dark:bg-blue-950/30 md:grid-cols-2 xl:grid-cols-4">
+                      {walletBalanceCards.map((wallet) => {
+                        const WalletIcon = wallet.icon;
+                        return (
+                          <div
+                            key={wallet.label}
+                            className="flex items-center gap-3 rounded-lg border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-[#111318]"
+                          >
+                            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md ${wallet.iconClass}`}>
+                              <WalletIcon className="h-4 w-4" aria-hidden />
+                            </span>
+                            <span>
+                              <span className="block text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400">
+                                {wallet.label}
+                              </span>
+                              <span className={`block text-sm font-bold ${wallet.valueClass}`}>
+                                ${Number(wallet.value ?? 0).toFixed(4)}
+                              </span>
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </section>
+              )}
+
               {/* Buttons */}
               <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-4 dark:border-gray-700">
                 <button
@@ -374,7 +492,7 @@ export default function WalletStatement() {
               <div className="flex items-center gap-2">
                 <Search className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-sm font-bold text-gray-800 dark:text-gray-100">
-                  Found {rows.length} transactions
+                  {searchedWalletName} · {rows.length} transactions
                 </span>
               </div>
               <span className="text-xs text-gray-600 dark:text-gray-300">

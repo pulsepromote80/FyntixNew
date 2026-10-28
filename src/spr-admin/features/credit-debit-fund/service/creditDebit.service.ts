@@ -24,8 +24,10 @@ export interface WalletDetails {
     Name: string;
     IncomeWallet: number;
     DepositWallet: number;
-    RentWallet: number;
-    ROIWallet: number;
+    FundWallet: number;
+    MentorWallet: number;
+    RentWallet?: number;
+    ROIWallet?: number;
     statusCode: number;
     message: string;
 }

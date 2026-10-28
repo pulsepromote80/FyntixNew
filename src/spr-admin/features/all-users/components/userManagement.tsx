@@ -460,9 +460,9 @@ export default function UserManagement() {
               {usersQuery.isLoading
                 ? "Loading users..."
                 : `Showing ${users?.length ? (currentPage - 1) * pageSize + 1 : 0}-${Math.min(
-                    currentPage * pageSize,
-                    users?.length ?? 0,
-                  )} of ${totalUsers.toLocaleString()} users`}
+                  currentPage * pageSize,
+                  users?.length ?? 0,
+                )} of ${totalUsers.toLocaleString()} users`}
             </p>
           </div>
 
@@ -701,14 +701,14 @@ export default function UserManagement() {
                   const packageAmount =
                     typeof packageValue === "number" || typeof packageValue === "string"
                       ? formatMoney(
-                          getAmount(user, [
-                            "PackageAmount",
-                            "Package",
-                            "PackagePrice",
-                            "PackageValue",
-                            "TotalPackage",
-                          ]),
-                        )
+                        getAmount(user, [
+                          "PackageAmount",
+                          "Package",
+                          "PackagePrice",
+                          "PackageValue",
+                          "TotalPackage",
+                        ]),
+                      )
                       : "—";
                   const packageStatus = getText(user, [
                     "PacakgateStatus",
@@ -773,13 +773,12 @@ export default function UserManagement() {
                       <td className="px-4 py-4 font-medium">{packageAmount}</td>
                       <td className="px-4 py-4">
                         <span
-                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
-                            isInactivePackage
+                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${isInactivePackage
                               ? "bg-red-100 text-red-700"
                               : isActivePackage
                                 ? "bg-green-100 text-green-700"
                                 : "bg-slate-100 text-slate-600"
-                          }`}
+                            }`}
                         >
                           {packageStatus}
                         </span>

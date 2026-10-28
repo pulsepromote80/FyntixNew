@@ -13,6 +13,7 @@ import {
   DollarSign,
   CreditCard,
   Coins,
+  BriefcaseBusiness,
   Loader2,
   ShieldCheck,
   X,
@@ -254,9 +255,8 @@ export default function CreditDebitFund() {
                       value={userId}
                       onChange={handleUserIdChange}
                       placeholder="Enter user ID"
-                      className={`flex-1 rounded-lg border bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        error ? "border-red-500" : "border-gray-300"
-                      }`}
+                      className={`flex-1 rounded-lg border bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? "border-red-500" : "border-gray-300"
+                        }`}
                     />
                     <button
                       type="button"
@@ -302,14 +302,14 @@ export default function CreditDebitFund() {
                     <label className="mb-2 block flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500">
                       <Wallet className="h-3.5 w-3.5 text-blue-600" /> Current Wallet Balances
                     </label>
-                    <div className="spr-admin-wallet-balances grid grid-cols-1 gap-3 rounded-lg border border-blue-100 bg-blue-50 p-3 md:grid-cols-3">
+                    <div className="spr-admin-wallet-balances grid grid-cols-1 gap-3 rounded-lg border border-blue-100 bg-blue-50 p-3 md:grid-cols-2 xl:grid-cols-4">
                       <div className="flex items-center gap-3 rounded-lg border border-gray-100 bg-white p-3">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-green-100">
                           <DollarSign className="h-4 w-4 text-green-600" />
                         </div>
                         <div>
                           <p className="text-[10px] font-bold uppercase text-gray-500">
-                            Working Wallet
+                            Income Wallet
                           </p>
                           <p className="text-sm font-bold text-green-700">
                             ${Number(walletDetails.IncomeWallet ?? 0).toFixed(4)}
@@ -331,28 +331,30 @@ export default function CreditDebitFund() {
                         </div>
                       </div>
 
-                      {/* <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-gray-100">
-                        <div className="w-8 h-8 rounded-md bg-purple-100 flex items-center justify-center shrink-0">
-                          <Coins className="w-4 h-4 text-purple-600" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-bold text-gray-500 uppercase">Rent Wallet</p>
-                          <p className="text-sm font-bold text-purple-700">
-                            ${Number(walletDetails.RentWallet ?? 0).toFixed(4)}
-                          </p>
-                        </div>
-                      </div> */}
-
                       <div className="flex items-center gap-3 rounded-lg border border-gray-100 bg-white p-3">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-orange-100">
                           <Coins className="h-4 w-4 text-orange-600" />
                         </div>
                         <div>
                           <p className="text-[10px] font-bold uppercase text-gray-500">
-                            ROI Wallet
+                            Fund Wallet
                           </p>
                           <p className="text-sm font-bold text-orange-700">
-                            ${Number(walletDetails.ROIWallet ?? 0).toFixed(4)}
+                            ${Number(walletDetails.FundWallet ?? 0).toFixed(4)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3 rounded-lg border border-gray-100 bg-white p-3">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-purple-100">
+                          <BriefcaseBusiness className="h-4 w-4 text-purple-600" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold uppercase text-gray-500">
+                            Mentor Wallet
+                          </p>
+                          <p className="text-sm font-bold text-purple-700">
+                            ${Number(walletDetails.MentorWallet ?? 0).toFixed(4)}
                           </p>
                         </div>
                       </div>
