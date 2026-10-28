@@ -77,10 +77,10 @@ export async function POST(request: NextRequest) {
         : "Failed to update user status";
     const backendStatus =
       isRecord(error) &&
-      isRecord(error.response) &&
-      typeof error.response.status === "number" &&
-      error.response.status >= 400 &&
-      error.response.status < 500
+        isRecord(error.response) &&
+        typeof error.response.status === "number" &&
+        error.response.status >= 400 &&
+        error.response.status < 500
         ? error.response.status
         : 502;
 

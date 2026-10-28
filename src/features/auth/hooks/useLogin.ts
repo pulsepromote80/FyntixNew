@@ -26,10 +26,7 @@ export function useLogin() {
         ? error.response?.data?.message
         : undefined;
       const errorMessage = typeof responseMessage === "string" ? responseMessage : undefined;
-      // Suppress the specific 401 error message about incorrect credentials
-      if (errorMessage !== "Details are incorrect, please enter correct credentials.") {
-        toast.error(errorMessage || "Invalid userid or password");
-      }
+      toast.error(errorMessage || "Invalid userid or password");
     },
   });
 }

@@ -101,30 +101,30 @@ export async function POST(request: NextRequest) {
     console.error("User login error:", error);
     const status =
       typeof error === "object" &&
-      error !== null &&
-      "response" in error &&
-      typeof error.response === "object" &&
-      error.response !== null &&
-      "status" in error.response &&
-      typeof error.response.status === "number" &&
-      error.response.status >= 400 &&
-      error.response.status < 500
+        error !== null &&
+        "response" in error &&
+        typeof error.response === "object" &&
+        error.response !== null &&
+        "status" in error.response &&
+        typeof error.response.status === "number" &&
+        error.response.status >= 400 &&
+        error.response.status < 500
         ? error.response.status
         : 502;
     const responseData =
       typeof error === "object" &&
-      error !== null &&
-      "response" in error &&
-      typeof error.response === "object" &&
-      error.response !== null &&
-      "data" in error.response
+        error !== null &&
+        "response" in error &&
+        typeof error.response === "object" &&
+        error.response !== null &&
+        "data" in error.response
         ? error.response.data
         : undefined;
     const message =
       typeof responseData === "object" &&
-      responseData !== null &&
-      "message" in responseData &&
-      typeof responseData.message === "string"
+        responseData !== null &&
+        "message" in responseData &&
+        typeof responseData.message === "string"
         ? responseData.message
         : "User login failed";
 
