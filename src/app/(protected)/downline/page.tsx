@@ -16,53 +16,44 @@ const DownlineAffilates = () => {
   const [toDate, setToDate] = useState("");
   const itemsPerPage = 10;
 
-  // ---------------- FORMAT DATE TO DD-MM-YYYY (for API) ----------------
-  const formatToDDMMYYYY = (dateStr: string) => {
-    if (!dateStr) return "";
-    const [year, month, day] = dateStr.split("-");
-    return `${day}-${month}-${year}`;
-  };
-
   // ---------------- FETCH DATA (shared by mount + submit + reset) ----------------
-  const fetchDownlineData = (side: string, from: string, to: string) => {
+  const fetchDownlineData = (lvl: string) => {
     fetchLeftRightData({
-      LoginId: loginId,
-      side: side,
-      FromDate: formatToDDMMYYYY(from),
-      ToDate: formatToDDMMYYYY(to)
+      uRank: "",
+      lvl: lvl,
+      statusId: ""
     });
   };
 
   // ---------------- INITIAL LOAD (only once on mount, no filters) ----------------
   useEffect(() => {
-    fetchDownlineData("", "", "");
+    fetchDownlineData("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ---------------- SUBMIT HANDLER (button click triggers API call) ----------------
-  const handleSubmit = () => {
-    fetchDownlineData(selectedSide, fromDate, toDate);
+  // ---------------- LEVEL CHANGE HANDLER (auto-filter on change) ----------------
+  const handleLevelChange = (value: string) => {
+    setSelectedLevel(value);
     setCurrentPage(1);
+    fetchDownlineData(value);
   };
 
   // ---------------- RESET HANDLER ----------------
   const handleReset = () => {
-    setFromDate("");
-    setToDate("");
     setSearchTerm("");
-    setSelectedSide("");
+    setSelectedLevel("");
     setCurrentPage(1);
-    fetchDownlineData("", "", "");
+    fetchDownlineData("");
   };
 
   // ---------------- CLEAN TABLE DATA ----------------
   const rawData = leftRightData;
 
-  // NOTE: side/date filtering ab server-side (Submit button) se hota hai.
+  // NOTE: level filtering ab server-side (Submit button) se hota hai.
   // Sirf search client-side rehta hai kyunki wo turant filter hona chahiye.
   const filteredData = rawData.filter((node) => {
     const s = searchTerm.toLowerCase();
-    const matchesSearch = node.Name?.toLowerCase().includes(s) || node.loginid?.toLowerCase().includes(s) || node.Mobile?.toLowerCase().includes(s);
+    const matchesSearch = node.Name?.toLowerCase().includes(s) || node.Loginid?.toLowerCase().includes(s);
     return matchesSearch;
   });
 
@@ -110,49 +101,22 @@ const DownlineAffilates = () => {
             <div className="flex items-end justify-between gap-4 mb-5 flex-wrap">
               {/* Left Side */}
               <div className="flex items-end gap-4 flex-wrap">
-                {/* From Date */}
+                {/* Level */}
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs font-semibold text-gray-500">From Date</label>
-                  <input
-                    type="date"
-                    className="px-3 py-2 border rounded-lg text-sm"
-                    value={fromDate}
-                    onChange={(e) => setFromDate(e.target.value)}
-                  />
-                </div>
-
-                {/* To Date */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs font-semibold text-gray-500">To Date</label>
-                  <input
-                    type="date"
-                    className="px-3 py-2 border rounded-lg text-sm"
-                    value={toDate}
-                    onChange={(e) => setToDate(e.target.value)}
-                  />
-                </div>
-
-                {/* Side */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs font-semibold text-gray-500">Side</label>
+                  <label className="text-xs font-semibold text-gray-500">Select Level</label>
                   <select
                     className="px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800"
-                    value={selectedSide}
-                    onChange={(e) => setSelectedSide(e.target.value)}
+                    value={selectedLevel}
+                    onChange={(e) => handleLevelChange(e.target.value)}
                   >
                     <option value="">All</option>
-                    <option value="L">Left</option>
-                    <option value="R">Right</option>
+                    {Array.from({ length: 18 }, (_, i) => (
+                      <option key={i + 1} value={String(i + 1)}>
+                        {i + 1}
+                      </option>
+                    ))}
                   </select>
                 </div>
-
-                {/* Submit */}
-                <button
-                  onClick={handleSubmit}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition"
-                >
-                  Submit
-                </button>
 
                 {/* Reset */}
                 <button
@@ -168,7 +132,7 @@ const DownlineAffilates = () => {
                 <label className="text-xs font-semibold text-gray-500">Search</label>
                 <input
                   type="text"
-                  placeholder="Name, ID, Mobile..."
+                  placeholder="Search by Name, Login ID"
                   className="px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -181,30 +145,24 @@ const DownlineAffilates = () => {
                 <thead className="bg-gray-50 dark:bg-gray-800/50">
                   <tr>
                     <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300 rounded-tl-lg">S. No.</th>
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Side</th>
+
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Login ID</th>
+                    
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300 rounded-tr-lg">Country Flag</th>
                     <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Name</th>
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                      Login ID
-                    </th>
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Mobile</th>
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                      Sponsor ID
-                    </th>
                     <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Reg Date</th>
-       
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">
-                      Left Business
-                    </th>
-                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300 rounded-tr-lg">
-                      Right Business
-                    </th>
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Topup Date</th>
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Package</th>
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Team Business</th>
+
+                                        <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase whitespace-nowrap dark:text-gray-300">Status</th>
                   </tr>
                 </thead>
 
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800/50 dark:divide-gray-700">
                   {loading && (
                     <tr>
-                      <td colSpan={11} className="text-center p-4 text-gray-600 dark:text-gray-400">
+                      <td colSpan={10} className="text-center p-4 text-gray-600 dark:text-gray-400">
                         Loading...
                       </td>
                     </tr>
@@ -212,7 +170,7 @@ const DownlineAffilates = () => {
 
                   {!loading && filteredData.length === 0 && (
                     <tr>
-                      <td colSpan={11} className="text-center p-4 text-gray-600 dark:text-gray-400">
+                      <td colSpan={10} className="text-center p-4 text-gray-600 dark:text-gray-400">
                         No Data Found
                       </td>
                     </tr>
@@ -227,43 +185,59 @@ const DownlineAffilates = () => {
                         {(currentPage - 1) * itemsPerPage + index + 1}
                       </td>
 
+                     
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.Loginid || "-"}
+                      </td>
+                      <td className="px-4 py-3 text-sm whitespace-nowrap dark:text-gray-100">
+                        {node.CountryFlag ? (
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={node.CountryFlag}
+                              alt={node.Country_Name}
+                              className="w-6 h-4 object-cover rounded"
+                            />
+                            <span className="text-xs">{node.Country_Name || "-"}</span>
+                          </div>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.Name || "-"}
+                      </td>
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.RegDate || "-"}
+                      </td>
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.TopupDate || "-"}
+                      </td>
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.Package > 0 ? `$${node.Package}` : "$0"}
+                      </td>
+
+                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
+                        {node.TeamBusiness > 0 ? `$${node.TeamBusiness}` : "$0"}
+                      </td>
+
+
+                      
+                      
                       <td className="px-4 py-3 text-sm whitespace-nowrap dark:text-gray-100">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border ${node.introSide === "L"
-                            ? "text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/40 border-emerald-200 dark:border-emerald-700/50"
-                            : "text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-700/50"
-                            }`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border ${
+                            node.Topup === "Activated"
+                              ? "text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/40 border-emerald-200 dark:border-emerald-700/50"
+                              : "text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/40 border-red-200 dark:border-red-700/50"
+                          }`}
                         >
-                          {node.introSide === "L" ? "Left" : node.introSide === "R" ? "Right" : node.introSide || "-"}
+                          {node.Topup || "-"}
                         </span>
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">{node.Name}</td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">{node.loginid}</td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {node.Mobile}
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {node.SponserId}
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {node.RegDate}
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {Number(node.leftLBuss) > 0
-                          ? `$${Number(node.leftLBuss).toFixed(2)}`
-                          : "$0"}
-                      </td>
-
-                      <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {Number(node.rightRBuss) > 0
-                          ? `$${Number(node.rightRBuss).toFixed(2)}`
-                          : "$0"}
                       </td>
                     </tr>
                   ))}

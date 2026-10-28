@@ -11,7 +11,7 @@ export interface DirectMember {
   TopupStatus?: string;
   SubscriptionAmount?: number;
   leaseAmount?: number;
-  topupDate?: string;
+  TopupDate?: string;
   BinaryLbuss?: number;
   BinaryRbuss?: number;
   DeployDate?: string;

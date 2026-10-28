@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
+import { PublicNavbar } from "@/components/layout/PublicNavbar";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata = {
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
 
   return (
     <>
-      <Navbar />
+      <PublicNavbar />
       <main className="relative isolate overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/50 px-4 pb-20 pt-24 text-slate-900 dark:from-[#0b1021] dark:via-[#0b1021] dark:to-[#171a36] sm:px-6 sm:pb-24 sm:pt-28 lg:px-16">
         <div className="pointer-events-none absolute -right-36 -top-32 z-0 h-96 w-96 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10" />
         <div className="pointer-events-none absolute -bottom-40 -left-32 z-0 h-[28rem] w-[28rem] rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-500/10" />

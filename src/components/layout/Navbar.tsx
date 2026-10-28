@@ -275,17 +275,18 @@ export function Navbar() {
 
   // Wallet Data (Screenshot ke hisaab se)
   const wallets = [
+
     {
-      id: 'deposit',
-      name: 'Deposit Wallet',
-      balance: walletData?.DepositWallet ? `$${Number(walletData.DepositWallet).toFixed(4)}` : '$0.0000',
+      id: 'income',
+      name: 'Income Wallet',
+      balance: walletData?.IncomeWallet ? `$${Number(walletData.IncomeWallet).toFixed(4)}` : '$0.0000',
       icon: Briefcase,
       color: '#0ea5e9',
       bg: '#e0f2fe'
     },
     {
       id: 'performance',
-      name: 'Working Wallet',
+      name: 'Mentor Wallet',
       balance: walletData?.WorkingWallet ? `$${Number(walletData.WorkingWallet).toFixed(4)}` : '$0.0000',
       icon: TrendingUp,
       color: '#8b5cf6',
@@ -293,12 +294,24 @@ export function Navbar() {
     },
     {
       id: 'yield',
-      name: 'ROI Wallet',
+      name: 'Fund Wallet',
       balance: walletData?.ROIWallet ? `$${Number(walletData.ROIWallet).toFixed(4)}` : '$0.0000',
       icon: BarChart3,
       color: '#10b981',
       bg: '#d1fae5'
     },
+    {
+      id: 'deposit',
+      name: 'USDT Wallet',
+      balance: walletData?.DepositWallet ? `$${Number(walletData.DepositWallet).toFixed(4)}` : '$0.0000',
+      icon: Briefcase,
+      color: '#0ea5e9',
+      bg: '#e0f2fe'
+    },
+
+    
+    
+    
    
   ];
 

@@ -10,10 +10,9 @@ import axios from "axios";
  *
  * Request body:
  * {
- *   "LoginId": "string",
- *   "side": "string",
- *   "FromDate": "string",
- *   "ToDate": "string"
+ *   "uRank": "string",
+ *   "lvl": "string",
+ *   "statusId": "string"
  * }
  */
 export async function POST(request: NextRequest) {
@@ -47,7 +46,11 @@ export async function POST(request: NextRequest) {
 
     // Fetch left/right downline team data from backend
     const backend = createBackendClient(token);
-    const { data } = await backend.post("/Community/getLeftRightdownlineTeam", body);
+    const { data } = await backend.post("/api/Community/getPersonalTeam", {
+      uRank: body.uRank || "",
+      lvl: body.lvl || "",
+      statusId: body.statusId || ""
+    });
     return NextResponse.json(data);
   } catch (error) {
     console.error("Left/Right downline team error:", error);
