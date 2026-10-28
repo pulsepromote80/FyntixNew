@@ -1,20 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/auth.store";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function WelcomeLetter() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const { user, isAuthenticated } = useAuthStore();
+  const { user } = useAuthStore();
 
   // Get data from query params (passed from registration)
   const queryEmail = searchParams.get("email");
@@ -29,11 +26,6 @@ export default function WelcomeLetter() {
 
   return (
     <>
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-          <Loader2 className="w-8 h-8 animate-spin text-white" />
-        </div>
-      )}
       <div className="auth-screen relative min-h-screen w-full overflow-hidden">
         <AuthThemeToggle />
         {/* Purple/blue glow from logo (top center) */}
@@ -110,10 +102,10 @@ export default function WelcomeLetter() {
                   <p className="text-base leading-relaxed text-slate-300">
                     Welcome to Fyntix, {userName}!
                     <br />
-                    We're thrilled to have you on board.
+                    We&apos;re thrilled to have you on board.
                   </p>
                   <p className="text-slate-400">
-                    The future isn't coming — it's already here, and it's Agentic.
+                    The future isn&apos;t coming — it&apos;s already here, and it&apos;s Agentic.
                     With Kalkii, you now have access to a powerful ecosystem
                     where AI agents work for you, generate consistent rewards, and
                     free up your time for what truly matters — your personal growth,
@@ -126,7 +118,7 @@ export default function WelcomeLetter() {
                     Let them earn while you live smarter.
                   </p>
                   <p className="text-slate-400">
-                    Kalkii isn't just a platform — it's your gateway into the
+                    Kalkii isn&apos;t just a platform — it&apos;s your gateway into the
                     Agent Era, where wealth creation meets automation and innovation.
                   </p>
 
@@ -138,7 +130,7 @@ export default function WelcomeLetter() {
                   </p>
 
                   <p className="text-slate-400">
-                    Welcome aboard, {userName}. Let's create recurring income, passive yield, and real freedom — the Rentelligent way
+                    Welcome aboard, {userName}. Let&apos;s create recurring income, passive yield, and real freedom — the Rentelligent way
                   </p>
                 </div>
 

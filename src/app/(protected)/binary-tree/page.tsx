@@ -9,62 +9,68 @@ interface TreeNode {
   id: string;
   username: string;
   active: boolean;
-  binaryColor: any;
+  binaryColor: string | null;
   leftBV: number;
   rightBV: number;
   leftActive: number;
   rightActive: number;
   carryForward: number;
-  sponsor: any;
+  sponsor: string | null;
   package: number;
-  actDate: any;
-  buttonLink: any;
-  position: any;
-  level: any;
+  actDate: string | null;
+  buttonLink: string | null;
+  position: string | null;
+  level: string | number | null;
   isExists: number;
   isEmpty: boolean;
   left: TreeNode | null;
   right: TreeNode | null;
 }
 
-const buildTreeFromApi = (apiNodes: any[]): TreeNode | null => {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
-  if (!apiNodes || apiNodes.length === 0) return null;
+function getString(value: unknown): string | null {
+  return typeof value === "string" && value.length > 0 ? value : null;
+}
+
+const buildTreeFromApi = (data: unknown): TreeNode | null => {
+  if (!Array.isArray(data) || data.length === 0) return null;
+  const apiNodes = data.filter(isRecord);
+  if (apiNodes.length === 0) return null;
 
   // Create node list
-  const nodes: TreeNode[] = apiNodes.map((apiNode: any, index: number) => ({
-    index,
-    id:
-      apiNode.IsExists === 1
-        ? apiNode.AuthLogin
-        : `EMPTY_${index}`,
-    username: apiNode.name || "Available Slot",
-
-    active: apiNode.binarycolorimg?.includes("green"),
-
-    binaryColor: apiNode.binarycolorimg,
-
-    leftBV: Number(apiNode.LeftBussiness || 0),
-    rightBV: Number(apiNode.RighttBussiness || 0),
-    leftActive: Number(apiNode.LeftActiveMember || 0),
-    rightActive: Number(apiNode.RightActiveMember || 0),
-    carryForward: Number(apiNode.CarryForwardBussiness || 0),
-
-    sponsor: apiNode.SponosorDetails,
-    package: Number(apiNode.Package || 0),
-    actDate: apiNode.ActDate,
-
-    buttonLink: apiNode.ButtonLink,
-
-    position: apiNode.Position,
-    level: apiNode.level,
-
-    isExists: apiNode.IsExists,
-    isEmpty: apiNode.IsExists === 0,
-
-    left: null,
-    right: null,
-  }));
+  const nodes: TreeNode[] = apiNodes.map((apiNode, index) => {
+    const isExists = Number(apiNode.IsExists) || 0;
+    const binaryColor = getString(apiNode.binarycolorimg);
+    const authLogin = getString(apiNode.AuthLogin);
+    return {
+      index,
+      id: isExists === 1 && authLogin ? authLogin : `EMPTY_${index}`,
+      username: getString(apiNode.name) ?? "Available Slot",
+      active: binaryColor?.includes("green") ?? false,
+      binaryColor,
+      leftBV: Number(apiNode.LeftBussiness) || 0,
+      rightBV: Number(apiNode.RighttBussiness) || 0,
+      leftActive: Number(apiNode.LeftActiveMember) || 0,
+      rightActive: Number(apiNode.RightActiveMember) || 0,
+      carryForward: Number(apiNode.CarryForwardBussiness) || 0,
+      sponsor: getString(apiNode.SponosorDetails),
+      package: Number(apiNode.Package) || 0,
+      actDate: getString(apiNode.ActDate),
+      buttonLink: getString(apiNode.ButtonLink),
+      position: getString(apiNode.Position),
+      level:
+        typeof apiNode.level === "string" || typeof apiNode.level === "number"
+          ? apiNode.level
+          : null,
+      isExists,
+      isEmpty: isExists === 0,
+      left: null,
+      right: null,
+    };
+  });
 
   // Build tree using array index
   for (let i = 1; i < nodes.length; i++) {
@@ -467,17 +473,19 @@ export default function BinaryTree() {
   const [history, setHistory] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
-  const [focusedNode, setFocusedNode] = useState<TreeNode | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const loginId = typeof window !== "undefined" ? localStorage.getItem("authLogin") : null;
+  const treeDataRef = useRef(treeData);
+  treeDataRef.current = treeData;
 
-  const fetchTreeByURID = async (loginid: string | null, saveHistory = true) => {
+  const fetchTreeByURID = useCallback(async (loginid: string | null, saveHistory = true) => {
     try {
       setLoading(true);
       setError(null);
-      if (saveHistory && treeData?.id) {
-        setHistory((prev) => [...prev, treeData.id]);
+      const currentTreeId = treeDataRef.current?.id;
+      if (saveHistory && currentTreeId) {
+        setHistory((prev) => [...prev, currentTreeId]);
       }
       const response = await fetch("/api/binary-tree", {
         method: "POST",
@@ -506,7 +514,7 @@ export default function BinaryTree() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!loginId) {
@@ -515,19 +523,16 @@ export default function BinaryTree() {
       return;
     }
     fetchTreeByURID(loginId);
-  }, [loginId]);
+  }, [fetchTreeByURID, loginId]);
 
   const handleTooltip = useCallback((node: TreeNode, x: number, y: number) => setTooltip({ node, x, y }), []);
   const handleHideTooltip = useCallback(() => setTooltip(null), []);
   const handleSignup = useCallback((parentId: string, side: string) => setSignupModal({ parentId, side }), []);
 
-  const handleFocus = useCallback(
-    (node: TreeNode) => {
-      if (!node?.id) return;
-      fetchTreeByURID(node.id);
-    },
-    [treeData]
-  );
+  const handleFocus = useCallback((node: TreeNode) => {
+    if (!node?.id) return;
+    fetchTreeByURID(node.id);
+  }, [fetchTreeByURID]);
 
   const handleSearch = useCallback(
     (query: string) => {
@@ -543,7 +548,6 @@ export default function BinaryTree() {
       };
       const found = searchInTree(treeData, query);
       if (found) {
-        setFocusedNode(found);
         handleFocus(found);
       } else {
         alert("User not found in tree");

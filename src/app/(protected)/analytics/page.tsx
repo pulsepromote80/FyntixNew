@@ -14,6 +14,15 @@ interface ExecutionRow {
 }
 
 const ACCENT_COLOR = "#1680ff";
+const CHAINS = [
+  { name: "ALL", count: 60 },
+  { name: "AVAX", count: 9 },
+  { name: "ETH", count: 8 },
+  { name: "SOL", count: 8 },
+  { name: "BSC", count: 15 },
+  { name: "ARB", count: 8 },
+  { name: "BASE", count: 12 },
+];
 
 export default function AnalyticsPage() {
   const [opsValue, setOpsValue] = useState(1716);
@@ -109,16 +118,6 @@ export default function AnalyticsPage() {
     },
   ]);
 
-  const chains = [
-    { name: "ALL", count: 60 },
-    { name: "AVAX", count: 9 },
-    { name: "ETH", count: 8 },
-    { name: "SOL", count: 8 },
-    { name: "BSC", count: 15 },
-    { name: "ARB", count: 8 },
-    { name: "BASE", count: 12 },
-  ];
-
   // Simulate live data updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -132,8 +131,8 @@ export default function AnalyticsPage() {
       setP95((prev) => Math.max(100, Math.min(180, prev + (Math.random() - 0.5) * 15)));
 
       // Add new execution row
-      const chainIndex = Math.floor(Math.random() * (chains.length - 1)) + 1;
-      const newChain = chains[chainIndex]?.name ?? "BSC";
+      const chainIndex = Math.floor(Math.random() * (CHAINS.length - 1)) + 1;
+      const newChain = CHAINS[chainIndex]?.name ?? "BSC";
       const routes = [
         "Wombat → THENA",
         "Aerodrome → BaseSwap",
@@ -374,7 +373,7 @@ export default function AnalyticsPage() {
 
         {/* Chain Pills */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {chains.map((chain) => (
+          {CHAINS.map((chain) => (
             <button
               key={chain.name}
               onClick={() => setActiveChain(chain.name)}

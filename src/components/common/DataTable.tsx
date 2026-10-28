@@ -2,7 +2,6 @@
 
 import { Table, type TableColumn } from "@/components/ui/Table";
 import { Pagination } from "@/components/ui/Pagination";
-import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 

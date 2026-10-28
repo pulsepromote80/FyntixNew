@@ -32,11 +32,11 @@ const ACCENT_COLOR = "#1680ff";
 
 export default function AIEnginePage() {
   const [uptime, setUptime] = useState("69d 15:21:38");
-  const [strategies, setStrategies] = useState("3 active");
-  const [openPositions, setOpenPositions] = useState("0");
-  const [realisedToday, setRealisedToday] = useState("+724.2 bps");
-  const [winRate, setWinRate] = useState("98.0%");
-  const [lastSettle, setLastSettle] = useState("AVAX/USDT +26.4 bps · 4s ago");
+  const [strategies, _setStrategies] = useState("3 active");
+  const [openPositions, _setOpenPositions] = useState("0");
+  const [realisedToday, _setRealisedToday] = useState("+724.2 bps");
+  const [winRate, _setWinRate] = useState("98.0%");
+  const [lastSettle, _setLastSettle] = useState("AVAX/USDT +26.4 bps · 4s ago");
 
   const [activeFilters, setActiveFilters] = useState<Set<LogType>>(
     new Set(["SCAN", "ROUTE", "SIM", "EXEC", "SETTLE", "RISK", "HEARTBEAT"])
@@ -99,9 +99,9 @@ export default function AIEnginePage() {
     { timestamp: "12:34:09.856", type: "SIM", message: "ok · 2 legs simulated · $3,137 · 34.7 bps" },
   ]);
 
-  const [latencyP50, setLatencyP50] = useState("85 MS");
+  const [latencyP50, _setLatencyP50] = useState("85 MS");
   const [routeLabel, setRouteLabel] = useState("ARB → ARB");
-  const [depthPair, setDepthPair] = useState("ARB/ETH");
+  const [depthPair, _setDepthPair] = useState("ARB/ETH");
   const [midValue, setMidValue] = useState("171.47");
   const [midBarWidth, setMidBarWidth] = useState(64);
   const [activeRouteIndex, setActiveRouteIndex] = useState(4);

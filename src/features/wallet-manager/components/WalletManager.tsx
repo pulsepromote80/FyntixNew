@@ -170,9 +170,9 @@ export function WalletManager() {
         setReports((current) => ({ ...current, [tab]: rows }));
         setLoaded((current) => ({ ...current, [tab]: true }));
       } catch (requestError) {
-        // setError(
-        //   requestError instanceof Error ? requestError.message : "Could not load wallet report.",
-        // );
+        setError(
+          requestError instanceof Error ? requestError.message : "Could not load wallet report.",
+        );
       } finally {
         setLoading(false);
       }
@@ -192,7 +192,7 @@ export function WalletManager() {
     setPageIndex(0);
   };
 
-  const rows = reports[activeTab] ?? [];
+  const rows = useMemo(() => reports[activeTab] ?? [], [reports, activeTab]);
   const availableTypes = useMemo(
     () =>
       [...new Set(rows.map((row) => getValue(row, "Transaction Type")).filter(Boolean))].map(
@@ -206,7 +206,7 @@ export function WalletManager() {
       const matchesType =
         transactionType === "all" ||
         String(getValue(row, "Transaction Type") ?? "").toLowerCase() ===
-        transactionType.toLowerCase();
+          transactionType.toLowerCase();
       const matchesSearch =
         !normalizedSearch ||
         Object.values(row).some((value) =>
@@ -267,10 +267,11 @@ export function WalletManager() {
                   type="button"
                   onClick={() => selectTab(tab.id)}
                   aria-pressed={isActive}
-                  className={`inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${isActive
+                  className={`inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+                    isActive
                       ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white shadow-sm shadow-blue-500/20"
                       : "text-slate-700 hover:bg-blue-500/10 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-300"
-                    }`}
+                  }`}
                 >
                   <Wallet className="h-4 w-4" aria-hidden />
                   {tab.label}
@@ -337,7 +338,7 @@ export function WalletManager() {
                   setPageIndex(0);
                 }}
                 placeholder="Search records..."
-                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-52"
+                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-52"
               />
             </label>
             <label className="sr-only" htmlFor="wallet-report-page-size">
@@ -408,11 +409,11 @@ export function WalletManager() {
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {loading ? (
                   <tr>
-                    <td
-                      colSpan={columns.length + 1}
-                      className="px-4 py-10 text-center"
-                    >
-                      <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#1680ff]" aria-label="Loading" />
+                    <td colSpan={columns.length + 1} className="px-4 py-10 text-center">
+                      <Loader2
+                        className="mx-auto h-6 w-6 animate-spin text-[#1680ff]"
+                        aria-label="Loading"
+                      />
                     </td>
                   </tr>
                 ) : pageRows.length === 0 ? (
@@ -441,10 +442,11 @@ export function WalletManager() {
                           return (
                             <td key={column} className="whitespace-nowrap px-4 py-3">
                               <span
-                                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${isCredit
+                                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${
+                                  isCredit
                                     ? "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-700/50 dark:bg-emerald-900/30 dark:text-emerald-300"
                                     : "border-rose-200 bg-rose-100 text-rose-700 dark:border-rose-700/50 dark:bg-rose-900/30 dark:text-rose-300"
-                                  }`}
+                                }`}
                               >
                                 <Icon className="h-3.5 w-3.5" aria-hidden />
                                 {isCredit ? "+" : "-"}

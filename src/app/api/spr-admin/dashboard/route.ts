@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         'Cache-Control': 'private, max-age=30', // Cache for 30 seconds
       },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, message: "Failed to fetch dashboard data" },
       { status: 500 },

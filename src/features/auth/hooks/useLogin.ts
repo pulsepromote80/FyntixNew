@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -20,8 +21,11 @@ export function useLogin() {
 
       router.push("/dashboard");
     },
-    onError: (error: any) => {
-      const errorMessage = error?.response?.data?.message;
+    onError: (error: unknown) => {
+      const responseMessage = axios.isAxiosError<{ message?: unknown }>(error)
+        ? error.response?.data?.message
+        : undefined;
+      const errorMessage = typeof responseMessage === "string" ? responseMessage : undefined;
       // Suppress the specific 401 error message about incorrect credentials
       if (errorMessage !== "Details are incorrect, please enter correct credentials.") {
         toast.error(errorMessage || "Invalid userid or password");

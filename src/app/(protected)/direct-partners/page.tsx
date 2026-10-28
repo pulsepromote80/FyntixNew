@@ -2,15 +2,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useAuthStore } from "@/store/auth.store";
 import { useCommunityStore } from "@/store/community.store";
 import { communityService } from "@/services/community.service";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function DirectPartners() {
-  const { user } = useAuthStore();
-
   const {
     directMemberData,
     loading,
@@ -238,8 +235,8 @@ export default function DirectPartners() {
             {/* Search Results Info */}
             {searchTerm && (
               <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-200 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50 dark:border-gray-700">
-                Found {filteredMembers.length} result(s) for "
-                {searchTerm}"
+                Found {filteredMembers.length} result(s) for &quot;
+                {searchTerm}&quot;
                 <button
                   onClick={clearSearch}
                   className="ml-2 font-medium text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"

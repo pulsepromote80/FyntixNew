@@ -1,37 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { RiArrowRightSLine } from "react-icons/ri";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { useTheme } from "next-themes";
-
-interface RouteMap {
-  [key: string]: string;
-}
-
-interface DashboardData {
-  data: Array<{
-    MyAgent?: number;
-    PerformanceWallet?: number;
-    YieldWallet?: number;
-    DepositWallet?: number;
-    TotalTeam?: number;
-    LegacyWallet?: number;
-    PreviousAgent?: number;
-    ActiveTeam?: number;
-    YieldWithdrawal?: number;
-    PerformanceWithdrawal?: number;
-  }>;
-}
-
-function createRouteMapFromSeed(seed: string, count: number): RouteMap {
-  return {
-    "/buy-agent-license": "/buy-agent-license",
-    "/deploy-agents": "/deploy-agents",
-  };
-}
 
 const PAIR_CONFIG = [
   { pair: "EUR/USD", base: 1.0838, vol: 0.0004, decimals: 4 },
@@ -42,42 +12,7 @@ const PAIR_CONFIG = [
 ];
 
 export function Banner() {
-  const router = useRouter();
   const { theme } = useTheme();
-
-  const [getUserDashboardData] = useState<DashboardData>({
-    data: [
-      {
-        MyAgent: 0,
-        PerformanceWallet: 0,
-        YieldWallet: 0,
-        DepositWallet: 0,
-        TotalTeam: 0,
-        LegacyWallet: 0,
-        PreviousAgent: 0,
-        ActiveTeam: 0,
-        YieldWithdrawal: 0,
-        PerformanceWithdrawal: 0,
-      },
-    ],
-  });
-
-  const [routeMap, setRouteMap] = useState<RouteMap>({});
-
-  useEffect(() => {
-    const updateRouteMap = () => {
-      const seed = Cookies.get("routeSlugsSeed");
-      if (seed) {
-        setRouteMap(createRouteMapFromSeed(seed, 6));
-      } else {
-        setRouteMap({});
-      }
-    };
-
-    updateRouteMap();
-    const interval = setInterval(updateRouteMap, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // LIVE PAIRS
   const [pairsData, setPairsData] = useState(() =>
@@ -88,7 +23,7 @@ export function Banner() {
       change: 0,
       up: true,
       decimals: p.decimals,
-    }))
+    })),
   );
 
   useEffect(() => {
@@ -107,7 +42,7 @@ export function Banner() {
             change: changePct,
             up: newPrice >= item.price,
           };
-        })
+        }),
       );
     }, 1200);
     return () => clearInterval(id);
@@ -172,7 +107,7 @@ export function Banner() {
       const cp2y = p2.y - (p3.y - p1.y) / 6;
 
       d += ` C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(
-        2
+        2,
       )} ${cp2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
     }
     return d;
@@ -183,7 +118,8 @@ export function Banner() {
 
   const currentPrice = data[data.length - 1];
   const startPrice = data[0];
-  const priceChange = currentPrice !== undefined && startPrice !== undefined ? currentPrice - startPrice : 0;
+  const priceChange =
+    currentPrice !== undefined && startPrice !== undefined ? currentPrice - startPrice : 0;
   const priceChangePct = startPrice !== undefined ? (priceChange / startPrice) * 100 : 0;
   const isUp = priceChange >= 0;
 
@@ -196,28 +132,33 @@ export function Banner() {
 
   return (
     <div
-      className="relative rounded-3xl overflow-hidden mb-4 grid grid-cols-1 lg:grid-cols-2 items-center gap-4 sm:gap-7 p-4 sm:p-6 lg:p-8"
+      className="relative mb-4 grid grid-cols-1 items-center gap-4 overflow-hidden rounded-3xl p-4 sm:gap-7 sm:p-6 lg:grid-cols-2 lg:p-8"
       style={{
-        background: theme === 'dark'
-          ? "linear-gradient(120deg, #0b1021 0%, #111a31 55%, #171a36 100%)"
-          : "linear-gradient(120deg, #eff6ff 0%, #e0f2fe 55%, #f5f3ff 100%)",
-        border: theme === 'dark'
-          ? "1px solid rgba(37, 198, 232, 0.25)"
-          : "1px solid rgba(22, 128, 255, 0.22)",
+        background:
+          theme === "dark"
+            ? "linear-gradient(120deg, #0b1021 0%, #111a31 55%, #171a36 100%)"
+            : "linear-gradient(120deg, #eff6ff 0%, #e0f2fe 55%, #f5f3ff 100%)",
+        border:
+          theme === "dark"
+            ? "1px solid rgba(37, 198, 232, 0.25)"
+            : "1px solid rgba(22, 128, 255, 0.22)",
       }}
     >
       {/* ================= LEFT SIDE ================= */}
       <div className="relative z-10">
-        <div className={`inline-flex items-center gap-2 rounded-full font-semibold px-3.5 py-[7px] text-[11px] border mb-4 ${theme === 'dark'
-            ? "bg-[rgba(37,198,232,.1)] border-[rgba(37,198,232,.35)] text-[#25c6e8]"
-            : "bg-[rgba(22,128,255,.1)] border-[rgba(22,128,255,.3)] text-[#1680ff]"
-          }`}>
-          <span className="rounded-full w-[7px] h-[7px] bg-[#25c6e8]" />
+        <div
+          className={`mb-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-[7px] text-[11px] font-semibold ${
+            theme === "dark"
+              ? "border-[rgba(37,198,232,.35)] bg-[rgba(37,198,232,.1)] text-[#25c6e8]"
+              : "border-[rgba(22,128,255,.3)] bg-[rgba(22,128,255,.1)] text-[#1680ff]"
+          }`}
+        >
+          <span className="h-[7px] w-[7px] rounded-full bg-[#25c6e8]" />
           Trade with AI-Assisted Risk Intelligence
         </div>
 
         <h1
-          className={`font-bold text-[22px] sm:text-[26px] lg:text-[30px] leading-[1.2] mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+          className={`mb-3 text-[22px] font-bold leading-[1.2] sm:text-[26px] lg:text-[30px] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
           style={{ fontFamily: '"Space Grotesk", sans-serif' }}
         >
           Your financial command center, powered by{" "}
@@ -226,36 +167,46 @@ export function Banner() {
           </span>
         </h1>
 
-        <p className={`text-xs sm:text-sm max-w-[440px] leading-[1.7] ${theme === 'dark' ? 'text-[#a8b5cc]' : 'text-gray-600'}`}>
-          Learn smarter. Trade with intelligence. Track every rupee of progress
-          and grow your wealth with strategies built for real market conditions.
+        <p
+          className={`max-w-[440px] text-xs leading-[1.7] sm:text-sm ${theme === "dark" ? "text-[#a8b5cc]" : "text-gray-600"}`}
+        >
+          Learn smarter. Trade with intelligence. Track every rupee of progress and grow your wealth
+          with strategies built for real market conditions.
         </p>
 
-        <div className={`text-[10px] sm:text-[11px] mt-3.5 ${theme === 'dark' ? 'text-[#7a8699]' : 'text-gray-500'}`}>
-          Figures shown are demo / historical placeholders and update once your
-          live account is connected.
+        <div
+          className={`mt-3.5 text-[10px] sm:text-[11px] ${theme === "dark" ? "text-[#7a8699]" : "text-gray-500"}`}
+        >
+          Figures shown are demo / historical placeholders and update once your live account is
+          connected.
         </div>
 
         {/* Pair tiles */}
-        <div className="flex flex-wrap gap-2 sm:gap-2.5 mt-5">
+        <div className="mt-5 flex flex-wrap gap-2 sm:gap-2.5">
           {pairsData.map((p) => (
             <div
               key={p.pair}
-              className={`rounded-xl px-2.5 py-2 sm:px-3 sm:py-2 min-w-[85px] sm:min-w-[98px] border transition-colors duration-300 ${theme === 'dark'
-                  ? "bg-white/[.04] border-white/10 hover:bg-white/[.07]"
-                  : "bg-white border-gray-200 hover:bg-gray-50"
-                }`}
+              className={`min-w-[85px] rounded-xl border px-2.5 py-2 transition-colors duration-300 sm:min-w-[98px] sm:px-3 sm:py-2 ${
+                theme === "dark"
+                  ? "border-white/10 bg-white/[.04] hover:bg-white/[.07]"
+                  : "border-gray-200 bg-white hover:bg-gray-50"
+              }`}
             >
-              <div className={`text-[9.5px] sm:text-[10.5px] ${theme === 'dark' ? 'text-[#8a97ad]' : 'text-gray-500'}`}>{p.pair}</div>
               <div
-                className={`font-semibold text-[11px] sm:text-[13px] mt-0.5 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+                className={`text-[9.5px] sm:text-[10.5px] ${theme === "dark" ? "text-[#8a97ad]" : "text-gray-500"}`}
+              >
+                {p.pair}
+              </div>
+              <div
+                className={`mt-0.5 text-[11px] font-semibold sm:text-[13px] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
                 style={{ fontFamily: '"Space Grotesk", sans-serif' }}
               >
                 {p.price.toFixed(p.decimals)}
               </div>
               <div
-                className={`text-[9.5px] sm:text-[10.5px] mt-0.5 transition-colors duration-300 ${p.change >= 0 ? "text-[#4ade9a]" : "text-[#ff8b96]"
-                  }`}
+                className={`mt-0.5 text-[9.5px] transition-colors duration-300 sm:text-[10.5px] ${
+                  p.change >= 0 ? "text-[#4ade9a]" : "text-[#ff8b96]"
+                }`}
               >
                 {p.change >= 0 ? "+" : ""}
                 {p.change.toFixed(2)}%
@@ -263,46 +214,51 @@ export function Banner() {
             </div>
           ))}
         </div>
-
       </div>
 
       {/* ================= RIGHT SIDE — LIVE MARKET FEED ================= */}
-      <div className={`relative z-10 rounded-2xl p-3 sm:p-[18px] backdrop-blur-sm border flex flex-col ${theme === 'dark'
-          ? "bg-black/30 border-white/10"
-          : "bg-white/80 border-gray-200"
-        }`}>
-        <div className={`flex justify-between text-[9px] sm:text-[10px] tracking-[.08em] mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+      <div
+        className={`relative z-10 flex flex-col rounded-2xl border p-3 backdrop-blur-sm sm:p-[18px] ${
+          theme === "dark" ? "border-white/10 bg-black/30" : "border-gray-200 bg-white/80"
+        }`}
+      >
+        <div
+          className={`mb-2 flex justify-between text-[9px] tracking-[.08em] sm:text-[10px] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+        >
           <span>Live Market Feed</span>
-          <b className="text-[#25c6e8] font-semibold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#25c6e8] animate-ping" />
+          <b className="flex items-center gap-1 font-semibold text-[#25c6e8]">
+            <span className="h-1.5 w-1.5 animate-ping rounded-full bg-[#25c6e8]" />
             LIVE
           </b>
         </div>
 
-        <div className="flex justify-between items-start mb-2">
+        <div className="mb-2 flex items-start justify-between">
           <div>
             <div
-              className={`text-[16px] sm:text-[18px] font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+              className={`text-[16px] font-semibold sm:text-[18px] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               ${currentPrice !== undefined ? currentPrice.toFixed(2) : "0.00"}
             </div>
             <div
-              className={`text-[10px] sm:text-[11px] ${isUp ? "text-[#4ade9a]" : "text-[#ff6b7d]"
-                }`}
+              className={`text-[10px] sm:text-[11px] ${isUp ? "text-[#4ade9a]" : "text-[#ff6b7d]"}`}
             >
               {isUp ? "+" : ""}
               {priceChange.toFixed(2)} ({priceChangePct.toFixed(2)}%)
             </div>
           </div>
-          <div className={`text-[9px] sm:text-[10px] ${theme === 'dark' ? 'text-white/80' : 'text-gray-600'}`}>BTC/USDT</div>
+          <div
+            className={`text-[9px] sm:text-[10px] ${theme === "dark" ? "text-white/80" : "text-gray-600"}`}
+          >
+            BTC/USDT
+          </div>
         </div>
 
         {/* Chart + axes */}
         <div className="flex gap-2">
           {/* Y-axis labels */}
           <div
-            className={`hidden sm:flex flex-col justify-between text-[9px] py-1 shrink-0 ${theme === 'dark' ? 'text-white/50' : 'text-gray-400'}`}
+            className={`hidden shrink-0 flex-col justify-between py-1 text-[9px] sm:flex ${theme === "dark" ? "text-white/50" : "text-gray-400"}`}
             style={{ fontFamily: '"Space Grotesk", sans-serif' }}
           >
             {yLabels.map((label, i) => (
@@ -311,13 +267,9 @@ export function Banner() {
           </div>
 
           {/* Chart */}
-          <div className="flex-1 min-w-0">
-            <div className="w-full h-[100px] sm:h-[130px] relative">
-              <svg
-                viewBox={`0 0 ${W} ${H}`}
-                preserveAspectRatio="none"
-                className="w-full h-full"
-              >
+          <div className="min-w-0 flex-1">
+            <div className="relative h-[100px] w-full sm:h-[130px]">
+              <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-full w-full">
                 <defs>
                   <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#1680ff" stopOpacity="0.35" />
@@ -336,7 +288,7 @@ export function Banner() {
                     x2={W}
                     y1={PAD_T + (usableH / 7) * i}
                     y2={PAD_T + (usableH / 7) * i}
-                    stroke={theme === 'dark' ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}
+                    stroke={theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}
                     strokeWidth="0.5"
                   />
                 ))}
@@ -351,47 +303,43 @@ export function Banner() {
                   strokeLinejoin="round"
                 />
 
-                {pts.length > 0 && (() => {
-                  const lastPt = pts[pts.length - 1];
-                  if (!lastPt) return null;
-                  return (
-                    <>
-                      <circle
-                        cx={lastPt.x}
-                        cy={lastPt.y}
-                        r="3.5"
-                        fill="#25c6e8"
-                      />
-                      <circle
-                        cx={lastPt.x}
-                        cy={lastPt.y}
-                        r="7"
-                        fill="none"
-                        stroke="#25c6e8"
-                        strokeOpacity="0.4"
-                        strokeWidth="1.5"
-                      >
-                        <animate
-                          attributeName="r"
-                          values="7;10;7"
-                          dur="2s"
-                          repeatCount="indefinite"
-                        />
-                        <animate
-                          attributeName="strokeOpacity"
-                          values="0.4;0;0.4"
-                          dur="2s"
-                          repeatCount="indefinite"
-                        />
-                      </circle>
-                    </>
-                  );
-                })()}
+                {pts.length > 0 &&
+                  (() => {
+                    const lastPt = pts[pts.length - 1];
+                    if (!lastPt) return null;
+                    return (
+                      <>
+                        <circle cx={lastPt.x} cy={lastPt.y} r="3.5" fill="#25c6e8" />
+                        <circle
+                          cx={lastPt.x}
+                          cy={lastPt.y}
+                          r="7"
+                          fill="none"
+                          stroke="#25c6e8"
+                          strokeOpacity="0.4"
+                          strokeWidth="1.5"
+                        >
+                          <animate
+                            attributeName="r"
+                            values="7;10;7"
+                            dur="2s"
+                            repeatCount="indefinite"
+                          />
+                          <animate
+                            attributeName="strokeOpacity"
+                            values="0.4;0;0.4"
+                            dur="2s"
+                            repeatCount="indefinite"
+                          />
+                        </circle>
+                      </>
+                    );
+                  })()}
               </svg>
             </div>
 
             <div
-              className={`flex justify-between text-[8px] sm:text-[9px] mt-1 ${theme === 'dark' ? 'text-white/50' : 'text-gray-400'}`}
+              className={`mt-1 flex justify-between text-[8px] sm:text-[9px] ${theme === "dark" ? "text-white/50" : "text-gray-400"}`}
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               {timeLabels.map((t, i) => (
@@ -402,33 +350,45 @@ export function Banner() {
         </div>
 
         {/* Bottom stats */}
-        <div className="flex justify-between mt-3 gap-2">
-          <div className="text-center flex-1">
+        <div className="mt-3 flex justify-between gap-2">
+          <div className="flex-1 text-center">
             <div
-              className="font-semibold text-[13px] sm:text-[15px] text-[#4ade9a]"
+              className="text-[13px] font-semibold text-[#4ade9a] sm:text-[15px]"
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               Bearish
             </div>
-            <div className={`text-[8.5px] sm:text-[9.5px] ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>TREND</div>
-          </div>
-          <div className="text-center flex-1">
             <div
-              className={`font-semibold text-[13px] sm:text-[15px] ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+              className={`text-[8.5px] sm:text-[9.5px] ${theme === "dark" ? "text-white/50" : "text-gray-500"}`}
+            >
+              TREND
+            </div>
+          </div>
+          <div className="flex-1 text-center">
+            <div
+              className={`text-[13px] font-semibold sm:text-[15px] ${theme === "dark" ? "text-white" : "text-gray-900"}`}
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               76%
             </div>
-            <div className={`text-[8.5px] sm:text-[9.5px] ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>AI CONFIDENCE</div>
-          </div>
-          <div className="text-center flex-1">
             <div
-              className="font-semibold text-[13px] sm:text-[15px] text-[#25c6e8]"
+              className={`text-[8.5px] sm:text-[9.5px] ${theme === "dark" ? "text-white/50" : "text-gray-500"}`}
+            >
+              AI CONFIDENCE
+            </div>
+          </div>
+          <div className="flex-1 text-center">
+            <div
+              className="text-[13px] font-semibold text-[#25c6e8] sm:text-[15px]"
               style={{ fontFamily: '"Space Grotesk", sans-serif' }}
             >
               Low
             </div>
-            <div className={`text-[8.5px] sm:text-[9.5px] ${theme === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>RISK LEVEL</div>
+            <div
+              className={`text-[8.5px] sm:text-[9.5px] ${theme === "dark" ? "text-white/50" : "text-gray-500"}`}
+            >
+              RISK LEVEL
+            </div>
           </div>
         </div>
       </div>

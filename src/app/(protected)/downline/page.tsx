@@ -6,12 +6,9 @@ import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 const DownlineAffilates = () => {
   const { leftRightData, loading, fetchLeftRightData } = useCommunityStore();
   const { data: currentUserResponse } = useCurrentUser();
-  const currentUser = (currentUserResponse as any)?.data;
+  const currentUser = currentUserResponse?.data;
   const loginId = currentUser?.userId || currentUser?.loginid || "";
 
-  const [pageSize, setPageSize] = useState("");
-  const [selectedRankId, setSelectedRankId] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState(""); // "" = All, 1-18
   const [selectedSide, setSelectedSide] = useState(""); // "" = All, "L" = Left, "R" = Right
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,13 +47,11 @@ const DownlineAffilates = () => {
   };
 
   // ---------------- CLEAN TABLE DATA ----------------
-  const rawData = Array.isArray(leftRightData)
-    ? leftRightData
-    : (leftRightData as any)?.data || [];
+  const rawData = leftRightData;
 
   // NOTE: level filtering ab server-side (Submit button) se hota hai.
   // Sirf search client-side rehta hai kyunki wo turant filter hona chahiye.
-  const filteredData = rawData.filter((node: any) => {
+  const filteredData = rawData.filter((node) => {
     const s = searchTerm.toLowerCase();
     const matchesSearch = node.Name?.toLowerCase().includes(s) || node.Loginid?.toLowerCase().includes(s);
     return matchesSearch;
@@ -78,7 +73,7 @@ const DownlineAffilates = () => {
     const maxVisible = 5;
 
     let start = Math.max(currentPage - 2, 1);
-    let end = Math.min(start + maxVisible - 1, totalPages);
+    const end = Math.min(start + maxVisible - 1, totalPages);
 
     if (end - start < maxVisible - 1) {
       start = Math.max(end - maxVisible + 1, 1);
@@ -181,7 +176,7 @@ const DownlineAffilates = () => {
                     </tr>
                   )}
 
-                  {displayData.map((node: any, index: number) => (
+                  {displayData.map((node, index) => (
                     <tr
                       key={index}
                       className="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"

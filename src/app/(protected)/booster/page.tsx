@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loader2 } from "lucide-react";
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
@@ -37,7 +37,6 @@ interface ActivateBoosterModalProps {
   isOpen: boolean;
   onClose: () => void;
   booster: Booster | null;
-  userId?: string;  
 }
 
 
@@ -45,57 +44,19 @@ const ActivateBoosterModal: React.FC<ActivateBoosterModalProps> = ({
   isOpen,
   onClose,
   booster,
-  userId = "",
 }) => {
   const queryClient = useQueryClient();
   const [walletBalance, setWalletBalance] = useState(0);
   const [isLoadingWallet, setIsLoadingWallet] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
   const [activationError, setActivationError] = useState("");
-  const [userIdInput, setUserIdInput] = useState(userId);
-  const [userName, setUserName] = useState("");
-  const [isLoadingUserName, setIsLoadingUserName] = useState(false);
 
   // Fetch wallet details when modal opens
   useEffect(() => {
     if (isOpen) {
-      setUserIdInput(userId);
-      setUserName("");
       fetchWalletDetails();
     }
-  }, [isOpen, userId]);
-
-  const fetchUserName = useCallback(async () => {
-    setIsLoadingUserName(true);
-    try {
-      const response = await fetch(`/api/FundManager?authLogin=${userIdInput}`);
-      const data = await response.json();
-
-      if (data.statusCode === 200 && data.data) {
-        setUserName(data.data.Name || "");
-      } else {
-        setUserName("");
-      }
-    } catch (error) {
-      console.error('Failed to fetch user name:', error);
-      setUserName("");
-    } finally {
-      setIsLoadingUserName(false);
-    }
-  }, [userIdInput]);
-
-  // Fetch user name when userId changes (debounced)
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (userIdInput && userIdInput.length > 0) {
-        fetchUserName();
-      } else {
-        setUserName("");
-      }
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [userIdInput, fetchUserName]);
+  }, [isOpen]);
 
   const fetchWalletDetails = async () => {
     setIsLoadingWallet(true);
@@ -251,14 +212,6 @@ const ActivateBoosterModal: React.FC<ActivateBoosterModalProps> = ({
               onChange={(e) => setUserIdInput(e.target.value)}
               className="w-full bg-[#f4f6fc] dark:bg-white/5 text-gray-800 dark:text-white text-lg placeholder-gray-400 font-medium px-4 py-3.5 rounded-xl border border-transparent focus:border-blue-300 dark:focus:border-blue-500 outline-none transition-all"
             />
-            {userName && (
-              <span className="text-green-600 dark:text-green-400 text-sm font-medium mt-2 block">
-                {userName}
-              </span>
-            )}
-            {isLoadingUserName && (
-              <Loader2 className="mt-2 h-4 w-4 animate-spin text-[#F5C451]" aria-label="Loading user name" />
-            )}
           </div> */}
 
           <div>
@@ -457,7 +410,6 @@ export default function BoosterPage() {
         isOpen={!!selectedBooster}
         onClose={() => setSelectedBooster(null)}
         booster={selectedBooster}
-        userId=""
       />
     </div>
   );

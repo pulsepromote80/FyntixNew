@@ -3,7 +3,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FormInput } from "@/components/forms/FormInput";
 import { FormSelect } from "@/components/forms/FormSelect";
 import { Button } from "@/components/ui/Button";
@@ -25,6 +25,15 @@ const editProfileSchema = z.object({
 });
 
 type EditProfileValues = z.infer<typeof editProfileSchema>;
+
+interface CountryApiItem {
+  Country_Name?: string;
+  name?: string;
+  countryName?: string;
+  Country_Id?: string | number;
+  id?: string | number;
+  countryId?: string | number;
+}
 
 export function EditProfileForm() {
   const user = useAuthStore((state) => state.user);
@@ -52,13 +61,7 @@ export function EditProfileForm() {
   const { watch, setValue } = methods;
   const walletBep20 = watch("walletBep20");
 
-  // Fetch profile details and countries on mount
-  useEffect(() => {
-    fetchProfileDetails();
-    fetchCountries();
-  }, []);
-
-  const fetchProfileDetails = async () => {
+  const fetchProfileDetails = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/profile-details");
       const result = await response.json();
@@ -79,7 +82,7 @@ export function EditProfileForm() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [setValue]);
 
   const fetchCountries = async () => {
     try {
@@ -87,9 +90,9 @@ export function EditProfileForm() {
 
       const result = await response.json();
       if (result.statusCode === 200 && result.data) {
-        const countryOptions = result.data.map((country: any) => ({
+        const countryOptions = result.data.map((country: CountryApiItem) => ({
           label: country.Country_Name || country.name || country.countryName,
-          value: country.Country_Id?.toString() || country.id?.toString() || country.countryId?.toString(),
+          value: String(country.Country_Id ?? country.id ?? country.countryId ?? ""),
         }));
         setCountries(countryOptions);
       }
@@ -97,6 +100,11 @@ export function EditProfileForm() {
       console.error("Error fetching countries:", error);
     }
   };
+
+  useEffect(() => {
+    void fetchProfileDetails();
+    void fetchCountries();
+  }, [fetchProfileDetails]);
 
   const handleSendOtp = async () => {
     try {

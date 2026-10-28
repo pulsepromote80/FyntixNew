@@ -4,6 +4,20 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth.store";
 
+interface CallbackUserData {
+  id?: string | number;
+  userId?: string | number;
+  name?: string;
+  Fname?: string;
+  email?: string;
+  Email?: string;
+  roles?: string[];
+}
+
+function isCallbackUserData(value: unknown): value is CallbackUserData {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 export default function AuthCallbackPage() {
   const router = useRouter();
   const setUser = useAuthStore((s) => s.setUser);
@@ -27,10 +41,11 @@ export default function AuthCallbackPage() {
       return;
     }
 
-    let userData: any = null;
+    let userData: CallbackUserData | null = null;
     if (userJson) {
       try {
-        userData = JSON.parse(decodeURIComponent(userJson));
+        const parsedUserData: unknown = JSON.parse(decodeURIComponent(userJson));
+        if (isCallbackUserData(parsedUserData)) userData = parsedUserData;
       } catch (e) {
         console.error("Failed to parse user data:", e);
       }

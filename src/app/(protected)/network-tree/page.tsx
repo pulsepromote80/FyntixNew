@@ -2,83 +2,71 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-// @ts-ignore - react-d3-tree types may not be available
 import Tree from "react-d3-tree";
+import type { CustomNodeElementProps } from "react-d3-tree";
 import { toast } from "sonner";
 import { PageLoader } from "@/components/common/PageLoader";
 
 interface TreeNodeData {
   name: string;
-  loginid: string;
-  attributes: {
-    sponsor?: string;
-    rank?: string;
-    downline?: number;
-    package?: number;
-    leaseAmount?: number;
-    actDate?: string;
-    regDate?: string;
-    directBusiness?: number;
-    TeamBusiness?: number;
-    TotalTeam?: number;
-    leftUsersTop?: number;
-    rightUsersTop?: number;
-    leftBusiness?: number;
-    rightBusiness?: number;
-    leftActiveMembers?: number;
-    rightActiveMembers?: number;
-    carryForward?: number;
-    status?: number;
-    position?: string;
-    urid?: string;
-    buttonLink?: string;
-    isExists?: number;
-  };
-  children: TreeNodeData[];
-  __rd3t?: {
-    collapsed: boolean;
-  };
+  attributes: Record<string, string | number | boolean>;
+  children?: TreeNodeData[];
 }
 
-const buildTreeData = (data: any[]): TreeNodeData[] => {
-  if (!Array.isArray(data) || data.length === 0) return [];
+type ApiNetworkNode = Record<string, unknown>;
 
-  const unique = data.filter(
-    (n, i, arr) => i === arr.findIndex((x) => x.Loginid === n.Loginid)
-  );
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
+function readText(record: ApiNetworkNode, key: string): string {
+  const value = record[key];
+  return typeof value === "string" ? value : "";
+}
+
+function readNumber(record: ApiNetworkNode, key: string): number {
+  const value = record[key];
+  if (typeof value !== "number" && typeof value !== "string") return 0;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+const buildTreeData = (value: unknown): TreeNodeData[] => {
+  if (!Array.isArray(value)) return [];
+  const unique = value
+    .filter(isRecord)
+    .filter((node) => readText(node, "Loginid"));
   const nodeMap = new Map<string, TreeNodeData>();
 
   unique.forEach((node) => {
-    const children = unique.filter(
-      (child) => child.SponsorId === node.Loginid
-    );
-    nodeMap.set(node.Loginid, {
-      name: node.Name,
-      loginid: node.Loginid,
+    const loginid = readText(node, "Loginid");
+    const children = unique.filter((child) => readText(child, "SponsorId") === loginid);
+    nodeMap.set(loginid, {
+      name: readText(node, "Name") || loginid,
       attributes: {
-        sponsor: node.SponsorId,
-        rank: node.Urank,
+        loginid,
+        sponsor: readText(node, "SponsorId"),
+        rank: readText(node, "Urank"),
         downline: children.length,
-        package: node.Package,
-        leaseAmount: node.LeaseAmount,
-        actDate: node.TopupDate,
-        regDate: node.RegDate,
-        directBusiness: node.DirectBusiness,
-        TeamBusiness: node.TeamBusiness,
-        TotalTeam: node.TotalTeam,
-        leftUsersTop: node.LeftUserstTop,
-        rightUsersTop: node.RightUsersTop,
-        leftBusiness: node.LeftBussiness,
-        rightBusiness: node.RighttBussiness,
-        leftActiveMembers: node.LeftActiveMember,
-        rightActiveMembers: node.RightActiveMember,
-        carryForward: node.CarryForwardBussiness,
-        status: node.status,
-        position: node.Position,
-        urid: node.URID,
-        buttonLink: node.ButtonLink,
-        isExists: node.IsExists,
+        package: readNumber(node, "Package"),
+        leaseAmount: readNumber(node, "LeaseAmount"),
+        actDate: readText(node, "TopupDate"),
+        regDate: readText(node, "RegDate"),
+        directBusiness: readNumber(node, "DirectBusiness"),
+        TeamBusiness: readNumber(node, "TeamBusiness"),
+        TotalTeam: readNumber(node, "TotalTeam"),
+        leftUsersTop: readNumber(node, "LeftUserstTop"),
+        rightUsersTop: readNumber(node, "RightUsersTop"),
+        leftBusiness: readNumber(node, "LeftBussiness"),
+        rightBusiness: readNumber(node, "RighttBussiness"),
+        leftActiveMembers: readNumber(node, "LeftActiveMember"),
+        rightActiveMembers: readNumber(node, "RightActiveMember"),
+        carryForward: readNumber(node, "CarryForwardBussiness"),
+        status: readNumber(node, "status"),
+        position: readText(node, "Position"),
+        urid: readText(node, "URID"),
+        buttonLink: readText(node, "ButtonLink"),
+        isExists: readNumber(node, "IsExists"),
       },
       children: [],
     });
@@ -87,25 +75,22 @@ const buildTreeData = (data: any[]): TreeNodeData[] => {
   const roots: TreeNodeData[] = [];
 
   unique.forEach((node) => {
-    if (node.SponsorId && nodeMap.has(node.SponsorId)) {
-      const parent = nodeMap.get(node.SponsorId);
-      const child = nodeMap.get(node.Loginid);
-      if (parent && child) {
-        parent.children.push(child);
-      }
+    const loginid = readText(node, "Loginid");
+    const sponsorId = readText(node, "SponsorId");
+    if (sponsorId && nodeMap.has(sponsorId)) {
+      const parent = nodeMap.get(sponsorId);
+      const child = nodeMap.get(loginid);
+      if (parent && child) parent.children?.push(child);
     } else {
-      const nodeData = nodeMap.get(node.Loginid);
-      if (nodeData) {
-        roots.push(nodeData);
-      }
+      const nodeData = nodeMap.get(loginid);
+      if (nodeData) roots.push(nodeData);
     }
   });
 
   return roots;
 };
 
-
-const CustomNode = ({ nodeDatum, toggleNode }: { nodeDatum: any; toggleNode: () => void }) => {
+const CustomNode = ({ nodeDatum, toggleNode }: CustomNodeElementProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPos, setTooltipPos] = useState({ top: 10, left: 0 });
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -134,10 +119,6 @@ const CustomNode = ({ nodeDatum, toggleNode }: { nodeDatum: any; toggleNode: () 
     setShowTooltip(false);
   };
 
-  const handleMouseEnterTooltip = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   return (
     <g>
       <foreignObject x="-100" y="-95" width="200" height="150">
@@ -154,14 +135,14 @@ const CustomNode = ({ nodeDatum, toggleNode }: { nodeDatum: any; toggleNode: () 
             <button
               onClick={(e: React.MouseEvent) => {
                 e.stopPropagation();
-                navigator.clipboard.writeText(nodeDatum.loginid);
+                navigator.clipboard.writeText(String(nodeDatum.attributes?.loginid ?? ""));
                 toast.success("ID Copied");
               }}
               className="hover:opacity-75"
             >
               ❐
             </button>
-            <span>ID: {nodeDatum.loginid}</span>
+            <span>ID: {nodeDatum.attributes?.loginid}</span>
             <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${isActive ? "bg-green-400 dark:bg-green-500" : "bg-red-400 dark:bg-red-500"}`}>
               {isActive ? "Active" : "Inactive"}
             </span>
@@ -182,7 +163,7 @@ const CustomNode = ({ nodeDatum, toggleNode }: { nodeDatum: any; toggleNode: () 
           </div>
 
           {/* Expand / Collapse Button */}
-          {nodeDatum.children?.length > 0 && (
+          {(nodeDatum.children?.length ?? 0) > 0 && (
             <div className="px-2 pb-2 bg-white dark:bg-gray-800">
               <button
                 onClick={(e: React.MouseEvent) => {
@@ -219,13 +200,13 @@ const CustomNode = ({ nodeDatum, toggleNode }: { nodeDatum: any; toggleNode: () 
                 }}
               >
                 <p className="font-semibold text-slate-300 mb-1 border-b border-slate-600 pb-1">
-                  {nodeDatum.name} ({nodeDatum.loginid})
+                  {nodeDatum.name} ({nodeDatum.attributes?.loginid})
                 </p>
                 <p>Reg Date: <span className="text-white">{nodeDatum.attributes?.regDate || "—"}</span></p>
                 <p>Act Date: <span className="text-white">{nodeDatum.attributes?.actDate || "—"}</span></p>
                 <p>Rank: <span className="text-white">{nodeDatum.attributes?.rank || "N/A"}</span></p>
-                <p>Direct Business: <span className="text-white">${formatAmount(nodeDatum.attributes?.directBusiness || 0)}</span></p>
-                <p>Team Business: <span className="text-white">${formatAmount(nodeDatum.attributes?.TeamBusiness || 0)}</span></p>
+                <p>Direct Business: <span className="text-white">${formatAmount(String(nodeDatum.attributes?.directBusiness || 0))}</span></p>
+                <p>Team Business: <span className="text-white">${formatAmount(String(nodeDatum.attributes?.TeamBusiness || 0))}</span></p>
                 <p>Total Team: <span className="text-white">{nodeDatum.attributes?.TotalTeam || 0}</span></p>
               </div>,
               document.body
@@ -241,7 +222,7 @@ export default function NetworkTreeView() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const [treeData, setTreeData] = useState<any[]>([]);
+  const [treeData, setTreeData] = useState<ApiNetworkNode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -255,12 +236,16 @@ export default function NetworkTreeView() {
         });
 
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const result = await response.json();
+        const result: unknown = await response.json();
 
-        if (result.statusCode === 200 && result.data) {
-          setTreeData(result.data);
+        if (isRecord(result) && result.statusCode === 200 && Array.isArray(result.data)) {
+          setTreeData(result.data.filter(isRecord));
         } else {
-          setError(result.message || "Failed to load network tree");
+          setError(
+            isRecord(result) && typeof result.message === "string"
+              ? result.message
+              : "Failed to load network tree",
+          );
         }
       } catch (err) {
         console.error(err);
@@ -273,10 +258,7 @@ export default function NetworkTreeView() {
     fetchNetworkTree();
   }, []);
 
-  const formattedTreeData = useMemo(
-    () => buildTreeData(treeData || []),
-    [treeData]
-  );
+  const formattedTreeData = useMemo(() => buildTreeData(treeData), [treeData]);
 
   useEffect(() => {
     const updateCenter = () => {
@@ -308,7 +290,11 @@ export default function NetworkTreeView() {
           ref={containerRef}
           className="w-full h-[75vh] md:h-[85vh] bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-700 overflow-hidden shadow-xl dark:shadow-black/50"
         >
-          {formattedTreeData.length ? (
+          {loading ? (
+            <div className="flex h-full items-center justify-center">
+              <PageLoader />
+            </div>
+          ) : formattedTreeData.length ? (
             <Tree
 
               data={formattedTreeData}
