@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Zap, Info, TrendingUp, TrendingDown, Loader2, Award } from "lucide-react";
 
 type RankRow = {
@@ -24,16 +24,50 @@ interface RankData {
   ranks?: RankRow[];
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isRankRow(value: unknown): value is RankRow {
+  return isRecord(value) && typeof value.RewardTitle === "string";
+}
+
+function isApiResponse(value: unknown): value is ApiResponse {
+  return isRecord(value) && typeof value.statusCode === "number" && Array.isArray(value.data);
+}
+
+function getRows(payload: unknown): RankRow[] {
+  if (Array.isArray(payload)) return payload.filter(isRankRow);
+
+  if (isApiResponse(payload) && payload.statusCode === 200) {
+    return payload.data;
+  }
+
+  const pending: unknown[] = [payload];
+  const visited = new Set<object>();
+  for (let depth = 0; depth < 7 && pending.length > 0; depth += 1) {
+    const level = pending.splice(0);
+    for (const value of level) {
+      if (Array.isArray(value)) {
+        const records = value.filter(isRankRow);
+        if (records.length > 0) return records;
+        pending.push(...value);
+        continue;
+      }
+      if (!isRecord(value) || visited.has(value)) continue;
+      visited.add(value);
+      pending.push(...Object.values(value));
+    }
+  }
+  return [];
+}
+
 export default function RankPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [rankData, setRankData] = useState<RankData>({});
 
-  useEffect(() => {
-    loadRankData();
-  }, []);
-
-  const loadRankData = async () => {
+  const loadRankData = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
@@ -56,45 +90,11 @@ export default function RankPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === "object" && value !== null && !Array.isArray(value);
-  }
-
-  function isRankRow(value: unknown): value is RankRow {
-    return isRecord(value) && typeof value.RewardTitle === "string";
-  }
-
-  function isApiResponse(value: unknown): value is ApiResponse {
-    return isRecord(value) && typeof value.statusCode === "number" && Array.isArray(value.data);
-  }
-
-  function getRows(payload: unknown): RankRow[] {
-    if (Array.isArray(payload)) return payload.filter(isRankRow);
-
-    if (isApiResponse(payload) && payload.statusCode === 200) {
-      return payload.data;
-    }
-
-    const pending: unknown[] = [payload];
-    const visited = new Set<object>();
-    for (let depth = 0; depth < 7 && pending.length > 0; depth += 1) {
-      const level = pending.splice(0);
-      for (const value of level) {
-        if (Array.isArray(value)) {
-          const records = value.filter(isRankRow);
-          if (records.length > 0) return records;
-          pending.push(...value);
-          continue;
-        }
-        if (!isRecord(value) || visited.has(value)) continue;
-        visited.add(value);
-        pending.push(...Object.values(value));
-      }
-    }
-    return [];
-  }
+  useEffect(() => {
+    void loadRankData();
+  }, [loadRankData]);
 
   function formatMoney(value: unknown): string {
     if (typeof value === "string") {

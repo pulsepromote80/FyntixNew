@@ -1,24 +1,17 @@
 "use client";
 import { useState } from "react";
 // import { NftSection } from "@/app/components/NftSection";
-import { usePathname } from 'next/navigation';
-import { getPageName } from "@/lib/utils";
 import TransactionData from "@/features/income-reports/components/TransactionData";
 import {
   FaUserPlus,
   FaGift,
-  FaMedal,
   FaSeedling,
   FaLayerGroup ,
-  FaUsers,
-  FaCrown,
   FaMoneyBillWave 
 } from "react-icons/fa";
 
 export default function Reports() {
   const [activeTab, setActiveTab] = useState("Direct Income");
-  const pathname = usePathname();
-  const pageName = getPageName(pathname);
 
   const getTransactionType = (tabName: string) => {
     const map: Record<string, string> = {

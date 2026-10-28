@@ -11,27 +11,26 @@ export interface JWTPayload {
   exp: number;
   iss: string;
   aud: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
-
 
 export function decodeJWT(token: string): JWTPayload | null {
   try {
-    const parts = token.split('.');
+    const parts = token.split(".");
     if (parts.length !== 3) {
-      console.error('Invalid JWT format');
+      console.error("Invalid JWT format");
       return null;
     }
 
     const payload = parts[1];
     if (!payload) {
-      console.error('Invalid JWT: missing payload');
+      console.error("Invalid JWT: missing payload");
       return null;
     }
     const decoded = atob(payload);
     return JSON.parse(decoded) as JWTPayload;
   } catch (error) {
-    console.error('Failed to decode JWT:', error);
+    console.error("Failed to decode JWT:", error);
     return null;
   }
 }

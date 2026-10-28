@@ -28,9 +28,9 @@ export default function FyntixLanding() {
       <header className="border-line/80 bg-ink/85 sticky top-0 z-40 border-b backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="flex items-center justify-between py-3.5">
-            <a className="flex items-center" href="/">
+            <Link className="flex items-center" href="/">
               <ThemeLogo width={1193} height={366} className="h-9 w-auto" />
-            </a>
+            </Link>
             <nav className="hidden items-center gap-7 text-sm text-muted lg:flex">
               <a href="#protocol" className="transition hover:text-foreground">
                 Protocol
@@ -258,7 +258,7 @@ export default function FyntixLanding() {
             </div>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[1.06] tracking-[-.055em] sm:text-6xl lg:text-7xl">
               Decentralising the{" "}
-              <span className="text-gradient">world's largest financial market.</span>
+              <span className="text-gradient">world&apos;s largest financial market.</span>
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-muted sm:text-lg">
               FYNTIX connects forex traders and liquidity providers directly through transparent,
@@ -1356,7 +1356,7 @@ export default function FyntixLanding() {
               <div>
                 <h4 className="font-semibold">Non-custodial wallet</h4>
                 <p className="mt-2 text-sm leading-6 text-muted">
-                  Keys remain on the owner's device at all times.
+                  Keys remain on the owner&apos;s device at all times.
                 </p>
               </div>
             </div>
@@ -1714,7 +1714,7 @@ export default function FyntixLanding() {
               What the FYNTIX token is for
             </h2>
             <p className="mt-4 leading-7 text-muted">
-              The token's role is functional — it powers the mechanics of the protocol itself, not a
+              The token&apos;s role is functional — it powers the mechanics of the protocol itself, not a
               promise of return.
             </p>
           </div>
@@ -1935,7 +1935,7 @@ export default function FyntixLanding() {
               </span>
               <h4 className="mt-5 font-semibold">Governance Participation</h4>
               <p className="mt-2 text-sm leading-6 text-muted">
-                Lets holders take part in decisions about the protocol's future.
+                Lets holders take part in decisions about the protocol&apos;s future.
               </p>
               <div className="bg-mint/60 mt-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
             </div>

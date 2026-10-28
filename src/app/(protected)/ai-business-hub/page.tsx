@@ -3,27 +3,32 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import type { IconType } from "react-icons";
 
 import {
-  RiTimerLine,
   RiLineChartLine,
-  RiFlowChart,
   RiRocketLine,
   RiShareLine,
   RiAwardLine,
   RiGroupLine,
-  RiBankCardLine,
-  RiMoneyDollarCircleLine,
-  RiTeamLine,
-  RiKeyLine,
-  RiBarChartLine,
   RiBriefcaseLine,
   RiArrowUpLine,
   RiRefreshLine,
 } from "react-icons/ri";
 
-function classNames(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function getNumber(value: unknown): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function getText(value: unknown, fallback: string): string {
+  return (typeof value === "string" || typeof value === "number") && String(value)
+    ? String(value)
+    : fallback;
 }
 
 // Simple UI Components
@@ -55,14 +60,6 @@ function Ring({ pct, size = 100, color = "#3b8bff", sub = "" }: { pct: number; s
         <span style={{ fontSize: 18, fontWeight: 'bold' }}>{pct.toFixed(0)}%</span>
         {sub && <span style={{ fontSize: 10 }}>{sub}</span>}
       </div>
-    </div>
-  );
-}
-
-function Bar({ pct = 0 }: { pct: number }) {
-  return (
-    <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
-      <div style={{ width: `${Math.min(100, pct)}%`, height: '100%', background: 'linear-gradient(90deg, #3b8bff, #8a5cf0)', borderRadius: 3, transition: 'width 0.5s ease' }} />
     </div>
   );
 }
@@ -100,7 +97,7 @@ function Donut({ size = 100, stroke = 12, parts = [], center }: { size?: number;
 }
 
 function Icon({ name, size = 16 }: { name: string; size?: number }) {
-  const icons: Record<string, any> = {
+  const icons = {
     arrowUp: RiArrowUpLine,
     refresh: RiRefreshLine,
     share: RiShareLine,
@@ -110,7 +107,7 @@ function Icon({ name, size = 16 }: { name: string; size?: number }) {
     group: RiGroupLine,
     briefcase: RiBriefcaseLine,
   };
-  const IconComponent = icons[name] || RiArrowUpLine;
+  const IconComponent: IconType = icons[name as keyof typeof icons] || RiArrowUpLine;
   return <IconComponent size={size} />;
 }
 
@@ -159,7 +156,6 @@ function useCountUp(endValue: number, duration = 1000) {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endValue, duration]);
 
   return value;
@@ -170,16 +166,22 @@ export default function AIBUSINESSHUB() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const [affiliate, setAffiliate] = useState<any>(null);
+  const [affiliate, setAffiliate] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
+  const boosterRemDateTime = getText(affiliate?.BoosterRemDateTime, "");
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         const response = await fetch('/api/Authentication/affiliate-network');
-        const data = await response.json();
-        if (data.statusCode === 200 && data.data && data.data.length > 0) {
+        const data: unknown = await response.json();
+        if (
+          isRecord(data) &&
+          data.statusCode === 200 &&
+          Array.isArray(data.data) &&
+          isRecord(data.data[0])
+        ) {
           setAffiliate(data.data[0]);
         }
       } catch (error) {
@@ -192,8 +194,8 @@ export default function AIBUSINESSHUB() {
   }, []);
 
   useEffect(() => {
-    if (!affiliate?.BoosterRemDateTime) return;
-    const target = new Date(affiliate.BoosterRemDateTime);
+    if (!boosterRemDateTime) return;
+    const target = new Date(boosterRemDateTime);
     const updateTimer = () => {
       const now = new Date();
       const diff = target.getTime() - now.getTime();
@@ -213,7 +215,7 @@ export default function AIBUSINESSHUB() {
     updateTimer();
     const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
-  }, [affiliate?.BoosterRemDateTime]);
+  }, [boosterRemDateTime]);
 
   const say = (m: string) => {
     setToast(m);
@@ -221,31 +223,27 @@ export default function AIBUSINESSHUB() {
   };
 
   // Data from affiliate
-  const totalInvestment = affiliate?.TotalInvestment || 0;
-  const totalEarning = affiliate?.TotalEarning || 0;
-  const earningLimit = affiliate?.EarningLimit || 0;
-  const remainingLimit = affiliate?.RemainingLimit || 0;
-  const activeDirectMembers = affiliate?.ActiveDirectMembers || 0;
-  const directBusiness = affiliate?.DirectBusiness || 0;
-  const subscription = affiliate?.Subscription || 0;
-  const teamBusiness = affiliate?.ROIAmt || 0;
-  const directBonus = affiliate?.DirectBonus || 0;
-  const matchingIncome = affiliate?.MatchingIncome || 0;
-  const rewardBonus = affiliate?.RewardBonus || 0;
-  const yieldIncome = affiliate?.YieldIncome || 0;
-  const levelIncome = affiliate?.LevelIncome || 0;
-  const performanceWithdrawal = affiliate?.PerformanceWithdrawal || 0;
-  const yieldWithdrawal = affiliate?.YieldWithdrawal || 0;
-  const tradingPackage = affiliate?.TradingPackage || 0;
-  const smartBonds = affiliate?.RebornPacakge || 0;
-  const leftBusvolume = affiliate?.LeftBusvolume || 0;
-  const rightBusvolume = affiliate?.RightBusvolume || 0;
-  const strongLegID = affiliate?.Reborn2Pacakge || "N/A";
-  const leadershipRank = affiliate?.LeadershipRank || "N/A";
-  const rankPercentage = affiliate?.Levelopen || 0;
+  const activeDirectMembers = getNumber(affiliate?.ActiveDirectMembers);
+  const directBusiness = getNumber(affiliate?.DirectBusiness);
+  const subscription = getNumber(affiliate?.Subscription);
+  const teamBusiness = getNumber(affiliate?.ROIAmt);
+  const directBonus = getNumber(affiliate?.DirectBonus);
+  const matchingIncome = getNumber(affiliate?.MatchingIncome);
+  const rewardBonus = getNumber(affiliate?.RewardBonus);
+  const yieldIncome = getNumber(affiliate?.YieldIncome);
+  const levelIncome = getNumber(affiliate?.LevelIncome);
+  const performanceWithdrawal = getNumber(affiliate?.PerformanceWithdrawal);
+  const yieldWithdrawal = getNumber(affiliate?.YieldWithdrawal);
+  const tradingPackage = getNumber(affiliate?.TradingPackage);
+  const smartBonds = getNumber(affiliate?.RebornPacakge);
+  const leftBusvolume = getNumber(affiliate?.LeftBusvolume);
+  const rightBusvolume = getNumber(affiliate?.RightBusvolume);
+  const strongLegID = getText(affiliate?.Reborn2Pacakge, "N/A");
+  const leadershipRank = getText(affiliate?.LeadershipRank, "N/A");
+  const rankPercentage = getNumber(affiliate?.Levelopen);
 
   // Calculated values
-  const teamTotal = leftBusvolume + rightBusvolume;
+  const teamTotal = Number(leftBusvolume) + Number(rightBusvolume);
   const powerLeg = Math.max(leftBusvolume, rightBusvolume);
   const weakLeg = Math.min(leftBusvolume, rightBusvolume);
 
@@ -506,13 +504,13 @@ export default function AIBUSINESSHUB() {
                   <div><h3>Dynamic Referral Yield</h3><div className="sub">Leader opportunity · 10% to 100%</div></div><span className="hub-chip blue">Leader</span>
                 </div>
                 <div className="hub-tiers">
-                  {dryTiers.map((t, i) => (
+                  {dryTiers.map((t) => (
                     <div className={`hub-tier ${t.dir === activeDirectMembers ? "current" : ""}`} key={t.dir}>
                       <span className="mono">{t.dir} direct{t.dir > 1 ? "s" : ""}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b>
                     </div>
                   ))}
                 </div>
-                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[activeDirectMembers - 1]?.pct || 0}% yield</b></div>
+                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[Number(activeDirectMembers) - 1]?.pct || 0}% yield</b></div>
               </div>
             </Reveal>
             <Reveal delay={100}>
@@ -525,7 +523,7 @@ export default function AIBUSINESSHUB() {
                     <div className="hub-tier" key={t.vol}><span>{t.vol}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b></div>
                   ))}
                 </div>
-                <div className="sub" style={{ marginTop: 12 }}>Higher volume → higher percentage. You earn the difference between your rate and your team's rate.</div>
+                <div className="sub" style={{ marginTop: 12 }}>Higher volume → higher percentage. You earn the difference between your rate and your team&apos;s rate.</div>
               </div>
             </Reveal>
           </div>
@@ -574,7 +572,7 @@ export default function AIBUSINESSHUB() {
                   <span className="hub-chip blue">Direct line</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3" style={{ gap: 10, gridTemplateColumns: 'repeat(3,1fr)' }}>
-                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct ID</small><b className="mono" style={{ color: 'var(--hub-text)' }}><CountUp value={affiliate?.UserId || 0} /></b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct ID</small><b className="mono" style={{ color: 'var(--hub-text)' }}><CountUp value={getNumber(affiliate?.UserId)} /></b></div>
                   <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Active Direct</small><b className="mono"><CountUp value={activeDirectMembers} /></b></div>
                   <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct Business</small><b className="mono"><CountUp value={directBusiness} prefix="$" dec={0} /></b></div>
                 </div>
@@ -594,8 +592,8 @@ export default function AIBUSINESSHUB() {
                   <h3>Personal Info</h3>
                   <span className="hub-chip muted">Active</span>
                 </div>
-                <div className="hub-kv"><span>User ID</span><span className="mono">{affiliate?.UserId || "N/A"}</span></div>
-                <div className="hub-kv"><span>Sponsor</span><span className="mono">{affiliate?.SponsorId || "N/A"}</span></div>
+                <div className="hub-kv"><span>User ID</span><span className="mono">{getText(affiliate?.UserId, "N/A")}</span></div>
+                <div className="hub-kv"><span>Sponsor</span><span className="mono">{getText(affiliate?.SponsorId, "N/A")}</span></div>
                 <div className="hub-kv"><span>Current Rank</span><span>{leadershipRank}</span></div>
                 <div className="hub-kv"><span>Rank Progress</span><span>{rankPercentage}%</span></div>
                 <div className="hub-kv"><span>Strong Team ID</span><span className="mono">{strongLegID}</span></div>

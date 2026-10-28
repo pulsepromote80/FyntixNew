@@ -23,15 +23,19 @@ interface PersonalTeamMember {
 }
 
 interface LeftRightDownlineMember {
-  name?: string;
+  Name?: string;
   loginid?: string;
+  Mobile?: string;
+  SponserId?: string;
+  RegDate?: string;
+  leftLBuss?: number;
+  rightRBuss?: number;
+  name?: string;
   mobile?: string;
   sponserId?: string;
   regDate?: string;
   licneseAmount?: number;
   deployAmount?: number;
-  leftLBuss?: number;
-  rightRBuss?: number;
   introSide?: string;
 }
 

@@ -127,7 +127,7 @@ const LevelPartner = () => {
     const maxVisible = 5; // center me kitne pages dikhane
 
     let start = Math.max(currentPage - 2, 1);
-    let end = Math.min(start + maxVisible - 1, totalPages);
+    const end = Math.min(start + maxVisible - 1, totalPages);
 
     if (end - start < maxVisible - 1) {
       start = Math.max(end - maxVisible + 1, 1);

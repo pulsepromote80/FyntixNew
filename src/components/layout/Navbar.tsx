@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, User, Moon, Sun, Wallet, Bell, ChevronDown, UserRound, ChevronUp, Check, Copy, Headphones, LogOut, X, Briefcase, TrendingUp, BarChart3, ShieldCheck, Loader2 } from "lucide-react";
+import { Menu, Moon, Sun, Wallet, Bell, ChevronDown, UserRound, ChevronUp, Check, Copy, Headphones, LogOut, X, Briefcase, TrendingUp, BarChart3, Loader2 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { primaryNav } from "@/config/navigation";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,7 +10,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useDashboardSummary } from "@/features/dashboard/hooks/useDashboardSummary";
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import type { NavItem } from "@/types/common";
 
@@ -561,12 +560,6 @@ export function Navbar() {
                         notification.adminRemarks) ||
                       (typeof notification.message === "string" && notification.message) ||
                       "You have a new notification.";
-                    const rawDate = notification.NotificationDate ?? notification.notificationDate;
-                    const parsedDate =
-                      typeof rawDate === "string" || typeof rawDate === "number"
-                        ? new Date(rawDate)
-                        : null;
-
                     const amount = notification.Amount ?? notification.amount;
                     const amountText =
                       typeof amount === "string" || typeof amount === "number"

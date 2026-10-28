@@ -1,11 +1,9 @@
 import type { NavItem } from "@/types/common";
-import { APP_ROUTES } from "@/lib/constants";
 
 export const primaryNav: NavItem[] = [
   {
     label: "Dashboard",
     href: "/dashboard",
-
   },
 
   {
@@ -16,25 +14,20 @@ export const primaryNav: NavItem[] = [
       { label: "Investment Fund ", href: "/investment-amount" },
       // { label: "Booster", href: "/booster" },
       { label: "Order History", href: "/order-history" },
-
     ],
-
   },
 
   {
     label: "Fund Director",
     href: "/fund-director",
-
   },
   {
     label: "AI Engine",
     href: "/ai-engine",
-
   },
   {
     label: "Analytics",
     href: "/analytics",
-
   },
   {
     label: "Affiliate",

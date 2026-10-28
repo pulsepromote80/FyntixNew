@@ -5,15 +5,12 @@ import {
   ArrowDownLeft,
   ArrowLeftRight,
   ArrowUpRight,
-  Banknote,
-  Check,
   CheckCircle2,
   Clock3,
   Copy,
   Landmark,
   Loader2,
   QrCode,
-  Search,
   Send,
   ShieldCheck,
   Wallet,
@@ -1702,7 +1699,8 @@ export default function FundDirectorPage() {
                       }`}
                   >
                     {selected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
-                    {label}
+                      <Icon className="h-4 w-4" />
+                      {label}
                   </button>
                 );
               })}

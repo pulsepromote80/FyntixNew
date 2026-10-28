@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import * as OTPAuth from "otpauth";
 import { QRCodeCanvas } from "qrcode.react";
@@ -9,19 +9,25 @@ import {
   QrCode, 
   CheckCircle2, 
   XCircle, 
-  Copy, 
   RefreshCw,
   Loader2
 } from "lucide-react";
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function firstString(...values: unknown[]): string | null {
+  return values.find((value): value is string => typeof value === "string" && value.length > 0) ?? null;
+}
+
 export function Manage2FAForm() {
   const [otp, setOtp] = useState("");
-  const [secretCopied, setSecretCopied] = useState(false);
   const [isEnabling, setIsEnabling] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [qrGeneratedOnce, setQrGeneratedOnce] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<unknown>(null);
   const statusCheckedRef = useRef(false);
   const toastShownRef = useRef(false);
   const qrToastShownRef = useRef(false);
@@ -35,16 +41,7 @@ export function Manage2FAForm() {
     is2FAAlreadyEnabled: false,
   });
 
-  useEffect(() => {
-    if (!statusCheckedRef.current) {
-      statusCheckedRef.current = true;
-      check2FAStatus();
-      // Auto-generate QR if 2FA is not enabled
-      generateQR();
-    }
-  }, []);
-
-  const check2FAStatus = async () => {
+  const check2FAStatus = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/generate-2fa", {
         method: "POST",
@@ -74,7 +71,7 @@ export function Manage2FAForm() {
     } catch (error) {
       console.error("Error checking 2FA status:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (twoFAState.enabled || twoFAState.is2FAAlreadyEnabled) {
@@ -85,31 +82,34 @@ export function Manage2FAForm() {
       return;
     }
 
-    if (error && typeof error === 'object' && 'data' in error) {
-      const payload = (error as any).data;
-      if (payload && typeof payload === "object") {
-        const qrCode = payload.qrCode || payload.otpauthUrl || payload.qr || payload.url || null;
-        const manualKey = payload.manualKey || payload.secret || payload.secretKey || null;
+    if (isRecord(error) && isRecord(error.data)) {
+      const payload = error.data;
+      const qrCode = firstString(payload.qrCode, payload.otpauthUrl, payload.qr, payload.url);
+      const manualKey = firstString(payload.manualKey, payload.secret, payload.secretKey);
 
-        if (qrCode && manualKey) {
-          setTwoFAState(prev => ({
-            ...prev,
-            secret: manualKey,
-            otpauthUrl: qrCode,
-            qrGenerated: true,
-            is2FAAlreadyEnabled: false,
-          }));
-          setQrGeneratedOnce(true);
-          if (!qrToastShownRef.current) {
-            qrToastShownRef.current = true;
-            toast.success("✅ QR generated! Scan it with Google Authenticator");
-          }
+      if (qrCode && manualKey) {
+        setTwoFAState(prev => ({
+          ...prev,
+          secret: manualKey,
+          otpauthUrl: qrCode,
+          qrGenerated: true,
+          is2FAAlreadyEnabled: false,
+        }));
+        setQrGeneratedOnce(true);
+        if (!qrToastShownRef.current) {
+          qrToastShownRef.current = true;
+          toast.success("✅ QR generated! Scan it with Google Authenticator");
         }
       }
     }
-  }, [error]);
+  }, [
+    error,
+    qrGeneratedOnce,
+    twoFAState.enabled,
+    twoFAState.is2FAAlreadyEnabled,
+  ]);
 
-  const generateQR = async () => {
+  const generateQR = useCallback(async () => {
     if (twoFAState.enabled || twoFAState.is2FAAlreadyEnabled) {
       toast.error("2FA is already enabled for this account");
       return;
@@ -188,7 +188,15 @@ export function Manage2FAForm() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [twoFAState.enabled, twoFAState.is2FAAlreadyEnabled]);
+
+  useEffect(() => {
+    if (!statusCheckedRef.current) {
+      statusCheckedRef.current = true;
+      void check2FAStatus();
+      void generateQR();
+    }
+  }, [check2FAStatus, generateQR]);
 
   const validateOtp = (secret: string, token: string) => {
     if (!secret || !token || token.length !== 6) {
@@ -292,39 +300,19 @@ export function Manage2FAForm() {
     }
   };
 
-  const handleDisable = () => {
-    if (window.confirm("Are you sure you want to disable 2FA?")) {
-      setTwoFAState({
-        enabled: false,
-        secret: null,
-        otpauthUrl: null,
-        qrGenerated: false,
-        is2FAAlreadyEnabled: false,
-      });
-      setQrGeneratedOnce(false);
-      setOtp("");
-      toastShownRef.current = false;
-      qrToastShownRef.current = false;
-      toast.success("2FA disabled. You can now generate a new QR.");
-    }
-  };
-
-  const copySecret = () => {
-    if (twoFAState.secret) {
-      navigator.clipboard.writeText(twoFAState.secret);
-      setSecretCopied(true);
-      setTimeout(() => setSecretCopied(false), 2000);
-      toast.success("Secret copied!");
-    }
-  };
-
   const isEnabled = twoFAState.enabled || twoFAState.is2FAAlreadyEnabled;
 
   const getErrorMessage = () => {
     if (!error) return null;
     if (typeof error === 'string') return error;
-    if (error?.message) return error.message;
-    if (error?.data?.message) return error.data.message;
+    if (isRecord(error) && typeof error.message === "string") return error.message;
+    if (
+      isRecord(error) &&
+      isRecord(error.data) &&
+      typeof error.data.message === "string"
+    ) {
+      return error.data.message;
+    }
     return 'Something went wrong. Please try again.';
   };
 
@@ -358,9 +346,9 @@ export function Manage2FAForm() {
         </div>
       </div>
 
-      {error && (
+      {Boolean(error) && (
         <div className="p-3 mb-4 text-sm text-red-600 border border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800 rounded-xl dark:text-red-400">
-          {getErrorMessage()}
+          {getErrorMessage() ?? "Something went wrong. Please try again."}
           {!qrGeneratedOnce && !isEnabled && (
             <button 
               onClick={generateQR}

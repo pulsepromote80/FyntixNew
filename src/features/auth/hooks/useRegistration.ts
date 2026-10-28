@@ -1,9 +1,15 @@
+import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authService } from "@/features/auth/services/auth.service";
-import { QUERY_KEYS } from "@/lib/constants";
-import type { RegistrationPayload, Country, ReferralData } from "@/types/auth";
+import type { RegistrationPayload } from "@/types/auth";
+
+function getApiErrorMessage(error: unknown): string | undefined {
+  if (!axios.isAxiosError<{ message?: unknown }>(error)) return undefined;
+  const message = error.response?.data?.message;
+  return typeof message === "string" ? message : undefined;
+}
 
 export function useRegistration() {
   const router = useRouter();
@@ -27,9 +33,9 @@ export function useRegistration() {
         toast.error(response.message || "Registration failed. Please try again.");
       }
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       console.error("Registration error:", error);
-      toast.error(error?.response?.data?.message || "Registration failed. Please try again.");
+      toast.error(getApiErrorMessage(error) || "Registration failed. Please try again.");
     },
   });
 }
@@ -64,8 +70,8 @@ export function useSendOtp() {
     onSuccess: (response) => {
       toast.success(response.message || "OTP sent successfully!");
     },
-    onError: (error: any) => {
-      const errorMessage = error?.response?.data?.message;
+    onError: (error: unknown) => {
+      const errorMessage = getApiErrorMessage(error);
       // Suppress the specific 401 error message about incorrect credentials
       if (errorMessage !== "Details are incorrect, please enter correct credentials.") {
         toast.error(errorMessage || "Failed to send OTP. Please try again.");

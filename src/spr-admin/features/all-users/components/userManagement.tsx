@@ -11,10 +11,7 @@ import {
   LogIn,
   RotateCcw,
   Search,
-  Shield,
-  UserCheck,
   Users,
-  Wallet,
   XCircle,
   DollarSign,
 } from "lucide-react";
@@ -263,16 +260,9 @@ export default function UserManagement() {
   const currentPage = Math.min(page, pageCount);
   const visibleUsers = (users ?? []).slice((currentPage - 1) * pageSize, currentPage * pageSize);
   const activeUsers = (users ?? []).filter((user) => getStatus(user).active).length;
-  const adminPlaced = (users ?? []).filter((user) =>
-    getText(user, ["Kid", "PlacedBy", "PlacedByName"], "").toLowerCase().includes("admin"),
-  ).length;
   const totalInvestment = (users ?? []).reduce(
     (sum, user) =>
       sum + getAmount(user, ["TotalInvestment", "TotalInvest", "Investment", "TotalAmount"]),
-    0,
-  );
-  const totalWithdrawn = (users ?? []).reduce(
-    (sum, user) => sum + getAmount(user, ["TotalWithdrawn", "Withdraw", "WithdrawAmount"]),
     0,
   );
 
@@ -451,24 +441,12 @@ export default function UserManagement() {
           icon={XCircle}
           colors="border-l-red-500 text-red-500"
         />
-        {/* <StatCard
-          title="Self Placed"
-          value={Math.max(0, (users?.length ?? 0) - adminPlaced).toLocaleString()}
-          icon={UserCheck}
-          colors="border-l-purple-500 text-purple-500"
-        /> */}
         <StatCard
           title="Total Investment"
           value={formatMoney(totalInvestment)}
           icon={DollarSign}
           colors="border-l-indigo-500 text-indigo-500"
         />
-        {/* <StatCard
-          title="Total Withdrawn"
-          value={formatMoney(totalWithdrawn)}
-          icon={Wallet}
-          colors="border-l-orange-500 text-orange-500"
-        /> */}
       </section>
 
       <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
@@ -482,9 +460,9 @@ export default function UserManagement() {
               {usersQuery.isLoading
                 ? "Loading users..."
                 : `Showing ${users?.length ? (currentPage - 1) * pageSize + 1 : 0}-${Math.min(
-                  currentPage * pageSize,
-                  users?.length ?? 0,
-                )} of ${totalUsers.toLocaleString()} users`}
+                    currentPage * pageSize,
+                    users?.length ?? 0,
+                  )} of ${totalUsers.toLocaleString()} users`}
             </p>
           </div>
 
@@ -492,6 +470,11 @@ export default function UserManagement() {
             onSubmit={applyFilters}
             className="grid grid-cols-1 items-end gap-4 md:grid-cols-2 lg:grid-cols-6"
           >
+            {validationError && (
+              <p className="text-sm text-red-600 lg:col-span-6" role="alert">
+                {validationError}
+              </p>
+            )}
             <div>
               <label className={labelClass} htmlFor="user-auth-login">
                 Search
@@ -718,14 +701,14 @@ export default function UserManagement() {
                   const packageAmount =
                     typeof packageValue === "number" || typeof packageValue === "string"
                       ? formatMoney(
-                        getAmount(user, [
-                          "PackageAmount",
-                          "Package",
-                          "PackagePrice",
-                          "PackageValue",
-                          "TotalPackage",
-                        ]),
-                      )
+                          getAmount(user, [
+                            "PackageAmount",
+                            "Package",
+                            "PackagePrice",
+                            "PackageValue",
+                            "TotalPackage",
+                          ]),
+                        )
                       : "—";
                   const packageStatus = getText(user, [
                     "PacakgateStatus",
@@ -790,12 +773,13 @@ export default function UserManagement() {
                       <td className="px-4 py-4 font-medium">{packageAmount}</td>
                       <td className="px-4 py-4">
                         <span
-                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${isInactivePackage
-                            ? "bg-red-100 text-red-700"
-                            : isActivePackage
-                              ? "bg-green-100 text-green-700"
-                              : "bg-slate-100 text-slate-600"
-                            }`}
+                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                            isInactivePackage
+                              ? "bg-red-100 text-red-700"
+                              : isActivePackage
+                                ? "bg-green-100 text-green-700"
+                                : "bg-slate-100 text-slate-600"
+                          }`}
                         >
                           {packageStatus}
                         </span>
