@@ -4,6 +4,7 @@ const config: Config = {
   darkMode: "class",
   content: [
     "./src/app/**/*.{ts,tsx}",
+    "./src/spr-admin/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
     "./src/features/**/*.{ts,tsx}",
   ],
@@ -24,6 +25,24 @@ const config: Config = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        sidebar: {
+          bg: "hsl(var(--sidebar-bg))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          muted: "hsl(var(--sidebar-muted))",
+          "muted-foreground": "hsl(var(--sidebar-muted-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          active: "hsl(var(--sidebar-active))",
+          "active-foreground": "hsl(var(--sidebar-active-foreground))",
+        },
+        stat: {
+          blue: "hsl(var(--stat-blue))",
+          purple: "hsl(var(--stat-purple))",
+          green: "hsl(var(--stat-green))",
+          orange: "hsl(var(--stat-orange))",
+          "light-blue": "hsl(var(--stat-light-blue))",
+          pink: "hsl(var(--stat-pink))",
+          gold: "hsl(var(--stat-gold))",
         },
       },
       borderRadius: {
