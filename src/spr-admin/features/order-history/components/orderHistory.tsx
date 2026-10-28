@@ -223,24 +223,24 @@ export default function OrderHistory() {
   // UI
   // ============================================
   return (
-    <div className="flex w-full items-start justify-center bg-[#FAF6EC] px-4 pb-4 pt-1 font-sans">
+    <div className="flex w-full items-start justify-center px-4 pb-4 pt-1 font-sans text-gray-900 dark:text-gray-100">
       <div className="flex w-full flex-col gap-4">
         {/* ============ Header ============ */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37] text-gray-900 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
               <ShoppingCart className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Order History</h1>
-              <p className="mt-0.5 text-sm text-gray-500">View and manage all customer orders</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Order History</h1>
+              <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">View and manage all customer orders</p>
             </div>
           </div>
 
           <button
             onClick={handleExport}
             disabled={orders.length === 0}
-            className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#D4AF37] px-5 py-2.5 text-sm font-bold text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+            className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
           >
             <Download className="h-4 w-4" />
             Export Excel
@@ -250,44 +250,44 @@ export default function OrderHistory() {
         {/* ============ Stat Cards ============ */}
         {isSearched && (
           <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-[#111318]">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                <p className="text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                   Total Orders
                 </p>
-                <p className="mt-1 text-2xl font-bold text-gray-900">
+                <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
                   {ordersQuery.isFetching ? "—" : totalEntries}
                 </p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-teal-100">
-                <ShoppingCart className="h-5 w-5 text-teal-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 dark:bg-blue-500/15">
+                <ShoppingCart className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-[#111318]">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                <p className="text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                   Total Amount
                 </p>
                 <p className="mt-1 text-2xl font-bold text-green-600">
                   ${ordersQuery.isFetching ? "—" : totalAmount.toFixed(2)}
                 </p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-green-100">
-                <DollarSign className="h-5 w-5 text-green-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-green-100 dark:bg-green-500/15">
+                <DollarSign className="h-5 w-5 text-green-600 dark:text-green-400" />
               </div>
             </div>
           </div>
         )}
 
         {/* ============ Search Filters ============ */}
-        <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="bg-[#D4AF37] px-6 py-4">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900">
+        <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
+          <div className="bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-6 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
               <Search className="h-5 w-5" />
               Search Filters
             </h2>
-            <p className="mt-1 text-xs text-gray-800">Filter orders by date, product, or user</p>
+            <p className="mt-1 text-xs text-white/90">Filter orders by date, product, or user</p>
           </div>
 
           <div className="p-6">
@@ -295,34 +295,34 @@ export default function OrderHistory() {
               <div className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
                 {/* From Date */}
                 <div>
-                  <label className="mb-1.5 block flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500">
-                    <Calendar className="h-3.5 w-3.5 text-[#D4AF37]" /> From Date
+                  <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
+                    <Calendar className="h-3.5 w-3.5 text-blue-600" /> From Date
                   </label>
                   <input
                     type="date"
                     value={fromDate}
                     onChange={(e) => setFromDate(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                   />
                 </div>
 
                 {/* To Date */}
                 <div>
-                  <label className="mb-1.5 block flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500">
-                    <Calendar className="h-3.5 w-3.5 text-[#D4AF37]" /> To Date
+                  <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
+                    <Calendar className="h-3.5 w-3.5 text-blue-600" /> To Date
                   </label>
                   <input
                     type="date"
                     value={toDate}
                     onChange={(e) => setToDate(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                   />
                 </div>
 
                 {/* User ID — on change auto lookup */}
                 <div>
-                  <label className="mb-1.5 block flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500">
-                    <User className="h-3.5 w-3.5 text-[#D4AF37]" /> User ID
+                  <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
+                    <User className="h-3.5 w-3.5 text-blue-600" /> User ID
                   </label>
                   <div className="relative">
                     <input
@@ -330,34 +330,34 @@ export default function OrderHistory() {
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       placeholder="Enter user ID"
-                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 pr-10 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                     />
                     {userQuery.isFetching && (
-                      <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[#D4AF37]" />
+                      <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-blue-600" />
                     )}
                   </div>
                 </div>
 
                 {/* Username (auto-filled) */}
                 <div>
-                  <label className="mb-1.5 block flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500">
-                    <User className="h-3.5 w-3.5 text-[#D4AF37]" /> Username
+                  <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
+                    <User className="h-3.5 w-3.5 text-blue-600" /> Username
                   </label>
                   <input
                     type="text"
                     disabled
                     value={username}
                     placeholder="Username will appear here"
-                    className="w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-500"
+                    className="w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-4">
+              <div className="flex flex-wrap gap-3 border-t border-gray-100 pt-4 dark:border-gray-700">
                 <button
                   type="submit"
                   disabled={ordersQuery.isFetching}
-                  className="flex items-center gap-2 rounded-lg bg-[#D4AF37] px-5 py-2.5 text-sm font-bold text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+                  className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
                 >
                   {ordersQuery.isFetching ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -370,7 +370,7 @@ export default function OrderHistory() {
                 <button
                   type="button"
                   onClick={handleRefresh}
-                  className="flex items-center gap-2 rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-gray-700"
+                  className="flex items-center gap-2 rounded-lg bg-slate-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-slate-700"
                 >
                   <RotateCcw className="h-4 w-4" />
                   Refresh Data
@@ -382,18 +382,18 @@ export default function OrderHistory() {
 
         {/* ============ Results Table ============ */}
         {isSearched && (
-          <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+          <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
             {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-[#D4AF37]/30 bg-[#FFF9E6] px-6 py-3">
+            <div className="flex items-center justify-between border-b border-blue-100 bg-blue-50 px-6 py-3 dark:border-blue-900/50 dark:bg-blue-950/30">
               <div className="flex items-center gap-2">
-                <ShoppingCart className="h-4 w-4 text-[#D4AF37]" />
-                <span className="text-sm font-bold text-gray-800">
+                <ShoppingCart className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-bold text-gray-800 dark:text-gray-100">
                   Found {ordersQuery.isFetching ? "..." : totalEntries} orders
                 </span>
               </div>
-              <span className="text-xs text-gray-600">
+              <span className="text-xs text-gray-600 dark:text-gray-300">
                 Total Amount:{" "}
-                <span className="font-bold text-green-700">
+                <span className="font-bold text-green-700 dark:text-green-400">
                   ${ordersQuery.isFetching ? "..." : totalAmount.toFixed(2)}
                 </span>
               </span>
@@ -403,83 +403,83 @@ export default function OrderHistory() {
             <div className="overflow-x-auto">
               {ordersQuery.isFetching ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-16">
-                  <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
-                  <p className="text-sm text-gray-500">Loading order history...</p>
+                  <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Loading order history...</p>
                 </div>
               ) : ordersQuery.error ? (
                 <div className="flex flex-col items-center justify-center gap-2 py-16">
                   <p className="text-sm font-semibold text-red-500">Failed to load order history</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     {(ordersQuery.error as { response?: { data?: { message?: string } } })?.response
                       ?.data?.message || "Something went wrong"}
                   </p>
                 </div>
               ) : orders.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-2 py-16">
-                  <ShoppingCart className="h-8 w-8 text-gray-300" />
-                  <p className="text-sm text-gray-500">No orders found</p>
+                  <ShoppingCart className="h-8 w-8 text-gray-300 dark:text-gray-600" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400">No orders found</p>
                 </div>
               ) : (
                 <table className="w-full min-w-[1300px] border-collapse text-left">
                   <thead>
-                    <tr className="border-b border-gray-200 bg-[#FAF6EC] text-[10px] font-bold uppercase tracking-wider text-gray-600">
-                      <th className="w-16 border-r border-gray-200 px-3 py-3 text-center">#</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Username</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Email</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Name</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Package</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Topuped By</th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">Price ($)</th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">
+                    <tr className="border-b border-gray-200 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:border-gray-700 dark:bg-[#191c23] dark:text-gray-300">
+                      <th className="w-16 border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">#</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Username</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Email</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Name</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Package</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Topuped By</th>
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">Price ($)</th>
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">
                         Duration (Months)
                       </th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">
                         Weekly APR ($)
                       </th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">
                         Total Return
                       </th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">Credit ($)</th>
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">Credit ($)</th>
                       <th className="px-3 py-3">Order Date</th>
                     </tr>
                   </thead>
-                  <tbody className="text-xs text-gray-700">
+                  <tbody className="text-xs text-gray-700 dark:text-gray-300">
                     {currentOrders.map((item, idx) => (
                       <tr
                         key={`${item.Loginid}-${idx}`}
-                        className="border-b border-gray-100 transition-colors hover:bg-[#FFF9E6]/40"
+                        className="border-b border-gray-100 transition-colors hover:bg-blue-50/70 dark:border-gray-700 dark:hover:bg-blue-500/5"
                       >
-                        <td className="border-r border-gray-100 px-3 py-4 text-center font-medium">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center font-medium dark:border-gray-700">
                           {startIndex + idx + 1}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 dark:border-gray-700">
                           {item.Loginid}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 dark:border-gray-700">
                           {item.Email || "—"}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 font-medium text-gray-800">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 font-medium text-gray-800 dark:border-gray-700 dark:text-gray-100">
                           {item.Name || "—"}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 dark:border-gray-700">
                           {item.PackageName || "—"}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 dark:border-gray-700">
                           {item.TopupedBy || "—"}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-center font-bold text-gray-800">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center font-bold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                           ${item.LicenseAmount}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-center">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center dark:border-gray-700">
                           {item.DurationOnMonth}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-center">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center dark:border-gray-700">
                           ${item.WeeklyReturn}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-center font-medium text-blue-700">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center font-medium text-blue-700 dark:border-gray-700 dark:text-blue-300">
                           ${item.TotalReturn}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-center font-bold text-green-700">
+                        <td className="border-r border-gray-100 px-3 py-4 text-center font-bold text-green-700 dark:border-gray-700 dark:text-green-400">
                           ${item.WeeklyReturn}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4">{item.LicenseDate}</td>
@@ -492,13 +492,13 @@ export default function OrderHistory() {
 
             {/* Pagination Footer */}
             {!ordersQuery.isFetching && orders.length > 0 && (
-              <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-100 bg-white px-6 py-3 md:flex-row">
-                <div className="flex items-center gap-2 text-xs text-gray-600">
+              <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-100 bg-white px-6 py-3 dark:border-gray-700 dark:bg-[#111318] md:flex-row">
+                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
                   <span>Rows per page:</span>
                   <select
                     value={rowsPerPage}
                     onChange={handleRowsPerPageChange}
-                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                   >
                     <option value={5}>5</option>
                     <option value={10}>10</option>
@@ -507,7 +507,7 @@ export default function OrderHistory() {
                   </select>
                 </div>
 
-                <div className="text-xs text-gray-600">
+                <div className="text-xs text-gray-600 dark:text-gray-300">
                   Showing {startIndex + 1} to {Math.min(endIndex, totalEntries)} of {totalEntries}{" "}
                   entries
                 </div>
@@ -516,17 +516,17 @@ export default function OrderHistory() {
                   <button
                     onClick={goToPrev}
                     disabled={currentPage === 1}
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[#D4AF37] text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
-                  <button className="flex h-7 w-7 items-center justify-center rounded-full bg-[#D4AF37] text-xs font-bold text-gray-900">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-r from-[#1680ff] to-[#25c6e8] text-xs font-bold text-white">
                     {currentPage}
                   </button>
                   <button
                     onClick={goToNext}
                     disabled={currentPage === totalPages}
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[#D4AF37] text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>

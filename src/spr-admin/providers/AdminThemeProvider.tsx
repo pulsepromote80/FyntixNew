@@ -39,7 +39,10 @@ export function AdminThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <AdminThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className="spr-admin min-h-screen" data-admin-theme={theme}>
+      <div
+        className={`spr-admin min-h-screen ${theme === "dark" ? "dark" : ""}`}
+        data-admin-theme={theme}
+      >
         {children}
       </div>
     </AdminThemeContext.Provider>

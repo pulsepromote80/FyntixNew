@@ -125,75 +125,75 @@ export default function BoosterHistory() {
       : "Unable to load booster history. Please try again.";
 
   return (
-    <div className="flex w-full items-start justify-center bg-[#FAF6EC] px-4 pb-4 pt-1 font-sans">
+    <div className="flex w-full items-start justify-center px-4 pb-4 pt-1 font-sans text-gray-900 dark:text-gray-100">
       <div className="flex w-full flex-col gap-4">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37] text-gray-900 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
               <Zap className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Booster History</h1>
-              <p className="mt-0.5 text-sm text-gray-500">Review user booster transactions</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Booster History</h1>
+              <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">Review user booster transactions</p>
             </div>
           </div>
           <button
             type="button"
             onClick={handleExport}
             disabled={!history.length || historyQuery.isFetching}
-            className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#D4AF37] px-5 py-2.5 text-sm font-bold text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+            className="flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
           >
             <Download className="h-4 w-4" />
             Export CSV
           </button>
         </div>
 
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="bg-[#D4AF37] px-6 py-4">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900">
+        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
+          <div className="bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-6 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
               <Search className="h-5 w-5" />
               Search Filters
             </h2>
-            <p className="mt-1 text-xs text-gray-800">
+            <p className="mt-1 text-xs text-white/90">
               Filter booster history by user, date, or type
             </p>
           </div>
           <form className="p-6" onSubmit={handleSearch}>
             <div className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-              <label className="text-xs font-bold uppercase text-gray-500">
+              <label className="text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
                 <span className="mb-1.5 flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5 text-[#D4AF37]" /> User ID
+                  <User className="h-3.5 w-3.5 text-blue-600" /> User ID
                 </span>
                 <input
                   value={authLogin}
                   onChange={(event) => setAuthLogin(event.target.value)}
                   placeholder="Enter user ID"
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                 />
               </label>
-              <label className="text-xs font-bold uppercase text-gray-500">
+              <label className="text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
                 <span className="mb-1.5 flex items-center gap-1.5">
-                  <Calendar className="h-3.5 w-3.5 text-[#D4AF37]" /> From Date
+                  <Calendar className="h-3.5 w-3.5 text-blue-600" /> From Date
                 </span>
                 <input
                   type="date"
                   value={fromDate}
                   onChange={(event) => setFromDate(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                 />
               </label>
-              <label className="text-xs font-bold uppercase text-gray-500">
+              <label className="text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
                 <span className="mb-1.5 flex items-center gap-1.5">
-                  <Calendar className="h-3.5 w-3.5 text-[#D4AF37]" /> To Date
+                  <Calendar className="h-3.5 w-3.5 text-blue-600" /> To Date
                 </span>
                 <input
                   type="date"
                   value={toDate}
                   onChange={(event) => setToDate(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                 />
               </label>
-              <label className="text-xs font-bold uppercase text-gray-500">
+              <label className="text-xs font-bold uppercase text-gray-500 dark:text-gray-400">
                 <span className="mb-1.5 block">Booster Type</span>
                 <input
                   type="number"
@@ -201,7 +201,7 @@ export default function BoosterHistory() {
                   step="1"
                   value={boosterType}
                   onChange={(event) => setBoosterType(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-normal text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                 />
               </label>
             </div>
@@ -213,7 +213,7 @@ export default function BoosterHistory() {
                   !Number.isInteger(Number(boosterType)) ||
                   Number(boosterType) < 0
                 }
-                className="flex items-center gap-2 rounded-lg bg-[#D4AF37] px-5 py-2.5 text-sm font-bold text-gray-900 transition hover:bg-[#B89328] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+                className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
               >
                 {historyQuery.isFetching ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -225,7 +225,7 @@ export default function BoosterHistory() {
               <button
                 type="button"
                 onClick={handleReset}
-                className="flex items-center gap-2 rounded-lg bg-gray-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-gray-700"
+                className="flex items-center gap-2 rounded-lg bg-slate-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-slate-700"
               >
                 <RotateCcw className="h-4 w-4" />
                 Reset
@@ -234,28 +234,28 @@ export default function BoosterHistory() {
           </form>
         </section>
 
-        <section className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex flex-col justify-between gap-2 border-b border-[#D4AF37]/30 bg-[#FFF9E6] px-6 py-3 sm:flex-row sm:items-center">
-            <span className="text-sm font-bold text-gray-800">
+        <section className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
+          <div className="flex flex-col justify-between gap-2 border-b border-blue-100 bg-blue-50 px-6 py-3 dark:border-blue-900/50 dark:bg-blue-950/30 sm:flex-row sm:items-center">
+            <span className="text-sm font-bold text-gray-800 dark:text-gray-100">
               {historyQuery.isFetching
                 ? "Loading booster history..."
                 : `${history.length} booster record(s)`}
             </span>
-            <span className="text-xs text-gray-600">
-              Total Booster Value: <strong className="text-green-700">${totalBoosterValue}</strong>
+            <span className="text-xs text-gray-600 dark:text-gray-300">
+              Total Booster Value: <strong className="text-green-700 dark:text-green-400">${totalBoosterValue}</strong>
             </span>
           </div>
 
           {historyQuery.isError ? (
-            <div role="alert" className="px-6 py-12 text-center text-sm text-red-600">
+            <div role="alert" className="px-6 py-12 text-center text-sm text-red-600 dark:text-red-300">
               {errorMessage}
             </div>
           ) : historyQuery.isFetching ? (
-            <div className="flex items-center justify-center gap-2 px-6 py-12 text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-2 px-6 py-12 text-sm text-gray-500 dark:text-gray-400">
               <Loader2 className="h-4 w-4 animate-spin" /> Loading...
             </div>
           ) : history.length === 0 ? (
-            <div className="px-6 py-12 text-center text-sm text-gray-500">
+            <div className="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
               No booster history found.
             </div>
           ) : (
@@ -263,23 +263,23 @@ export default function BoosterHistory() {
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[900px] border-collapse text-left">
                   <thead>
-                    <tr className="border-b border-gray-200 bg-[#FAF6EC] text-[10px] font-bold uppercase tracking-wider text-gray-600">
-                      <th className="border-r border-gray-200 px-3 py-3 text-center">#</th>
-                      <th className="border-r border-gray-200 px-3 py-3">User ID</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Name</th>
-                      <th className="border-r border-gray-200 px-3 py-3 text-right">
+                    <tr className="border-b border-gray-200 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:border-gray-700 dark:bg-[#191c23] dark:text-gray-300">
+                      <th className="border-r border-gray-200 px-3 py-3 text-center dark:border-gray-700">#</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">User ID</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Name</th>
+                      <th className="border-r border-gray-200 px-3 py-3 text-right dark:border-gray-700">
                         Booster Value
                       </th>
-                      <th className="border-r border-gray-200 px-3 py-3">Remark</th>
-                      <th className="border-r border-gray-200 px-3 py-3">Created Date</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Remark</th>
+                      <th className="border-r border-gray-200 px-3 py-3 dark:border-gray-700">Created Date</th>
                       <th className="px-3 py-3">Email</th>
                     </tr>
                   </thead>
-                  <tbody className="text-xs text-gray-700">
+                  <tbody className="text-xs text-gray-700 dark:text-gray-300">
                     {currentRows.map((item, index) => (
                       <tr
                         key={`${item.RowNo}-${item.AuthLogin}-${index}`}
-                        className="border-b border-gray-100 transition-colors hover:bg-[#FFF9E6]/40"
+                        className="border-b border-gray-100 transition-colors hover:bg-blue-50/70 dark:border-gray-700 dark:hover:bg-blue-500/5"
                       >
                         <td className="border-r border-gray-100 px-3 py-4 text-center">
                           {item.RowNo || startIndex + index + 1}
@@ -287,14 +287,14 @@ export default function BoosterHistory() {
                         <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
                           {item.AuthLogin || "—"}
                         </td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 font-medium text-gray-800">
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 font-medium text-gray-800 dark:border-gray-700 dark:text-gray-100">
                           {item.FullName || "—"}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4 text-right font-bold text-green-700">
+                        <td className="border-r border-gray-100 px-3 py-4 text-right font-bold text-green-700 dark:border-gray-700 dark:text-green-400">
                           ${item.BoosterValue}
                         </td>
-                        <td className="border-r border-gray-100 px-3 py-4">{item.Remark || "—"}</td>
-                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4">
+                        <td className="border-r border-gray-100 px-3 py-4 dark:border-gray-700">{item.Remark || "—"}</td>
+                        <td className="whitespace-nowrap border-r border-gray-100 px-3 py-4 dark:border-gray-700">
                           {item.CreatedDate || "—"}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4">{item.email || "—"}</td>
@@ -303,8 +303,8 @@ export default function BoosterHistory() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-100 px-6 py-3 md:flex-row">
-                <label className="flex items-center gap-2 text-xs text-gray-600">
+              <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-100 px-6 py-3 dark:border-gray-700 md:flex-row">
+                <label className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
                   Rows per page:
                   <select
                     value={rowsPerPage}
@@ -312,14 +312,14 @@ export default function BoosterHistory() {
                       setRowsPerPage(Number(event.target.value));
                       setCurrentPage(1);
                     }}
-                    className="rounded border border-gray-300 bg-white px-2 py-1"
+                    className="rounded border border-gray-300 bg-white px-2 py-1 text-gray-700 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-200"
                   >
                     <option value={10}>10</option>
                     <option value={25}>25</option>
                     <option value={50}>50</option>
                   </select>
                 </label>
-                <span className="text-xs text-gray-600">
+                <span className="text-xs text-gray-600 dark:text-gray-300">
                   Showing {startIndex + 1} to {Math.min(startIndex + rowsPerPage, history.length)}{" "}
                   of {history.length}
                 </span>
@@ -329,11 +329,11 @@ export default function BoosterHistory() {
                     onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
                     disabled={currentPage === 1}
                     aria-label="Previous page"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D4AF37] text-gray-900 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
-                  <span className="text-xs text-gray-600">
+                  <span className="text-xs text-gray-600 dark:text-gray-300">
                     Page {currentPage} of {totalPages}
                   </span>
                   <button
@@ -341,7 +341,7 @@ export default function BoosterHistory() {
                     onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
                     disabled={currentPage === totalPages}
                     aria-label="Next page"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D4AF37] text-gray-900 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
