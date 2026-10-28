@@ -197,28 +197,28 @@ export default function BlockUser() {
 
   return (
     <div className="w-full">
-      <div className="px-2 flex w-full max-w-3xl flex-col gap-5">
+      <div className="flex w-full max-w-3xl flex-col gap-5 px-2">
         <header className="flex items-center gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#D4AF37] text-gray-900 shadow-sm">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
             <UserRoundX className="h-6 w-6" aria-hidden />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Block User</h1>
-            <p className="mt-0.5 text-sm text-gray-500">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Block User</h1>
+            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
               Block or restore a user&apos;s access to the platform
             </p>
           </div>
         </header>
 
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-          <div className="border-b border-amber-200 bg-amber-50 px-5 py-4">
+        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
+          <div className="border-b border-blue-100 bg-blue-50 px-5 py-4 dark:border-blue-900/50 dark:bg-blue-950/30">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" aria-hidden />
               <div>
-                <h2 className="text-sm font-semibold text-amber-900">
+                <h2 className="text-sm font-semibold text-blue-900 dark:text-blue-200">
                   Review the user before changing access
                 </h2>
-                <p className="mt-1 text-sm text-amber-800">
+                <p className="mt-1 text-sm text-blue-800 dark:text-blue-300">
                   Blocking prevents the user from accessing the platform. You can unblock them
                   later.
                 </p>
@@ -230,7 +230,7 @@ export default function BlockUser() {
             <div>
               <label
                 htmlFor="block-user-login"
-                className="mb-2 block text-sm font-semibold text-gray-700"
+                className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
                 User ID
               </label>
@@ -248,7 +248,7 @@ export default function BlockUser() {
                   placeholder="Enter user ID"
                   disabled={updateStatus.isPending}
                   aria-describedby="block-user-lookup-status"
-                  className="h-11 w-full rounded-md border border-gray-300 bg-white pl-10 pr-3 text-sm text-gray-900 outline-none transition focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30"
+                  className="h-11 w-full rounded-md border border-gray-300 bg-white pl-10 pr-3 text-sm text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-gray-600 dark:bg-[#0b0d12] dark:text-gray-100"
                 />
               </div>
               <div
@@ -257,19 +257,19 @@ export default function BlockUser() {
                 aria-live="polite"
               >
                 {authLogin.trim() && (!isLookupCurrent || lookupQuery.isFetching) && (
-                  <span className="inline-flex items-center gap-2 text-gray-500">
+                  <span className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400">
                     <Spinner className="h-4 w-4" />
                     Searching for user...
                   </span>
                 )}
                 {isLookupCurrent && lookupQuery.isError && (
-                  <span className="text-red-600">{getLookupErrorMessage(lookupQuery.error)}</span>
+                  <span className="text-red-600 dark:text-red-400">{getLookupErrorMessage(lookupQuery.error)}</span>
                 )}
                 {isLookupCurrent && lookupQuery.isSuccess && !selectedUser && (
-                  <span className="text-red-600">User not found.</span>
+                  <span className="text-red-600 dark:text-red-400">User not found.</span>
                 )}
                 {canSubmit && (
-                  <span className="inline-flex items-center gap-1.5 text-green-700">
+                  <span className="inline-flex items-center gap-1.5 text-green-700 dark:text-green-400">
                     <CheckCircle2 className="h-4 w-4" aria-hidden />
                     User found
                   </span>
@@ -278,38 +278,38 @@ export default function BlockUser() {
             </div>
 
             {selectedUser && status && (
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/60">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D4AF37]/20 text-gray-800">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300">
                       <UserRound className="h-5 w-5" aria-hidden />
                     </span>
                     <div className="min-w-0">
-                      <p className="truncate font-semibold text-gray-900">
+                      <p className="truncate font-semibold text-gray-900 dark:text-gray-100">
                         {userName || authLogin.trim()}
                       </p>
-                      <p className="truncate text-sm text-gray-500">{authLogin.trim()}</p>
+                      <p className="truncate text-sm text-gray-500 dark:text-gray-400">{authLogin.trim()}</p>
                     </div>
                   </div>
                 </div>
                 <dl className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
                   <div>
-                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Email
                     </dt>
-                    <dd className="mt-1 break-all text-gray-800">{userEmail || "—"}</dd>
+                    <dd className="mt-1 break-all text-gray-800 dark:text-gray-200">{userEmail || "—"}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Mobile
                     </dt>
-                    <dd className="mt-1 text-gray-800">{userMobile || "—"}</dd>
+                    <dd className="mt-1 text-gray-800 dark:text-gray-200">{userMobile || "—"}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                    <dt className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Country
                     </dt>
-                    <dd className="mt-1 text-gray-800">{userCountry || "—"}</dd>
+                    <dd className="mt-1 text-gray-800 dark:text-gray-200">{userCountry || "—"}</dd>
                   </div>
                 </dl>
               </div>
@@ -317,11 +317,11 @@ export default function BlockUser() {
 
             {selectedUser && (
               <fieldset>
-                <legend className="mb-3 text-sm font-semibold text-gray-700">
+                <legend className="mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Choose an action
                 </legend>
                 <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
-                  <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-700">
+                  <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                     <input
                       type="radio"
                       name="user-status"
@@ -333,7 +333,7 @@ export default function BlockUser() {
                     />
                     Block user
                   </label>
-                  <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-700">
+                  <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                     <input
                       type="radio"
                       name="user-status"

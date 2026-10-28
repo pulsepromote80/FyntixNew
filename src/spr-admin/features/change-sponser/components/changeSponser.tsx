@@ -186,28 +186,28 @@ export default function ChangeSponsor() {
   const canSubmit = !!user && !!sponsor && !changeMutation.isPending;
 
   return (
-    <div className="w-full bg-[#FAF6EC] px-3 sm:px-4 pt-2 pb-4 font-sans flex justify-center items-start">
+    <div className="flex w-full items-start justify-center px-3 pb-4 pt-2 font-sans text-gray-900 dark:text-gray-100 sm:px-4">
       <div className="w-full flex flex-col gap-4 sm:gap-5">
         {/* Header */}
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#D4AF37] text-gray-900 mb-2 sm:mb-3 shadow-sm">
+          <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm sm:mb-3 sm:h-12 sm:w-12">
             <Users className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
             Change Sponsor
           </h1>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
+          <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400 sm:mt-1 sm:text-sm">
             Update sponsor association for any user
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden w-full">
-          <div className="bg-[#D4AF37] px-4 sm:px-6 py-3 sm:py-4">
-            <h2 className="text-base sm:text-lg font-bold text-gray-900">
+        <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-[#111318]">
+          <div className="bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-4 py-3 sm:px-6 sm:py-4">
+            <h2 className="text-base font-bold text-white sm:text-lg">
               Sponsor Details
             </h2>
-            <p className="text-gray-800 text-[10px] sm:text-xs mt-0.5 sm:mt-1">
+            <p className="mt-0.5 text-[10px] text-white/90 sm:mt-1 sm:text-xs">
               Enter user and sponsor information below
             </p>
           </div>
@@ -217,17 +217,17 @@ export default function ChangeSponsor() {
               {/* ================= User Info ================= */}
               <div className="mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                  <div className="p-1.5 bg-[#FAF6EC] rounded-md text-[#D4AF37]">
+                  <div className="rounded-md bg-blue-50 p-1.5 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
                     <User className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-semibold text-gray-800">
+                  <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 sm:text-base">
                     User Information
                   </h3>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div className="min-w-0">
-                    <label className="block text-[10px] sm:text-xs font-bold text-gray-500 uppercase mb-1.5 sm:mb-2">
+                    <label className="mb-1.5 block text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 sm:mb-2 sm:text-xs">
                       User ID *
                     </label>
                     <div className="flex gap-2">
@@ -245,7 +245,7 @@ export default function ChangeSponsor() {
                           }
                         }}
                         placeholder="Enter user ID"
-                        className={`flex-1 min-w-0 px-3 sm:px-4 py-2 sm:py-2.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
+                        className={`min-w-0 flex-1 rounded-lg border px-3 py-2 text-sm text-gray-900 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 sm:px-4 sm:py-2.5 dark:bg-[#0b0d12] dark:text-gray-100 ${
                           userError ? "border-red-500" : "border-gray-300"
                         }`}
                       />
@@ -253,7 +253,7 @@ export default function ChangeSponsor() {
                         type="button"
                         onClick={handleSearchUser}
                         disabled={userQuery.isFetching}
-                        className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#D4AF37] text-gray-900 rounded-lg text-sm font-bold hover:bg-[#B89328] transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed shrink-0"
+                        className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 sm:px-4 sm:py-2.5"
                       >
                         {userQuery.isFetching ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -266,12 +266,12 @@ export default function ChangeSponsor() {
                       </button>
                     </div>
                     {userError && (
-                      <p className="text-red-500 text-xs mt-1.5">{userError}</p>
+                      <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">{userError}</p>
                     )}
                   </div>
 
                   <div className="min-w-0">
-                    <label className="block text-[10px] sm:text-xs font-bold text-gray-500 uppercase mb-1.5 sm:mb-2">
+                    <label className="mb-1.5 block text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 sm:mb-2 sm:text-xs">
                       User Name
                     </label>
                     <input
@@ -279,7 +279,7 @@ export default function ChangeSponsor() {
                       disabled
                       value={userFullName}
                       placeholder="User name will appear here"
-                      className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+                      className="w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500 sm:px-4 sm:py-2.5 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
                     />
                   </div>
                 </div>
@@ -287,19 +287,19 @@ export default function ChangeSponsor() {
 
               {/* ================= Sponsor Info ================= */}
               {user && (
-                <div className="mt-4 sm:mt-6 p-4 sm:p-5 rounded-xl bg-[#FFF9E6] border border-[#D4AF37]/30 animate-in fade-in slide-in-from-top-3 duration-300">
-                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                    <div className="p-1.5 bg-[#D4AF37]/20 rounded-md text-[#D4AF37]">
+                <div className="animate-in fade-in slide-in-from-top-3 mt-4 rounded-xl border border-blue-100 bg-blue-50 p-4 duration-300 sm:mt-6 sm:p-5 dark:border-blue-900/50 dark:bg-blue-950/30">
+                  <div className="mb-3 flex items-center gap-2 sm:mb-4">
+                    <div className="rounded-md bg-blue-100 p-1.5 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
                       <UserPlus className="w-4 h-4" />
                     </div>
-                    <h3 className="text-sm sm:text-base font-semibold text-gray-800">
+                    <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 sm:text-base">
                       Sponsor Information
                     </h3>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="min-w-0">
-                      <label className="block text-[10px] sm:text-xs font-bold text-gray-500 uppercase mb-1.5 sm:mb-2">
+                      <label className="mb-1.5 block text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 sm:mb-2 sm:text-xs">
                         Sponsor User ID *
                       </label>
                       <div className="flex gap-2">
@@ -317,7 +317,7 @@ export default function ChangeSponsor() {
                             }
                           }}
                           placeholder="Enter sponsor user ID"
-                          className={`flex-1 min-w-0 px-3 sm:px-4 py-2 sm:py-2.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4AF37] bg-white ${
+                          className={`min-w-0 flex-1 rounded-lg border bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 sm:px-4 sm:py-2.5 dark:bg-[#0b0d12] dark:text-gray-100 ${
                             sponsorError ? "border-red-500" : "border-gray-300"
                           }`}
                         />
@@ -325,7 +325,7 @@ export default function ChangeSponsor() {
                           type="button"
                           onClick={handleSearchSponsor}
                           disabled={sponsorQuery.isFetching}
-                          className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#D4AF37] text-gray-900 rounded-lg text-sm font-bold hover:bg-[#B89328] transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed shrink-0"
+                          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 sm:px-4 sm:py-2.5"
                         >
                           {sponsorQuery.isFetching ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -340,14 +340,14 @@ export default function ChangeSponsor() {
                         </button>
                       </div>
                       {sponsorError && (
-                        <p className="text-red-500 text-xs mt-1.5">
+                        <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                           {sponsorError}
                         </p>
                       )}
                     </div>
 
                     <div className="min-w-0">
-                      <label className="block text-[10px] sm:text-xs font-bold text-gray-500 uppercase mb-1.5 sm:mb-2">
+                      <label className="mb-1.5 block text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 sm:mb-2 sm:text-xs">
                         Sponsor Name
                       </label>
                       <input
@@ -355,7 +355,7 @@ export default function ChangeSponsor() {
                         disabled
                         value={sponsorFullName}
                         placeholder="Sponsor name will appear here"
-                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm border border-gray-200 rounded-lg bg-white text-gray-500 cursor-not-allowed"
+                        className="w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500 sm:px-4 sm:py-2.5 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
                       />
                     </div>
                   </div>
@@ -367,7 +367,7 @@ export default function ChangeSponsor() {
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className="w-full flex justify-center items-center gap-2 px-4 py-2.5 sm:py-3 bg-[#D4AF37] text-gray-900 rounded-lg text-sm font-bold hover:bg-[#B89328] transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#1680ff] to-[#25c6e8] px-4 py-2.5 text-sm font-bold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 sm:py-3"
                 >
                   {changeMutation.isPending && (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -380,13 +380,13 @@ export default function ChangeSponsor() {
         </div>
 
         {/* ================= Info Box ================= */}
-        <div className="bg-[#FFF9E6] border border-[#D4AF37]/30 rounded-xl p-4 sm:p-5 flex gap-3 sm:gap-4 w-full">
-          <Info className="w-4 h-4 sm:w-5 sm:h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+        <div className="flex w-full gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4 sm:gap-4 sm:p-5 dark:border-blue-900/50 dark:bg-blue-950/30">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400 sm:h-5 sm:w-5" />
           <div className="min-w-0">
-            <h4 className="text-xs sm:text-sm font-bold text-gray-800 mb-1 sm:mb-1.5">
+            <h4 className="mb-1 text-xs font-bold text-blue-900 dark:text-blue-200 sm:mb-1.5 sm:text-sm">
               Important Information
             </h4>
-            <ul className="list-disc list-inside text-[10px] sm:text-xs text-gray-700 space-y-0.5 sm:space-y-1">
+            <ul className="list-inside list-disc space-y-0.5 text-[10px] text-blue-900/90 sm:space-y-1 sm:text-xs dark:text-blue-100/80">
               <li>User ID and Sponsor ID cannot be the same</li>
               <li>Both User ID and Sponsor ID must be valid registered users</li>
               <li>Level Open option controls sponsor hierarchy level access</li>
