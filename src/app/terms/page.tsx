@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
+import { PublicNavbar } from "@/components/layout/PublicNavbar";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "Terms & Conditions | Kalkii",
+  title: "Terms & Conditions | Fyntix",
   description:
-    "Read Kalkii's Terms & Conditions for using our forex trading education platform.",
+    "Read Fyntix's Terms & Conditions for using our forex trading education platform.",
 };
 
 export default function TermsPage() {
@@ -15,7 +15,7 @@ export default function TermsPage() {
       title: "Acceptance of Terms",
       content: (
         <p>
-          By accessing or using the Kalkii platform, you agree to be bound by
+          By accessing or using the Fyntix platform, you agree to be bound by
           these Terms & Conditions. If you do not agree with any part of these
           terms, you must not use our services.
         </p>
@@ -27,7 +27,7 @@ export default function TermsPage() {
       content: (
         <>
           <p className="mb-4">
-            Kalkii provides forex trading{" "}
+            Fyntix provides forex trading{" "}
             <strong className="font-semibold text-slate-900 dark:text-white">
               education only
             </strong>
@@ -72,7 +72,7 @@ export default function TermsPage() {
       content: (
         <p>
           All content, materials, videos, and educational resources on the
-          Kalkii platform are the intellectual property of Kalkii and are
+          Fyntix platform are the intellectual property of Fyntix and are
           protected by copyright laws. Unauthorized use is strictly prohibited.
         </p>
       ),
@@ -82,7 +82,7 @@ export default function TermsPage() {
       title: "Limitation of Liability",
       content: (
         <p>
-          Kalkii shall not be held liable for any direct, indirect, incidental,
+          Fyntix shall not be held liable for any direct, indirect, incidental,
           or consequential damages arising from your use of our educational
           services or any trading decisions you make.
         </p>
@@ -106,10 +106,10 @@ export default function TermsPage() {
         <p>
           For any questions regarding these Terms, please contact us at{" "}
           <a
-            href="mailto:support@kalkii.com"
+            href="mailto:support@fyntix.com"
             className="text-blue-700 underline transition-colors hover:text-[#7d75ff] dark:text-[#25c6e8] dark:hover:text-[#7d75ff]"
           >
-            support@kalkii.com
+            support@fyntix.com
           </a>
           .
         </p>
@@ -119,7 +119,7 @@ export default function TermsPage() {
 
   return (
     <>
-      <Navbar />
+      <PublicNavbar />
       <main className="relative isolate overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/50 px-4 pb-20 pt-24 text-slate-900 dark:from-[#0b1021] dark:via-[#0b1021] dark:to-[#171a36] sm:px-6 sm:pb-24 sm:pt-28 lg:px-16">
         <div className="pointer-events-none absolute -right-36 -top-32 z-0 h-96 w-96 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10" />
         <div className="pointer-events-none absolute -bottom-40 -left-32 z-0 h-[28rem] w-[28rem] rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-500/10" />
@@ -144,7 +144,7 @@ export default function TermsPage() {
           <div className="relative mb-12 overflow-hidden rounded-2xl border border-blue-200/70 bg-white/80 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700/70 dark:bg-slate-900/65 md:p-8">
             <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
             <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 md:text-base">
-              Welcome to Kalkii. These Terms & Conditions govern your use of our
+              Welcome to Fyntix. These Terms & Conditions govern your use of our
               forex trading education platform, courses, live sessions, and
               related services.
             </p>

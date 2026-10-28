@@ -45,7 +45,6 @@ export function RegistrationForm() {
       firstName: "",
       lastName: "",
       email: "",
-      teamPosition: "L",
       password: "",
       termsAccepted: undefined,
     },
@@ -67,13 +66,9 @@ export function RegistrationForm() {
       }
     }
     if (ref.includes("~")) ref = ref.split("~")[0] || ref;
-    const position = searchParams.get("Position");
     if (ref) {
       form.setValue("referralId", ref);
       handleReferralValidation(ref);
-    }
-    if (position === "L" || position === "R") {
-      form.setValue("teamPosition", position);
     }
   }, [mounted, searchParams, form]);
 
@@ -90,15 +85,17 @@ export function RegistrationForm() {
   };
 
   const onSubmit = async (values: RegistrationFormValues) => {
+
     registration.mutate({
       fName: values.firstName,
       lName: values.lastName,
       password: values.password,
       email: values.email,
-      address: "",
-      introSide: values.teamPosition as "L" | "R",
       introAuth: values.referralId || undefined,
     });
+  };
+
+  const onInvalid = (errors: any) => {
   };
 
   const passwordValue = form.watch("password") || "";
@@ -189,7 +186,9 @@ export function RegistrationForm() {
 
               <FormProvider {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={(e) => {
+                    form.handleSubmit(onSubmit, onInvalid)(e);
+                  }}
                   className="space-y-5"
                   autoComplete="off"
                 >

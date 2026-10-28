@@ -5,7 +5,7 @@ import { createBackendClient } from "@/lib/backend-client";
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
 
-  if (!body?.fName || !body?.lName || !body?.password || !body?.email || !body?.introSide) {
+  if (!body?.fName || !body?.lName || !body?.password || !body?.email) {
     return NextResponse.json(
       { success: false, message: "All required fields must be provided" },
       { status: 400 },
@@ -14,7 +14,17 @@ export async function POST(request: NextRequest) {
 
   try {
     const backend = createBackendClient();
-    const { data } = await backend.post("/Authentication/userRegistration", body);
+
+    // Transform camelCase to PascalCase for backend
+    const backendBody = {
+      FName: body.fName,
+      LName: body.lName,
+      Password: body.password,
+      Email: body.email,
+      IntroAuth: body.introAuth || undefined,
+    };
+
+    const { data } = await backend.post("/Authentication/userRegistration", backendBody);
 
     return NextResponse.json(data);
   } catch (error) {

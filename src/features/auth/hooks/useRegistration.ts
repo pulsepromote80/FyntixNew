@@ -9,7 +9,9 @@ export function useRegistration() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (payload: RegistrationPayload) => authService.register(payload),
+    mutationFn: (payload: RegistrationPayload) => {
+      return authService.register(payload);
+    },
     onSuccess: (response, variables) => {
       const isSuccess = response.statusCode === 200;
 

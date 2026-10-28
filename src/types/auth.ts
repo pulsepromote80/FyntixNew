@@ -29,10 +29,6 @@ export interface RegistrationPayload {
   lName: string;
   password: string;
   email: string;
-  countryId?: string;
-  mobile?: string;
-  address: string;
-  introSide: "L" | "R";
   introAuth?: string;
 }
 
