@@ -9,11 +9,11 @@ export function GlobalInfrastructure() {
   const { data } = useDashboardSummary();
   const dashboardData = data?.data?.[0];
   const programs = [
-    { name: "Trading Package", key: "TradingPackage" },
-    { name: "Legacy Reborn", key: "RebornPacakge" },
-    { name: "Legacy Reborn 2.0", key: "Reborn2Pacakge" },
-    { name: "Withdrwal Booster", key: "BoosterPackage" },
-    { name: "Level Booster", key: "LevelBoosterPackage" },
+    { name: "Liquidity Provider", key: "LiquidityProvider" },
+    { name: "Smart Bonds", key: "SmartBonds" },
+    { name: "Secure Bonds", key: "Secure Bonds" },
+    // { name: "Withdrwal Booster", key: "BoosterPackage" },
+    { name: "Booster", key: "BoosterPackage" },
   ] as const;
 
   return (

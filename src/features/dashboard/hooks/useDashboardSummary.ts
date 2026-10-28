@@ -3,10 +3,11 @@ import { dashboardService } from "@/features/dashboard/services/dashboard.servic
 import { QUERY_KEYS } from "@/lib/constants";
 import { useEffect } from "react";
 
-export function useDashboardSummary() {
+export function useDashboardSummary(enabled = true) {
   const query = useQuery({
     queryKey: QUERY_KEYS.dashboard.summary,
     queryFn: dashboardService.getSummary,
+    enabled,
   });
 
   useEffect(() => {

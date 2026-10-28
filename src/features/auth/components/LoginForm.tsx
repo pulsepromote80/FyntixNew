@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormValues } from "@/features/auth/schemas/auth.schema";
 import { useLogin } from "@/features/auth/hooks/useLogin";
 import { useSendOtp } from "@/features/auth/hooks/useRegistration";
-import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaShieldAlt } from "react-icons/fa";
 import { ArrowRight, Loader2, ShieldCheck, Sparkles } from "lucide-react";
@@ -15,21 +14,18 @@ import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 
 export function LoginForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [showOtpField, setShowOtpField] = useState(false);
-  const [emailForOtp, setEmailForOtp] = useState("");
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { userid: "", password: "", loginOTP: "", rememberMe: false },
+    defaultValues: { userid: "", password: "", loginOTP: "" },
   });
 
   const login = useLogin();
   const sendOtp = useSendOtp();
 
-  const handleSendOtp = async () => {
+  const handleSendOtp = () => {
     const userid = form.getValues("userid");
     const password = form.getValues("password");
 
@@ -42,27 +38,26 @@ export function LoginForm() {
       return;
     }
 
-    setEmailForOtp(userid);
-    try {
-      const response = await sendOtp.mutateAsync({ userid, password });
-      if (response.statusCode === 200) {
-        setShowOtpField(true);
-      }
-    } catch (error) {
-
-    }
+    sendOtp.mutate(
+      { userid, password },
+      {
+        onSuccess: (response) => {
+          if (response.statusCode === 200) setShowOtpField(true);
+        },
+      },
+    );
   };
 
   const onSubmit = form.handleSubmit((values) => {
     if (!showOtpField) {
       handleSendOtp();
-    } else {
-      if (!values.loginOTP || values.loginOTP.length !== 6) {
-        form.setError("loginOTP", { message: "OTP must be 6 digits" });
-        return;
-      }
-      login.mutate(values);
+      return;
     }
+    if (!values.loginOTP || values.loginOTP.length !== 6) {
+      form.setError("loginOTP", { message: "OTP must be 6 digits" });
+      return;
+    }
+    login.mutate(values);
   });
 
   // Shared input styles
@@ -233,29 +228,31 @@ export function LoginForm() {
                         )}
                       </div>
 
-                      {/* OTP Field - Shows after sending OTP */}
                       {showOtpField && (
                         <div>
-                          <label className="block text-xs font-medium text-slate-300 mb-2">
+                          <label className="mb-2 block text-xs font-medium text-slate-300">
                             OTP <span className="text-[#f5c451]">*</span>
                           </label>
                           <div className="relative">
-                            <FaShieldAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
+                            <FaShieldAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-500" />
                             <input
                               {...form.register("loginOTP", {
-                                onChange: (e) => {
-                                  const value = e.target.value.replace(/\D/g, "");
-                                  form.setValue("loginOTP", value);
+                                onChange: (event) => {
+                                  form.setValue(
+                                    "loginOTP",
+                                    event.target.value.replace(/\D/g, "").slice(0, 6),
+                                  );
                                 },
                               })}
                               type="text"
+                              inputMode="numeric"
                               maxLength={6}
                               placeholder="Enter 6-digit OTP"
                               className={cn(
                                 inputBase,
                                 form.formState.errors.loginOTP
                                   ? "border-red-500/60 bg-red-500/5"
-                                  : "border-[#d4a017]/20"
+                                  : "border-[#d4a017]/20",
                               )}
                             />
                           </div>
@@ -266,29 +263,9 @@ export function LoginForm() {
                           )}
                         </div>
                       )}
+
                     </div>
                   </div>
-
-                  {/* ═══ Remember Me ═══ */}
-                  <div className="flex items-center gap-3 px-1">
-                    <input
-                      {...form.register("rememberMe")}
-                      type="checkbox"
-                      id="rememberMe"
-                      className="w-4 h-4 rounded border-[#d4a017]/30 bg-[#0d0d20] text-[#d4a017] focus:ring-[#d4a017]/40 focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer accent-[#d4a017]"
-                    />
-                    <label
-                      htmlFor="rememberMe"
-                      className="text-xs sm:text-sm text-slate-400 cursor-pointer select-none"
-                    >
-                      Keep me signed in
-                    </label>
-                  </div>
-                  {form.formState.errors.rememberMe && (
-                    <p className="mt-1.5 text-xs text-red-400">
-                      {form.formState.errors.rememberMe.message}
-                    </p>
-                  )}
 
                   {/* ═══ Submit Button ═══ */}
                   <button
@@ -321,7 +298,7 @@ export function LoginForm() {
                       ) : showOtpField ? (
                         <>
                           Verify & Sign In
-                          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </>
                       ) : (
                         <>

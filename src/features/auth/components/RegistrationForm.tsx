@@ -9,7 +9,6 @@ import {
 } from "@/features/auth/schemas/auth.schema";
 import {
   useRegistration,
-  useCountries,
   useValidateReferral,
 } from "@/features/auth/hooks/useRegistration";
 import { useSearchParams } from "next/navigation";
@@ -18,8 +17,6 @@ import {
   FaHashtag,
   FaUser,
   FaEnvelope,
-  FaGlobe,
-  FaMobileAlt,
   FaEye,
   FaEyeSlash,
   FaLock,
@@ -31,16 +28,6 @@ import Link from "next/link";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { AuthThemeToggle } from "@/components/common/AuthThemeToggle";
 
-type RegistrationCountry = {
-  Country_Id?: string | number;
-  country_Id?: string | number;
-  Country_Name?: string;
-  country_Name?: string;
-  CountryFlag?: string;
-  countryFlag?: string;
-  phonecode?: string;
-};
-
 export function RegistrationForm() {
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
@@ -48,7 +35,6 @@ export function RegistrationForm() {
   const [referralName, setReferralName] = useState("");
   const [referralError, setReferralError] = useState("");
 
-  const { data: countriesData, isLoading: countriesLoading } = useCountries();
   const registration = useRegistration();
   const validateReferral = useValidateReferral();
 
@@ -56,11 +42,8 @@ export function RegistrationForm() {
     resolver: zodResolver(registrationSchema),
     defaultValues: {
       referralId: "",
-      countryId: "",
-      countryCode: "",
       firstName: "",
       lastName: "",
-      mobile: "",
       email: "",
       teamPosition: "L",
       password: "",
@@ -112,35 +95,11 @@ export function RegistrationForm() {
       lName: values.lastName,
       password: values.password,
       email: values.email,
-      countryId: values.countryId,
-      mobile: values.mobile,
       address: "",
       introSide: values.teamPosition as "L" | "R",
       introAuth: values.referralId || undefined,
     });
   };
-
-  const countries = (countriesData?.data || []) as RegistrationCountry[];
-  const getCountryId = (country: RegistrationCountry) =>
-    country.Country_Id ?? country.country_Id;
-  const getCountryName = (country: RegistrationCountry) =>
-    country.Country_Name ?? country.country_Name ?? "";
-  const selectedCountry = countries.find(
-    (country) => String(getCountryId(country)) === form.watch("countryId"),
-  );
-
-  useEffect(() => {
-    if (!countries.length || form.getValues("countryId")) return;
-
-    const india = countries.find(
-      (country) => getCountryName(country).toLowerCase() === "india",
-    );
-    const indiaId = india && getCountryId(india);
-    if (!india || indiaId === undefined) return;
-
-    form.setValue("countryId", String(indiaId));
-    form.setValue("countryCode", india.phonecode ? `+${india.phonecode}` : "");
-  }, [countries, form]);
 
   const passwordValue = form.watch("password") || "";
   const passwordStrengthChecks = [
@@ -404,188 +363,80 @@ export function RegistrationForm() {
 
                       <div>
                         <label className="block text-xs font-medium text-slate-300 mb-2">
-                          Mobile Number{" "}
-                          <span className="text-[#f5c451]">*</span>
+                          Password <span className="text-[#f5c451]">*</span>
                         </label>
                         <div className="relative">
-                          <FaMobileAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
+                          <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
                           <input
-                            {...form.register("mobile", {
-                              onChange: (e) => {
-                                const value = e.target.value.replace(
-                                  /\D/g,
-                                  ""
-                                );
-                                form.setValue("mobile", value);
-                              },
-                            })}
-                            maxLength={10}
-                            placeholder="0000000000"
+                            {...form.register("password")}
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Create a strong password"
                             className={cn(
                               inputBase,
-                              form.formState.errors.mobile
+                              "pr-12",
+                              form.formState.errors.password
                                 ? "border-red-500/60 bg-red-500/5"
                                 : "border-[#d4a017]/20"
                             )}
                           />
-                        </div>
-                        {form.formState.errors.mobile && (
-                          <p className="mt-1.5 text-xs text-red-400">
-                            {form.formState.errors.mobile.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-2">
-                          Country <span className="text-[#f5c451]">*</span>
-                        </label>
-                        <div className="relative">
-                          {selectedCountry?.CountryFlag || selectedCountry?.countryFlag ? (
-                            <img
-                              src={selectedCountry.CountryFlag ?? selectedCountry.countryFlag}
-                              alt={`${getCountryName(selectedCountry)} flag`}
-                              className="absolute left-4 top-1/2 z-10 h-4 w-6 -translate-y-1/2 rounded-sm object-cover"
-                            />
-                          ) : (
-                            <FaGlobe className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm z-10" />
-                          )}
-                          {countriesLoading && (
-                            <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[#F5C451]" aria-label="Loading countries" />
-                          )}
-                          <select
-                            {...form.register("countryId")}
-                            onChange={(e) => {
-                              form.setValue("countryId", e.target.value, {
-                                shouldValidate: true,
-                              });
-                              const country = countries.find(
-                                (candidate) =>
-                                  String(getCountryId(candidate)) === e.target.value,
-                              );
-                              if (country)
-                                form.setValue(
-                                  "countryCode",
-                                  country.phonecode ? `+${country.phonecode}` : "",
-                                );
-                            }}
-                            className={cn(
-                              "w-full pl-11 pr-4 py-3 text-sm rounded-lg bg-[#0d0d20]/80 border text-white outline-none transition-all appearance-none cursor-pointer",
-                              "focus:border-[#d4a017]/70 focus:bg-[#12122b] focus:ring-2 focus:ring-[#d4a017]/20",
-                              "[&>option]:bg-[#0d0d20] [&>option]:text-white",
-                              form.formState.errors.countryId
-                                ? "border-red-500/60 bg-red-500/5"
-                                : "border-[#d4a017]/20"
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#f5c451] transition-colors"
+                          >
+                            {showPassword ? (
+                              <FaEyeSlash size={15} />
+                            ) : (
+                              <FaEye size={15} />
                             )}
-                          >
-                            <option value="">
-                              Select Country
-                            </option>
-                            {countries.map((country, index) => (
-                              <option
-                                key={getCountryId(country) ?? index}
-                                value={getCountryId(country)}
-                              >
-                                {getCountryName(country)}
-                              </option>
-                            ))}
-                          </select>
+                          </button>
                         </div>
-                        {form.formState.errors.countryId && (
+                        {passwordValue && (
+                          <div className="mt-2" aria-live="polite">
+                            <div className="mb-1.5 flex items-center justify-between text-xs">
+                              <span className="text-slate-400">Password strength</span>
+                              <span
+                                className={cn(
+                                  "font-semibold",
+                                  passwordStrength <= 2
+                                    ? "text-red-400"
+                                    : passwordStrength <= 3
+                                      ? "text-amber-300"
+                                      : "text-emerald-400",
+                                )}
+                              >
+                                {passwordStrengthLabel}
+                              </span>
+                            </div>
+                            <div
+                              className="flex gap-1"
+                              role="progressbar"
+                              aria-label={`Password strength: ${passwordStrengthLabel}`}
+                              aria-valuemin={0}
+                              aria-valuemax={5}
+                              aria-valuenow={passwordStrength}
+                            >
+                              {passwordStrengthChecks.map((_, index) => (
+                                <span
+                                  key={index}
+                                  className={cn(
+                                    "h-1.5 flex-1 rounded-full bg-slate-700/70",
+                                    index < passwordStrength && passwordStrengthColor,
+                                  )}
+                                />
+                              ))}
+                            </div>
+                            <p className="mt-1.5 text-[11px] text-slate-500">
+                              Use 8+ characters with uppercase, lowercase, a number, and a symbol.
+                            </p>
+                          </div>
+                        )}
+                        {form.formState.errors.password && (
                           <p className="mt-1.5 text-xs text-red-400">
-                            {form.formState.errors.countryId.message}
+                            {form.formState.errors.password.message}
                           </p>
                         )}
                       </div>
-
-                      <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-2">
-                          Country Code
-                        </label>
-                        <input
-                          {...form.register("countryCode")}
-                          readOnly
-                          placeholder="+91"
-                          className="w-full px-4 py-3 text-sm rounded-lg bg-[#0d0d20]/40 border border-[#d4a017]/10 text-[#f5c451] placeholder-slate-600 outline-none cursor-not-allowed font-medium"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-4">
-                      <label className="block text-xs font-medium text-slate-300 mb-2">
-                        Password <span className="text-[#f5c451]">*</span>
-                      </label>
-                      <div className="relative">
-                        <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
-                        <input
-                          {...form.register("password")}
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Create a strong password"
-                          className={cn(
-                            inputBase,
-                            "pr-12",
-                            form.formState.errors.password
-                              ? "border-red-500/60 bg-red-500/5"
-                              : "border-[#d4a017]/20"
-                          )}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#f5c451] transition-colors"
-                        >
-                          {showPassword ? (
-                            <FaEyeSlash size={15} />
-                          ) : (
-                            <FaEye size={15} />
-                          )}
-                        </button>
-                      </div>
-                      {passwordValue && (
-                        <div className="mt-2" aria-live="polite">
-                          <div className="mb-1.5 flex items-center justify-between text-xs">
-                            <span className="text-slate-400">Password strength</span>
-                            <span
-                              className={cn(
-                                "font-semibold",
-                                passwordStrength <= 2
-                                  ? "text-red-400"
-                                  : passwordStrength <= 3
-                                    ? "text-amber-300"
-                                    : "text-emerald-400",
-                              )}
-                            >
-                              {passwordStrengthLabel}
-                            </span>
-                          </div>
-                          <div
-                            className="flex gap-1"
-                            role="progressbar"
-                            aria-label={`Password strength: ${passwordStrengthLabel}`}
-                            aria-valuemin={0}
-                            aria-valuemax={5}
-                            aria-valuenow={passwordStrength}
-                          >
-                            {passwordStrengthChecks.map((_, index) => (
-                              <span
-                                key={index}
-                                className={cn(
-                                  "h-1.5 flex-1 rounded-full bg-slate-700/70",
-                                  index < passwordStrength && passwordStrengthColor,
-                                )}
-                              />
-                            ))}
-                          </div>
-                          <p className="mt-1.5 text-[11px] text-slate-500">
-                            Use 8+ characters with uppercase, lowercase, a number, and a symbol.
-                          </p>
-                        </div>
-                      )}
-                      {form.formState.errors.password && (
-                        <p className="mt-1.5 text-xs text-red-400">
-                          {form.formState.errors.password.message}
-                        </p>
-                      )}
                     </div>
                   </div>
 
@@ -606,7 +457,7 @@ export function RegistrationForm() {
                         href="/terms"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#f5c451] hover:text-[#ffd971] underline underline-offset-2 transition-colors"
+                        className="text-[#25c6e8] underline underline-offset-2 transition-colors hover:text-[#7d75ff]"
                       >
                         Terms & Conditions
                       </Link>{" "}
@@ -615,7 +466,7 @@ export function RegistrationForm() {
                         href="/privacy"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#f5c451] hover:text-[#ffd971] underline underline-offset-2 transition-colors"
+                        className="text-[#25c6e8] underline underline-offset-2 transition-colors hover:text-[#7d75ff]"
                       >
                         Privacy Policy
                       </Link>
