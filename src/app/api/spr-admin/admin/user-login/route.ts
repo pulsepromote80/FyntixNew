@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Build redirect URL with tokens in hash (hash fragments don't appear in network tab)
-    const USER_APP_URL = "https://kaliki-user.vercel.app";
+    const USER_APP_URL = "https://fyntix-new.vercel.app";
     const params = new URLSearchParams();
     params.set("token", (loginData as Record<string, unknown>).accessToken as string);
     if ((loginData as Record<string, unknown>).refreshToken) params.set("refresh", (loginData as Record<string, unknown>).refreshToken as string);
