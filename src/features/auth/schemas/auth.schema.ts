@@ -44,12 +44,7 @@ export const registrationSchema = z.object({
       "Last name cannot have 3 or more repeated characters"
     ),
   email: z.string().email("Invalid email address"),
-  teamPosition: z
-    .string()
-    .optional()
-    .refine((val) => val === "L" || val === "R", {
-      message: "Please select a placement side",
-    }),
+
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")

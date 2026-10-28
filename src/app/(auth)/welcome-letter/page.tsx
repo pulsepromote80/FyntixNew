@@ -108,7 +108,7 @@ export default function WelcomeLetter() {
 
                 <div className="mb-8 space-y-4 text-start">
                   <p className="text-base leading-relaxed text-slate-300">
-                    Welcome to Kalkii, {userName}!
+                    Welcome to Fyntix, {userName}!
                     <br />
                     We're thrilled to have you on board.
                   </p>

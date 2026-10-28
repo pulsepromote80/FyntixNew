@@ -12,6 +12,7 @@ export interface DashboardData {
   LegacyWallet: number;
   PerformanceWithdrawal: number;
   YieldWithdrawal: number;
+  IncomeWallet: number;
   MyAgent: number;
   PreviousAgent: number;
   TotalTeam: number;
