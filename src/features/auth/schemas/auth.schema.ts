@@ -4,9 +4,6 @@ export const loginSchema = z.object({
   userid: z.string().min(1, "Username is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   loginOTP: z.string().optional(),
-  rememberMe: z.boolean().refine((val) => val === true, {
-    message: "Please check 'Keep me signed in' to continue",
-  }),
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
@@ -32,8 +29,6 @@ export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
 export const registrationSchema = z.object({
   referralId: z.string().min(3, "Referral ID must be at least 3 characters"),
-  countryId: z.string().min(1, "Country is required"),
-  countryCode: z.string().min(1, "Country code is required"),
   firstName: z
     .string()
     .min(3, "First name must be at least 3 characters")
@@ -47,16 +42,6 @@ export const registrationSchema = z.object({
     .regex(
       /^(?!.*(.)\1{2}).*$/,
       "Last name cannot have 3 or more repeated characters"
-    ),
-  mobile: z
-    .string()
-    .min(7, "Mobile number must be at least 7 digits")
-    .max(10, "Mobile number must be at most 10 digits")
-    .regex(/^[0-9]{7,10}$/, "Mobile number must be 7 to 10 digits")
-    .refine(
-      (val) =>
-        !["123456", "123456789", "123123", "password", "qwerty"].includes(val),
-      "This mobile number is too common and insecure"
     ),
   email: z.string().email("Invalid email address"),
   teamPosition: z

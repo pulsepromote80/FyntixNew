@@ -27,6 +27,9 @@ export interface DashboardData {
   WorkingWallet: number;
   DepositWallet: number;
   ROIWallet: number;
+  LiquidityProvider?: number | string;
+  SmartBonds?: number | string;
+  "Secure Bonds"?: number | string;
   TradingPackage?: number;
   RebornPacakge?: number;
   Reborn2Pacakge?: number;

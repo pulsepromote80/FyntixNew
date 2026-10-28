@@ -120,7 +120,7 @@ export function Navbar() {
     setMobileDropdownOpen(null);
   }, [pathname]);
 
-  const { data: dashboardData } = useDashboardSummary();
+  const { data: dashboardData } = useDashboardSummary(Boolean(user));
   const displayAuthLogin = dashboardData?.data?.[0]?.AuthLogin || user?.name || 'Account';
   const walletData = dashboardData?.data?.[0];
   const notificationUserKey = user?.id || displayAuthLogin;

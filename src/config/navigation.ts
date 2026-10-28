@@ -14,32 +14,32 @@ export const primaryNav: NavItem[] = [
     isDropdown: true,
     dropdownItems: [
       { label: "Investment Fund ", href: "/investment-amount" },
-      { label: "Booster", href: "/booster" },
+      // { label: "Booster", href: "/booster" },
       { label: "Order History", href: "/order-history" },
-      
+
     ],
-   
+
   },
-  
+
   {
     label: "Fund Director",
     href: "/fund-director",
-   
+
   },
   {
     label: "AI Engine",
     href: "/ai-engine",
-      
-    },
+
+  },
   {
     label: "Analytics",
     href: "/analytics",
-   
+
   },
   {
     label: "Affiliate",
     href: "/affiliate",
-   
+
     isDropdown: true,
     dropdownItems: [
       { label: "Business Dashboard", href: "/ai-business-hub" },
@@ -53,7 +53,7 @@ export const primaryNav: NavItem[] = [
   {
     label: "Reports",
     href: "/reports",
-   
+
     isDropdown: true,
     dropdownItems: [
       { label: "Income Report", href: "/income-reports" },

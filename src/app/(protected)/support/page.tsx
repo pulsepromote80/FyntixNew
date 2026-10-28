@@ -364,13 +364,13 @@ export default function SupportPage() {
       {showForm && (
         <form
           onSubmit={submitTicket}
-          className="bg-card rounded-2xl border border-border p-5 shadow-sm sm:p-7"
+          className="bg-card min-w-0 rounded-2xl border border-border p-4 shadow-sm sm:p-7"
         >
-          <div className="mb-6 flex items-center gap-3">
+          <div className="mb-6 flex min-w-0 items-center gap-3">
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-blue-500/10 text-blue-600">
               <LifeBuoy className="h-5 w-5" />
             </span>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-lg font-semibold text-foreground">Create Support Ticket</h2>
               <p className="text-sm text-muted-foreground">
                 Tell us what you need help with. Our team will follow up here.
@@ -378,14 +378,14 @@ export default function SupportPage() {
             </div>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2">
-            <label className="space-y-2 text-sm font-medium text-foreground">
+          <div className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2">
+            <label className="min-w-0 space-y-2 text-sm font-medium text-foreground">
               Ticket type
               <select
                 required
                 value={ticketType}
                 onChange={(event) => setTicketType(event.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
+                className="block w-full min-w-0 max-w-full rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
               >
                 <option value="">Select ticket type</option>
                 {ticketTypes.map((type) => (
@@ -395,7 +395,7 @@ export default function SupportPage() {
                 ))}
               </select>
             </label>
-            <label className="space-y-2 text-sm font-medium text-foreground">
+            <label className="min-w-0 space-y-2 text-sm font-medium text-foreground">
               Subject
               <input
                 required
@@ -403,11 +403,11 @@ export default function SupportPage() {
                 maxLength={100}
                 value={subject}
                 onChange={(event) => setSubject(event.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
+                className="block w-full min-w-0 max-w-full rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
                 placeholder="Briefly describe the issue"
               />
             </label>
-            <label className="space-y-2 text-sm font-medium text-foreground md:col-span-2">
+            <label className="min-w-0 space-y-2 text-sm font-medium text-foreground md:col-span-2">
               Message
               <textarea
                 required
@@ -416,19 +416,21 @@ export default function SupportPage() {
                 rows={5}
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
-                className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
+                className="block w-full min-w-0 max-w-full resize-y rounded-lg border border-border bg-background px-3 py-2.5 font-normal outline-none transition focus:border-[#1680ff] focus:ring-2 focus:ring-blue-500/10"
                 placeholder="Add details that will help us resolve your request"
               />
               <span className="block text-right text-xs font-normal text-muted-foreground">
                 {message.length}/1000
               </span>
             </label>
-            <label className="space-y-2 text-sm font-medium text-foreground md:col-span-2">
-              Attachment{" "}
-              <span className="font-normal text-muted-foreground">
-                (optional, JPEG/PNG up to 5 MB)
+            {/* <label className="min-w-0 space-y-2 text-sm font-medium text-foreground md:col-span-2">
+              <span className="block">
+                Attachment{" "}
+                <span className="font-normal text-muted-foreground">
+                  (optional, JPEG/PNG up to 5 MB)
+                </span>
               </span>
-              <span className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-background px-3 py-3 font-normal text-muted-foreground">
+              <span className="flex min-w-0 max-w-full items-center gap-2 rounded-lg border border-dashed border-border bg-background px-3 py-3 font-normal text-muted-foreground">
                 <FileImage className="h-4 w-4 shrink-0" />
                 <input
                   type="file"
@@ -437,7 +439,7 @@ export default function SupportPage() {
                   className="min-w-0 flex-1 text-sm"
                 />
               </span>
-            </label>
+            </label> */}
           </div>
 
           <div className="mt-6 flex justify-end">
