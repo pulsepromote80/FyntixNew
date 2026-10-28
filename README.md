@@ -74,6 +74,12 @@ Browser  →  /api/*  (Next.js Route Handlers, src/app/api/**)  →  ASP.NET Cor
 - `src/lib/backend-client.ts` (`createBackendClient`) is **server-only** and is the only place that reads `BACKEND_API_URL`. It must never be imported into a `"use client"` file.
 - `BACKEND_API_URL` is a plain (non-`NEXT_PUBLIC_`) environment variable, so it is never bundled into client JavaScript.
 
+## Admin backend
+
+- The separate `/spr-admin` portal uses `SPR_ADMIN_BACKEND_API_URL` for its admin API, for example `https://fyncbapi.fyntix.club/api`.
+- Keep `BACKEND_API_URL` configured for the user portal; changing it does not configure the admin portal.
+- Set `SPR_ADMIN_BACKEND_API_URL` in the deployment environment as well as local `.env` files.
+
 ## Authentication
 
 - The session/access token is stored as an **HttpOnly cookie**, set by `/api/auth/login` and cleared by `/api/auth/logout`. It is never accessible from JavaScript and never stored in `localStorage`/`sessionStorage`.
