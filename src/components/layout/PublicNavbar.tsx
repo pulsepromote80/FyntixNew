@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -42,9 +42,9 @@ export function PublicNavbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-ink/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
-        <a className="flex items-center" href="/">
+        <Link className="flex items-center" href="/">
           <ThemeLogo width={1193} height={366} className="h-9 w-auto" />
-        </a>
+        </Link>
         <nav className="hidden items-center gap-7 text-sm text-muted lg:flex">
           {publicNav.map((item) => {
             const isActive = isNavPathActive(pathname, item.href);
@@ -63,12 +63,10 @@ export function PublicNavbar() {
           })}
         </nav>
         <div className="hidden items-center gap-3 lg:flex">
-          <a className="px-3 text-sm text-muted hover:text-foreground" href="/login">Login</a>
-          <a href="/register">
-            <button className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-mint text-ink hover:bg-mint/90">
-              Register
-            </button>
-          </a>
+          <Link className="px-3 text-sm text-muted hover:text-foreground" href="/login">Login</Link>
+          <Link className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-mint text-ink hover:bg-mint/90" href="/register">
+            Register
+          </Link>
           <button
             type="button"
             onClick={toggleTheme}
@@ -152,12 +150,10 @@ export function PublicNavbar() {
               );
             })}
             <div className="flex flex-col gap-2 pt-4 border-t border-line/50">
-              <a className="px-3 text-sm text-muted hover:text-foreground" href="/login">Login</a>
-              <a href="/register">
-                <button className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-mint text-ink hover:bg-mint/90">
-                  Register
-                </button>
-              </a>
+              <Link className="px-3 text-sm text-muted hover:text-foreground" href="/login">Login</Link>
+              <Link className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-mint text-ink hover:bg-mint/90" href="/register">
+                Register
+              </Link>
             </div>
           </nav>
         </div>

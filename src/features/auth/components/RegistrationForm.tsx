@@ -83,9 +83,6 @@ export function RegistrationForm() {
       form.setValue("referralId", ref);
       handleReferralValidation(ref);
     }
-    if (position === "L" || position === "R") {
-      form.setValue("teamPosition", position);
-    }
   }, [mounted, searchParams, form, handleReferralValidation]);
 
   const onSubmit = async (values: RegistrationFormValues) => {
@@ -97,9 +94,6 @@ export function RegistrationForm() {
       email: values.email,
       introAuth: values.referralId || undefined,
     });
-  };
-
-  const onInvalid = (errors: any) => {
   };
 
   const passwordValue = form.watch("password") || "";
@@ -186,7 +180,7 @@ export function RegistrationForm() {
               <FormProvider {...form}>
                 <form
                   onSubmit={(e) => {
-                    form.handleSubmit(onSubmit, onInvalid)(e);
+                    form.handleSubmit(onSubmit)(e);
                   }}
                   className="space-y-5"
                   autoComplete="off"

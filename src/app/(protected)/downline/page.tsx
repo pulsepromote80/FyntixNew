@@ -1,19 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useCommunityStore } from "@/store/community.store";
-import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 
 const DownlineAffilates = () => {
   const { leftRightData, loading, fetchLeftRightData } = useCommunityStore();
-  const { data: currentUserResponse } = useCurrentUser();
-  const currentUser = currentUserResponse?.data;
-  const loginId = currentUser?.userId || currentUser?.loginid || "";
 
-  const [selectedSide, setSelectedSide] = useState(""); // "" = All, "L" = Left, "R" = Right
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
   const itemsPerPage = 10;
 
   // ---------------- FETCH DATA (shared by mount + submit + reset) ----------------
@@ -218,11 +212,11 @@ const DownlineAffilates = () => {
                       </td>
 
                       <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {node.Package > 0 ? `$${node.Package}` : "$0"}
+                        {(node.Package ?? 0) > 0 ? `$${node.Package}` : "$0"}
                       </td>
 
                       <td className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap dark:text-gray-100">
-                        {node.TeamBusiness > 0 ? `$${node.TeamBusiness}` : "$0"}
+                        {(node.TeamBusiness ?? 0) > 0 ? `$${node.TeamBusiness}` : "$0"}
                       </td>
 
 
