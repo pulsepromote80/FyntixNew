@@ -8,7 +8,7 @@ export function Footer() {
           <div className="max-w-xs">
             <Link href="/" className="flex items-center gap-2 text-white font-semibold text-xl mb-4">
               <span className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg"></span>
-              <span>KALKII</span>
+              <span>Fyntix</span>
             </Link>
             <p className="text-white/70 leading-relaxed">
               Powering the future of wealth. A next-generation platform built
@@ -67,7 +67,7 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-white/50">
-          <div>© 2026 Kalkii. All rights reserved.</div>
+          <div>© 2026 Fyntix. All rights reserved.</div>
           <div className="tracking-widest text-xs mt-4 md:mt-0">
             POWERING · THE · FUTURE · OF · WEALTH
           </div>

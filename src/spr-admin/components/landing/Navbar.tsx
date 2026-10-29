@@ -11,7 +11,7 @@ export function Navbar() {
       <div className="flex items-center justify-between max-w-7xl mx-auto px-8">
         <Link href="/" className="flex items-center gap-2 text-white font-semibold text-xl">
           <span className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg"></span>
-          <span>KALKII</span>
+          <span>Fyntix</span>
         </Link>
         <div className={`flex gap-8 items-center md:flex ${isOpen ? "fixed top-16 left-0 right-0 bg-black/95 flex-col py-8 gap-4 md:static md:bg-transparent md:py-0" : "hidden md:flex"}`}>
           <Link href="/" className="text-white/70 hover:text-white transition-colors">

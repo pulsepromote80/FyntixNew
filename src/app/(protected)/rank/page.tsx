@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Zap, Info, TrendingUp, TrendingDown, Loader2, Award } from "lucide-react";
 
 type RankRow = {
@@ -8,10 +8,11 @@ type RankRow = {
   RequiredBusiness: string;
   Amount: string;
   Statusx: string;
-  LeftBuss: number;
-  RightBuss: number;
-  PendingLeft: number;
-  PendingRight: number;
+  PowerTeamBusines: number;
+  WeakerTeamBusines: number;
+  PendingPowerTeam: number;
+  PendingWeakerTeam: number;
+  NextReleaseDate: string;
 };
 
 type ApiResponse = {
@@ -24,50 +25,16 @@ interface RankData {
   ranks?: RankRow[];
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function isRankRow(value: unknown): value is RankRow {
-  return isRecord(value) && typeof value.RewardTitle === "string";
-}
-
-function isApiResponse(value: unknown): value is ApiResponse {
-  return isRecord(value) && typeof value.statusCode === "number" && Array.isArray(value.data);
-}
-
-function getRows(payload: unknown): RankRow[] {
-  if (Array.isArray(payload)) return payload.filter(isRankRow);
-
-  if (isApiResponse(payload) && payload.statusCode === 200) {
-    return payload.data;
-  }
-
-  const pending: unknown[] = [payload];
-  const visited = new Set<object>();
-  for (let depth = 0; depth < 7 && pending.length > 0; depth += 1) {
-    const level = pending.splice(0);
-    for (const value of level) {
-      if (Array.isArray(value)) {
-        const records = value.filter(isRankRow);
-        if (records.length > 0) return records;
-        pending.push(...value);
-        continue;
-      }
-      if (!isRecord(value) || visited.has(value)) continue;
-      visited.add(value);
-      pending.push(...Object.values(value));
-    }
-  }
-  return [];
-}
-
 export default function RankPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [rankData, setRankData] = useState<RankData>({});
 
-  const loadRankData = useCallback(async () => {
+  useEffect(() => {
+    loadRankData();
+  }, []);
+
+  const loadRankData = async () => {
     setLoading(true);
     setError("");
     try {
@@ -90,11 +57,45 @@ export default function RankPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    void loadRankData();
-  }, [loadRankData]);
+  function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+
+  function isRankRow(value: unknown): value is RankRow {
+    return isRecord(value) && typeof value.RewardTitle === "string";
+  }
+
+  function isApiResponse(value: unknown): value is ApiResponse {
+    return isRecord(value) && typeof value.statusCode === "number" && Array.isArray(value.data);
+  }
+
+  function getRows(payload: unknown): RankRow[] {
+    if (Array.isArray(payload)) return payload.filter(isRankRow);
+
+    if (isApiResponse(payload) && payload.statusCode === 200) {
+      return payload.data;
+    }
+
+    const pending: unknown[] = [payload];
+    const visited = new Set<object>();
+    for (let depth = 0; depth < 7 && pending.length > 0; depth += 1) {
+      const level = pending.splice(0);
+      for (const value of level) {
+        if (Array.isArray(value)) {
+          const records = value.filter(isRankRow);
+          if (records.length > 0) return records;
+          pending.push(...value);
+          continue;
+        }
+        if (!isRecord(value) || visited.has(value)) continue;
+        visited.add(value);
+        pending.push(...Object.values(value));
+      }
+    }
+    return [];
+  }
 
   function formatMoney(value: unknown): string {
     if (typeof value === "string") {
@@ -149,20 +150,13 @@ export default function RankPage() {
       return bReq - aReq;
     })[0]?.RewardTitle || "N/A";
 
-  const nextRank = ranks
-    .filter((r) => r.Statusx === "Not Qualify")
-    .sort((a, b) => {
-      const aReq = Number(a.RequiredBusiness.replace(/,/g, "")) || 0;
-      const bReq = Number(b.RequiredBusiness.replace(/,/g, "")) || 0;
-      return aReq - bReq; 
-    })[0]?.RewardTitle || "N/A";
-
   // Use the first rank's business data for display
   const firstRank = ranks[0];
-  const powerTeamBusiness = firstRank?.LeftBuss || 0;
-  const weakerTeamBusiness = firstRank?.RightBuss || 0;
-  const pendingPowerTeamBusiness = firstRank?.PendingLeft || 0;
-  const pendingWeakerTeamBusiness = firstRank?.PendingRight || 0;
+  const powerTeamBusiness = firstRank?.PowerTeamBusines || 0;
+  const weakerTeamBusiness = firstRank?.WeakerTeamBusines || 0;
+  const pendingPowerTeamBusiness = firstRank?.PendingPowerTeam || 0;
+  const pendingWeakerTeamBusiness = firstRank?.PendingWeakerTeam || 0;
+  const nextReleaseDate = firstRank?.NextReleaseDate || "N/A";
 
   return (
     <div className="space-y-6">
@@ -217,19 +211,19 @@ export default function RankPage() {
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/75">
               <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  Next Rank
+                  Next Release Date
                 </span>
                 <Info className="h-4 w-4 text-blue-500" aria-hidden />
               </div>
               <div className="px-4 py-4">
-                <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{nextRank}</p>
+                <p className="text-2xl font-extrabold text-slate-900 dark:text-white">{nextReleaseDate}</p>
               </div>
             </div>
 
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/75">
               <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  Left Buss / Right Buss
+                  Power Team / Weaker Team Business
                 </span>
                 <TrendingUp className="h-4 w-4 text-emerald-500" aria-hidden />
               </div>
@@ -243,7 +237,7 @@ export default function RankPage() {
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/75">
               <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  Pending Left / Pending Right
+                  Pending Power / Weaker Team Business
                 </span>
                 <TrendingDown className="h-4 w-4 text-amber-500" aria-hidden />
               </div>

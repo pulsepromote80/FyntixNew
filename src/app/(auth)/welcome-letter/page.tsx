@@ -106,7 +106,7 @@ export default function WelcomeLetter() {
                   </p>
                   <p className="text-slate-400">
                     The future isn&apos;t coming — it&apos;s already here, and it&apos;s Agentic.
-                    With Kalkii, you now have access to a powerful ecosystem
+                    With Fyntix, you now have access to a powerful ecosystem
                     where AI agents work for you, generate consistent rewards, and
                     free up your time for what truly matters — your personal growth,
                     strategic planning, family moments, and much more.
@@ -118,7 +118,7 @@ export default function WelcomeLetter() {
                     Let them earn while you live smarter.
                   </p>
                   <p className="text-slate-400">
-                    Kalkii isn&apos;t just a platform — it&apos;s your gateway into the
+                    Fyntix isn&apos;t just a platform — it&apos;s your gateway into the
                     Agent Era, where wealth creation meets automation and innovation.
                   </p>
 

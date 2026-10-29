@@ -48,6 +48,7 @@ const ActivatePlanModal: React.FC<ActivatePlanModalProps> = ({
   const [amountError, setAmountError] = useState("");
   const [quantityError, setQuantityError] = useState("");
   const [walletBalance, setWalletBalance] = useState(0);
+  const [fundWalletBalance, setFundWalletBalance] = useState(0);
   const [isLoadingWallet, setIsLoadingWallet] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
   const [activationError, setActivationError] = useState("");
@@ -110,12 +111,15 @@ const ActivatePlanModal: React.FC<ActivatePlanModalProps> = ({
 
       if (data.statusCode === 200 && data.data) {
         setWalletBalance(data.data.DepositWallet || 0);
+        setFundWalletBalance(data.data.FundWallet || 0);
       } else {
         setWalletBalance(0);
+        setFundWalletBalance(0);
       }
     } catch (error) {
       console.error('Failed to fetch wallet details:', error);
       setWalletBalance(0);
+      setFundWalletBalance(0);
     } finally {
       setIsLoadingWallet(false);
     }
@@ -201,7 +205,15 @@ const ActivatePlanModal: React.FC<ActivatePlanModalProps> = ({
 
     const numValue = Number(value);
 
-    if (plan.title === "Normal") {
+    if (plan.title === "Liquidity Provider") {
+      if (numValue < 10) {
+        setAmountError("Minimum investment is $10");
+      } else if (numValue > walletBalance) {
+        setAmountError("Insufficient balance");
+      } else {
+        setAmountError("");
+      }
+    } else if (plan.title === "Smart Bonds") {
       if (numValue < 100) {
         setAmountError("Minimum investment is $100");
       } else if (numValue > walletBalance) {
@@ -209,16 +221,10 @@ const ActivatePlanModal: React.FC<ActivatePlanModalProps> = ({
       } else {
         setAmountError("");
       }
-    } else if (plan.title === "Legacy Reborn") {
-      if (numValue < 3000) {
-        setAmountError("Minimum investment is $3,000");
-      } else if (numValue > walletBalance) {
-        setAmountError("Insufficient balance");
-      } else {
-        setAmountError("");
-      }
     } else {
-      if (numValue > walletBalance) {
+      if (numValue < 100) {
+        setAmountError("Minimum investment is $100");
+      } else if (numValue > walletBalance) {
         setAmountError("Insufficient balance");
       } else {
         setAmountError("");
@@ -291,17 +297,30 @@ const ActivatePlanModal: React.FC<ActivatePlanModalProps> = ({
           </div>
 
           {/* Wallet Info Box */}
-          <div className="flex justify-between items-center bg-[#f0fdf4] dark:bg-green-900/20 border border-green-100 dark:border-green-500/30 rounded-2xl p-5 mb-6">
-            <div>
-              <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">Wallet Balance</p>
-              <p className="text-green-600 dark:text-green-400 text-2xl font-bold">
-                {isLoadingWallet ? <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" /> : `$${walletBalance}`}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">Investment Range</p>
-              <p className="text-gray-900 dark:text-white text-lg font-semibold">{plan.investmentRange}</p>
-            </div>
+          <div className="bg-[#f0fdf4] dark:bg-green-900/20 border border-green-100 dark:border-green-500/30 rounded-2xl p-5 mb-6">
+            {plan?.title === "Liquidity Provider" ? (
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">USDT Wallet</p>
+                  <p className="text-green-600 dark:text-green-400 text-2xl font-bold">
+                    {isLoadingWallet ? <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" /> : `$${walletBalance}`}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">Fund Wallet</p>
+                  <p className="text-green-600 dark:text-green-400 text-2xl font-bold">
+                    {isLoadingWallet ? <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" /> : `$${fundWalletBalance}`}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <p className="text-gray-600 dark:text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">Fund Wallet</p>
+                <p className="text-green-600 dark:text-green-400 text-2xl font-bold">
+                  {isLoadingWallet ? <Loader2 className="h-6 w-6 animate-spin text-[#F5C451]" aria-label="Loading" /> : `$${fundWalletBalance}`}
+                </p>
+              </>
+            )}
           </div>
 
           {/* Form */}
@@ -431,28 +450,26 @@ export default function PricingPage() {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        // const response = await fetch('/api/investment-plans?Type=1', {
-        //   method: 'GET',
-        // });
+        const response = await fetch('/api/investment-plans?Type=1', {
+          method: 'GET',
+        });
 
-        // const data = await response.json();
+        const data = await response.json();
 
-        // if (data.statusCode === 200 && data.data) {
+        if (data.statusCode === 200 && data.data) {
           const hardcodedPlans: Plan[] = [
             {
-              id: "1", // Hardcoded ID
-              title: "Liquidity Provider",
+              id: "", // Will be set from API
+              title: "", // Will be set from API
               subtitle: "Perfect for New Investors",
               icon: "🚀",
-              investmentRange: "$100+",
+              investmentRange: "$10+",
               isPopular: true,
               features: [
-                { text: "ROI 8% on 90%" },
-                { text: "10% for Direct Rewards" },
-                { text: "10% for Binary Rewards" },
-                { text: "10% for Rank Rewards" },
-                { text: "Investor Limit 2.5X" },
-                { text: "Leaders Limit 5X" },
+                { text: "Accessible entry starting at just $10" },
+                { text: "Yields 0.33% daily revenue sharing (10% monthly)" },
+                { text: "Investor Limit 2.X" },
+                { text: "Leaders Limit 4X" },
               ],
               theme: {
                 text: "text-blue-600 dark:text-blue-400",
@@ -466,16 +483,16 @@ export default function PricingPage() {
               BoosterPackage: 1,
             },
             {
-              id: "2", // Hardcoded ID
-              title: "Smart Bonds", // Hardcoded title
+              id: "", // Will be set from API
+              title: "", // Will be set from API
               subtitle: "For Consistent Growth",
               icon: "📊",
-              investmentRange: "$3,000+",
-
+              investmentRange: "$100+",
+              
               features: [
-                { text: "ROI 12%" },
-                { text: "Investor Limit 2.5X" },
-                { text: "Leaders Limit 5X" },
+                { text: "Accessible entry starting at just $100" },
+                { text: "Investor Limit 1X" },
+                { text: "Leaders Limit 1X" },
               ],
               theme: {
                 text: "text-amber-600 dark:text-amber-400",
@@ -488,45 +505,24 @@ export default function PricingPage() {
               },
               BoosterPackage: 2,
             },
-            {
-              id: "3", // Hardcoded ID
-              title: "Secure Bonds", // Hardcoded title
-              subtitle: "Professional Trading Suite",
-              icon: "💎",
-              investmentRange: "$660 - 1 Quantity",
-              features: [
-                { text: "ROI 14%" },
-                { text: "Investor Limit 2.5X" },
-                { text: "Leaders Limit 5X" },
-              ],
-              theme: {
-                text: "text-purple-600 dark:text-purple-400",
-                bg: "bg-purple-50 dark:bg-purple-500/10",
-                border: "border-purple-200 dark:border-purple-500/30",
-                glow: "shadow-sm dark:shadow-[0_0_30px_rgba(168,85,247,0.15)]",
-                button: "bg-purple-500 text-white border-transparent dark:bg-gradient-to-r dark:from-purple-500 dark:to-fuchsia-500 font-bold",
-                buttonHover: "hover:bg-purple-600 dark:hover:from-purple-400 dark:hover:to-fuchsia-400",
-                iconBg: "bg-gradient-to-br from-purple-500 to-fuchsia-600",
-              },
-              BoosterPackage: 3,
-            },
+           
           ];
 
-          // const mappedPlans = hardcodedPlans.map((plan, index) => {
-          //   const apiItem = data.data[index];
-          //   if (apiItem) {
-          //     return {
-          //       ...plan,
-          //       id: apiItem.productId,
-          //       title: apiItem.name,
-          //       BoosterPackage: apiItem.BoosterPackage,
-          //     };
-          //   }
-          //   return plan;
-          // });
+          const mappedPlans = hardcodedPlans.map((plan, index) => {
+            const apiItem = data.data[index];
+            if (apiItem) {
+              return {
+                ...plan,
+                id: apiItem.productId,
+                title: apiItem.name,
+                BoosterPackage: apiItem.BoosterPackage,
+              };
+            }
+            return plan;
+          });
 
-          setPlans(hardcodedPlans);
-        // }
+          setPlans(mappedPlans);
+        }
       } catch (error) {
         console.error('Failed to fetch plans:', error);
       } finally {
@@ -539,7 +535,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0f] p-4 sm:p-8 font-sans relative transition-colors duration-300">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl w-full mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl w-full mx-auto">
         {isLoading ? (
           <div className="col-span-full flex justify-center py-16">
             <Loader2 className="h-10 w-10 animate-spin text-[#F5C451]" aria-label="Loading" />

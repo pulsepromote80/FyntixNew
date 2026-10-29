@@ -287,7 +287,7 @@ export function Navbar() {
     {
       id: 'performance',
       name: 'Mentor Wallet',
-      balance: walletData?.WorkingWallet ? `$${Number(walletData.WorkingWallet).toFixed(4)}` : '$0.0000',
+      balance: walletData?.MentorWallet ? `$${Number(walletData.MentorWallet).toFixed(4)}` : '$0.0000',
       icon: TrendingUp,
       color: '#8b5cf6',
       bg: '#ede9fe'
@@ -295,7 +295,7 @@ export function Navbar() {
     {
       id: 'yield',
       name: 'Fund Wallet',
-      balance: walletData?.ROIWallet ? `$${Number(walletData.ROIWallet).toFixed(4)}` : '$0.0000',
+      balance: walletData?.FundWallet ? `$${Number(walletData.FundWallet).toFixed(4)}` : '$0.0000',
       icon: BarChart3,
       color: '#10b981',
       bg: '#d1fae5'
@@ -573,6 +573,8 @@ export function Navbar() {
                         notification.adminRemarks) ||
                       (typeof notification.message === "string" && notification.message) ||
                       "You have a new notification.";
+                    const rawDate = notification.NotificationDate ?? notification.notificationDate;
+
                     const amount = notification.Amount ?? notification.amount;
                     const amountText =
                       typeof amount === "string" || typeof amount === "number"
