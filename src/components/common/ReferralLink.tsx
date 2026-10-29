@@ -137,7 +137,7 @@ Join Kalikii using my referral link: ${referralLink} Earn rewards by leasing AI 
             Twitter
           </a>
           <a
-            href="https://rvtor.abrixlabs.live/KalkII_Business_Plan_V1.pdf"
+            href="https://fyncbapi.fyntix.club/Fyntix_Business_Plan.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white bg-[#0088cc] hover:bg-[#0088cc]/90 focus:ring-4 focus:outline-none focus:ring-[#0088cc]/50 font-medium rounded-lg text-sm px-2.5 py-1.5 text-center inline-flex items-center dark:focus:ring-[#0088cc]/55 me-2 mb-2"

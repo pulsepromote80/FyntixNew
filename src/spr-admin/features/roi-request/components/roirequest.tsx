@@ -292,12 +292,12 @@ export default function ROIWithdrawalRequests() {
       setStats(fetchedStats);
       setIsSearched(true);
       setCurrentPage(1);
-      if (data.length === 0) toast.info("No ROI withdrawal requests found.");
-      else toast.success(`${data.length} ROI withdrawal request(s) found.`);
+      if (data.length === 0) toast.info("No Mentor withdrawal requests found.");
+      else toast.success(`${data.length} Mentor withdrawal request(s) found.`);
     } catch (fetchError) {
-      console.error("Failed to fetch ROI withdrawal requests:", fetchError);
-      setError("Unable to load ROI withdrawal requests. Please try again.");
-      toast.error("Unable to load ROI withdrawal requests. Please try again.");
+      console.error("Failed to fetch Mentor withdrawal requests:", fetchError);
+      setError("Unable to load Mentor withdrawal requests. Please try again.");
+      toast.error("Unable to load Mentor withdrawal requests. Please try again.");
       setRequests([]);
       setIsSearched(false);
     } finally {
@@ -328,9 +328,9 @@ export default function ROIWithdrawalRequests() {
         setIsSearched(true);
         setCurrentPage(1);
       } catch (fetchError) {
-        console.error("Failed to fetch ROI requests for export:", fetchError);
-        setError("Unable to load ROI withdrawal requests. Please try again.");
-        toast.error("Unable to load ROI withdrawal requests. Please try again.");
+        console.error("Failed to fetch Mentor requests for export:", fetchError);
+        setError("Unable to load Mentor withdrawal requests. Please try again.");
+        toast.error("Unable to load Mentor withdrawal requests. Please try again.");
         return;
       } finally {
         setIsLoading(false);
@@ -412,9 +412,9 @@ export default function ROIWithdrawalRequests() {
             <RotateCw className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">ROI Withdrawal Requests</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Mentor Withdrawal Requests</h1>
             <p className="mt-0.5 text-sm text-gray-500">
-              Manage and process ROI withdrawal requests
+              Manage and process Mentor withdrawal requests
             </p>
           </div>
         </div>
@@ -459,7 +459,7 @@ export default function ROIWithdrawalRequests() {
               Search Filters
             </h2>
             <p className="mt-1 text-xs text-white/90">
-              Filter ROI withdrawal requests by date or user
+              Filter Mentor withdrawal requests by date or user
             </p>
           </div>
 
@@ -613,7 +613,7 @@ export default function ROIWithdrawalRequests() {
                   {currentRequests.length === 0 ? (
                     <tr>
                       <td colSpan={14} className="px-3 py-8 text-center text-gray-500">
-                        No ROI withdrawal requests found.
+                        No Mentor withdrawal requests found.
                       </td>
                     </tr>
                   ) : (

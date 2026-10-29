@@ -14,7 +14,7 @@ export function GlobalInfrastructure() {
     { name: "Secure Bonds", key: "SecureBondPack" },
     { name: "Booster", key: "BoosterPackage" },
     { name: "Performance Rank", key: "UserRank" },
-    { name: "Yield Per -%", key: "YieldPer" },
+    { name: "Yield Per", key: "YieldPer" },
   ] as const;
 
   return (
@@ -69,7 +69,7 @@ export function GlobalInfrastructure() {
                 )}
               </div>
               <div className="text-right font-bold ">
-                {isNotAvailable ? "N/A" : isStringActive ? "Active" : formatCurrency(numericAmount)}
+                {isNotAvailable ? "N/A" : isStringActive ? "Active" : program.key === "YieldPer" ? `${numericAmount}%` : formatCurrency(numericAmount)}
               </div>
             </div>
           );
