@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { DataTable } from "@/components/common/DataTable";
 import { useOrderHistory, useBoosterOrderHistory } from "@/features/order-history/hooks/useOrderHistory";
@@ -10,7 +10,6 @@ import type { TableColumn } from "@/components/ui/Table";
 
 const columns: TableColumn<OrderHistoryItem>[] = [
   { key: "sno", header: "S.No", render: (_, index) => index + 1 },
-  { key: "Authlogin", header: "Login ID", render: (item) => item.Authlogin },
   { key: "ProductName", header: "Package Type", render: (item) => item.ProductName },
   { key: "Rkprice", header: "Amount", render: (item) => formatCurrency(item.Rkprice) },
   { key: "Paymentmode", header: "Payment Mode", render: (item) => item.Paymentmode },
@@ -28,47 +27,47 @@ const columns: TableColumn<OrderHistoryItem>[] = [
   { key: "Remark", header: "Remark", render: (item) => item.Remark },
 ];
 
-type FilterType = "1" | "2" | "3" | null;
-
-const FILTER_OPTIONS: { value: string; label: string }[] = [
-  { value: "1", label: "Liquidity Provider" },
-  { value: "2", label: "Smart Bonds" },
-  { value: "3", label: "Adjust Bonds" },
-];
-
 type TabType = "investment-fund";
 
 export function OrderHistoryTable() {
   const [activeTab, setActiveTab] = useState<TabType>("investment-fund");
-  const [filterType, setFilterType] = useState<FilterType>(null);
-  const { data, isLoading, isError, refetch } = useOrderHistory(filterType ?? undefined);
+  const [filterType, setFilterType] = useState<string | null>(null);
+  
+  // Fetch all data without filter
+  const { data: allData, isLoading, isError, refetch } = useOrderHistory();
+  
+  // Extract unique ProductName values for filter options
+  const filterOptions = useMemo(() => {
+    if (!allData?.data) return [];
+    const uniqueProductNames = Array.from(
+      new Set(allData.data.map((item) => item.ProductName))
+    );
+    return uniqueProductNames.map((name) => ({
+      value: name,
+      label: name,
+    }));
+  }, [allData?.data]);
+  
+  // Client-side filtering by ProductName
+  const filteredDisplayData = useMemo(() => {
+    if (!filterType || !allData?.data) return allData?.data ?? [];
+    return allData.data.filter((item) => item.ProductName === filterType);
+  }, [filterType, allData?.data]);
 
   return (
     <div className="space-y-4">
-      <div className="bg-gray-100 dark:bg-gray-800 rounded-md p-0.5 flex space-x-0.5">
-        <button
-          onClick={() => setActiveTab("investment-fund")}
-          className={`flex-1 py-3 px-2 rounded-sm font-medium text-xs transition-all duration-200 ${
-            activeTab === "investment-fund"
-              ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white font-bold shadow-sm shadow-blue-500/20"
-              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
-          }`}
-        >
-          Investment Fund
-        </button>
-       
-      </div>
+    
 
       {activeTab === "investment-fund" && (
         <div className="space-y-4">
           <div className="flex justify-end">
             <select
               value={filterType ?? ""}
-              onChange={(e) => setFilterType(e.target.value as FilterType || null)}
+              onChange={(e) => setFilterType(e.target.value || null)}
               className="px-4 py-2 border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All</option>
-              {FILTER_OPTIONS.map((option) => (
+              {filterOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -78,8 +77,8 @@ export function OrderHistoryTable() {
 
           <DataTable<OrderHistoryItem>
             columns={columns}
-            data={data?.data ?? []}
-            getRowId={(item) => item.ProductId}
+            data={filteredDisplayData}
+            getRowId={(item) => `${item.ProductId}-${item.RDate}`}
             isLoading={isLoading}
             isError={isError}
             onRetry={() => refetch()}

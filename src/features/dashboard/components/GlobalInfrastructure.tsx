@@ -9,11 +9,12 @@ export function GlobalInfrastructure() {
   const { data } = useDashboardSummary();
   const dashboardData = data?.data?.[0];
   const programs = [
-    { name: "Liquidity Provider", key: "LiquidityProvider" },
-    { name: "Smart Bonds", key: "SmartBonds" },
-    { name: "Secure Bonds", key: "Secure Bonds" },
-    // { name: "Withdrwal Booster", key: "BoosterPackage" },
+    { name: "Liquidity Provider", key: "TradingPackage" },
+    { name: "Smart Bonds", key: "SmartBondPack" },
+    { name: "Secure Bonds", key: "SecureBondPack" },
     { name: "Booster", key: "BoosterPackage" },
+    { name: "Performance Rank", key: "UserRank" },
+    { name: "Yield Per -%", key: "YieldPer" },
   ] as const;
 
   return (
@@ -40,6 +41,7 @@ export function GlobalInfrastructure() {
         {programs.map((program) => {
           const value = dashboardData?.[program.key] ?? 0;
           const isStringActive = typeof value === "string" && value === "Active";
+          const isNotAvailable = typeof value === "string" && value === "N/A";
           const numericAmount = typeof value === "number" ? value : 0;
           const isActive = isStringActive || numericAmount > 0;
 
@@ -50,15 +52,24 @@ export function GlobalInfrastructure() {
             >
               <div className="text-[12px] font-semibold leading-snug ">{program.name}</div>
               <div className="flex justify-center">
-                <span
-                  aria-label={isActive ? "Active" : "Inactive"}
-                  className={`text-2xl font-bold leading-none ${isActive ? "text-green-500" : "text-red-500"}`}
-                >
-                  {isActive ? "✓" : "✕"}
-                </span>
+                {isNotAvailable ? (
+                  <span
+                    aria-label="Not Available"
+                    className="text-2xl font-bold leading-none text-red-500"
+                  >
+                    ✕
+                  </span>
+                ) : (
+                  <span
+                    aria-label={isActive ? "Active" : "Inactive"}
+                    className={`text-2xl font-bold leading-none ${isActive ? "text-green-500" : "text-red-500"}`}
+                  >
+                    {isActive ? "✓" : "✕"}
+                  </span>
+                )}
               </div>
               <div className="text-right font-bold ">
-                {isStringActive ? "Active" : formatCurrency(numericAmount)}
+                {isNotAvailable ? "N/A" : isStringActive ? "Active" : formatCurrency(numericAmount)}
               </div>
             </div>
           );

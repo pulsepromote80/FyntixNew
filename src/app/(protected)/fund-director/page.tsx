@@ -5,12 +5,15 @@ import {
   ArrowDownLeft,
   ArrowLeftRight,
   ArrowUpRight,
+  Banknote,
+  Check,
   CheckCircle2,
   Clock3,
   Copy,
   Landmark,
   Loader2,
   QrCode,
+  Search,
   Send,
   ShieldCheck,
   Wallet,
@@ -85,6 +88,7 @@ const initialBalances = {
   performance: 0,
   yield: 0,
   legacy: 0,
+  mentor: 0,
 };
 
 const money = (amount: number, currency = "USD") => {
@@ -778,7 +782,7 @@ export default function FundDirectorPage() {
   const [depositDetails, setDepositDetails] = useState("");
   const [depositRemark, setDepositRemark] = useState("");
   const [isSubmittingFiatDeposit, setIsSubmittingFiatDeposit] = useState(false);
-  const [incomeWallet, setIncomeWallet] = useState<"performance" | "yield">("performance");
+  const [incomeWallet, setIncomeWallet] = useState<"income" | "mentor">("income");
   const [incomeAmount, setIncomeAmount] = useState("");
   const [recipient, setRecipient] = useState("");
   const [recipientName, setRecipientName] = useState("");
@@ -789,7 +793,7 @@ export default function FundDirectorPage() {
   const [p2pAmount, setP2pAmount] = useState("");
   const [p2pOtp, setP2pOtp] = useState("");
   const [p2pOtpSent, setP2pOtpSent] = useState(false);
-  const [withdrawWallet, setWithdrawWallet] = useState<"performance" | "yield" | "legacy">(
+  const [withdrawWallet, setWithdrawWallet] = useState<"performance" | "mentor">(
     "performance",
   );
   const [withdrawAmount, setWithdrawAmount] = useState("");
@@ -1090,8 +1094,9 @@ export default function FundDirectorPage() {
       setBalances({
         deposit: Number(data.DepositWallet ?? data.depositWallet) || 0,
         performance: Number(data.IncomeWallet ?? data.incomeWallet) || 0,
-        yield: Number(data.RentWallet ?? data.rentWallet) || 0,
+        yield: Number(data.FundWallet ?? data.fundWallet) || 0,
         legacy: Number(data.LegacyWallet ?? data.legacyWallet) || 0,
+        mentor: Number(data.MentorWallet ?? data.mentorWallet) || 0,
       });
     } catch (error) {
       console.error("Could not load Fund Director wallet balances:", error);
@@ -1440,7 +1445,8 @@ export default function FundDirectorPage() {
   const submitIncomeTransfer = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const amount = Number(incomeAmount);
-    if (!Number.isFinite(amount) || amount <= 0 || amount > balances[incomeWallet]) {
+    const balanceKey = incomeWallet === "income" ? "performance" : "mentor";
+    if (!Number.isFinite(amount) || amount <= 0 || amount > balances[balanceKey]) {
       toast.error("Enter an amount within the selected wallet balance");
       return;
     }
@@ -1467,7 +1473,7 @@ export default function FundDirectorPage() {
     try {
       const payload = await runFundDirectorAction("transferIncome", {
         trnsamount: incomeAmount,
-        walletType: incomeWallet === "performance" ? 1 : 2,
+        walletType: incomeWallet === "income" ? 1 : 2,
         otp,
       });
       setIncomeAmount("");
@@ -1582,7 +1588,7 @@ export default function FundDirectorPage() {
         amount,
         walletAdress: withdrawAddress.trim(),
         payMode: 1,
-        walletType: withdrawWallet === "performance" ? 1 : withdrawWallet === "yield" ? 2 : 0,
+        walletType: withdrawWallet === "performance" ? 1 : withdrawWallet === "mentor" ? 2 : 0,
         withdrawalotp: withdrawalEmailOtp,
       });
       setWithdrawAmount("");
@@ -1699,8 +1705,7 @@ export default function FundDirectorPage() {
                       }`}
                   >
                     {selected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
-                      <Icon className="h-4 w-4" />
-                      {label}
+                    {label}
                   </button>
                 );
               })}
@@ -2090,12 +2095,12 @@ export default function FundDirectorPage() {
                       <select
                         value={incomeWallet}
                         onChange={(event) =>
-                          setIncomeWallet(event.target.value as "performance" | "yield")
+                          setIncomeWallet(event.target.value as "income" | "mentor")
                         }
                         className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
                       >
-                        <option value="performance">Working Wallet</option>
-                        <option value="yield">ROI Wallet</option>
+                        <option value="income">Income Wallet</option>
+                        <option value="mentor">Mentor Wallet</option>
                       </select>
                     </label>
                   )}
@@ -2105,12 +2110,12 @@ export default function FundDirectorPage() {
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     {otpSent
                       ? "Transfer confirmation"
-                      : `${incomeWallet === "performance" ? "Working" : "ROI"} Wallet Balance`}
+                      : `${incomeWallet === "income" ? "Income" : "Mentor"} Wallet Balance`}
                   </p>
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Balance:{" "}
                     <span className="bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] bg-clip-text text-transparent">
-                      {money(otpSent ? balances.deposit : balances[incomeWallet])}
+                      {money(otpSent ? balances.deposit : balances[incomeWallet === "income" ? "performance" : "mentor"])}
                     </span>
                   </p>
                 </div>
@@ -2131,7 +2136,7 @@ export default function FundDirectorPage() {
                         disabled={
                           !incomeAmount ||
                           Number(incomeAmount) < 1 ||
-                          Number(incomeAmount) > balances[incomeWallet]
+                          Number(incomeAmount) > balances[incomeWallet === "income" ? "performance" : "mentor"]
                         }
                       >
                         <ShieldCheck className="h-4 w-4" />
@@ -2347,12 +2352,12 @@ export default function FundDirectorPage() {
                     <select
                       value={withdrawWallet}
                       onChange={(event) =>
-                        setWithdrawWallet(event.target.value as "performance" | "yield")
+                        setWithdrawWallet(event.target.value as "performance" | "mentor")
                       }
                       className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 font-medium outline-none transition focus:border-[#1680ff] focus:ring-4 focus:ring-blue-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:w-auto"
                     >
-                      <option value="performance">Working Wallet</option>
-                      <option value="yield">ROI Wallet</option>
+                      <option value="performance">Income Wallet</option>
+                      <option value="mentor">Mentor Wallet</option>
                     </select>
                   </label>
                   <div className="whitespace-nowrap text-sm font-semibold text-slate-700 dark:text-slate-300">
