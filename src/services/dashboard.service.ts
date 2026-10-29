@@ -27,7 +27,8 @@ export interface DashboardData {
   ActiveLicensee: number;
   WorkingWallet: number;
   DepositWallet: number;
-  ROIWallet: number;
+  MentorWallet: number;
+  FundWallet: number;
   LiquidityProvider?: number | string;
   SmartBonds?: number | string;
   "Secure Bonds"?: number | string;

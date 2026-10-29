@@ -1,36 +1,49 @@
 "use client";
 import { useState } from "react";
 // import { NftSection } from "@/app/components/NftSection";
+import { usePathname } from 'next/navigation';
+import { getPageName } from "@/lib/utils";
 import TransactionData from "@/features/income-reports/components/TransactionData";
 import {
   FaUserPlus,
   FaGift,
+  FaMedal,
   FaSeedling,
   FaLayerGroup ,
+  FaUsers,
+  FaCrown,
   FaMoneyBillWave 
 } from "react-icons/fa";
 
 export default function Reports() {
-  const [activeTab, setActiveTab] = useState("Direct Income");
+  const [activeTab, setActiveTab] = useState("Dynamic Referral Yield");
+  const pathname = usePathname();
+  const pageName = getPageName(pathname);
 
   const getTransactionType = (tabName: string) => {
     const map: Record<string, string> = {
-      "Direct Income": "Direct Income",
-      "Binary Income": "Binary Income",
-      "Reward Income": "Reward Income",
-      "ROI Income": "ROI Income",
-      "Level Income": "Level Income",
+      "Dynamic Referral Yield": "Dynamic Referral Yield",
+      "Daily Revenue Sharing": "Daily Revenue Sharing",
+      "Booster Profit": "Booster Profit",
+      "Unity Revenue Yield": "Unity Revenue Yield",
+      "Performance Revenue": "Performance Revenue",
+      "Smart Bonds": "Smart Bonds",
+      "Smart Growth": "Smart Growth",
+      "Secure Bonds": "Secure Bonds",
 
     };
     return map[tabName] || "ALL";
   };
 
   const tabs = [
-    { id: "Direct Income", label: "Direct Income", icon: FaUserPlus },
-    { id: "Binary Income", label: "Binary Income", icon: FaMoneyBillWave },
-    { id: "Reward Income", label: "Rank & Reward", icon: FaGift },
-    { id: "ROI Income", label: "ROI Income", icon: FaSeedling },
-    { id: "Level Income", label: "Level Income", icon: FaLayerGroup },
+    { id: "Dynamic Referral Yield", label: "Dynamic Referral Yield", icon: FaUserPlus },
+    { id: "Daily Revenue Sharing", label: "Daily Revenue Sharing", icon: FaMoneyBillWave },
+    { id: "Booster Profit", label: "Booster Profit", icon: FaGift },
+    { id: "Unity Revenue Yield", label: "Unity Revenue Yield", icon: FaSeedling },
+    { id: "Performance Revenue", label: "Performance Revenue", icon: FaLayerGroup },
+    { id: "Smart Bonds", label: "Smart Bonds", icon: FaUsers },
+    { id: "Smart Growth", label: "Smart Growth", icon: FaCrown },
+    { id: "Secure Bonds", label: "Secure Bonds", icon: FaMedal },
   ];
 
   return (

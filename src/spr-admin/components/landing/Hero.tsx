@@ -10,7 +10,7 @@ export function Hero() {
             A New Era of Trading
           </span>
           <h1 className="text-6xl font-extrabold text-white mb-4 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            KALKII
+            Fyntix
           </h1>
           <p className="text-3xl text-white/90 mb-6">Powering the Future of Wealth</p>
           <p className="text-lg text-white/70 leading-relaxed mb-8">

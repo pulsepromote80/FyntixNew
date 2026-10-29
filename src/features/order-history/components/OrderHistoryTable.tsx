@@ -28,37 +28,20 @@ const columns: TableColumn<OrderHistoryItem>[] = [
   { key: "Remark", header: "Remark", render: (item) => item.Remark },
 ];
 
-const boosterColumns: TableColumn<BoosterOrderHistoryItem>[] = [
-  { key: "sno", header: "S.No", render: (_, index) => index + 1 },
-  { key: "ActivationDate", header: "Activation Date", render: (item) => item.ActivationDate },
-  { key: "Btype", header: "Booster Type", render: (item) => item.Btype },
-  { key: "BoosterValue", header: "Booster Value", render: (item) => formatCurrency(item.BoosterValue) },
-  {
-    key: "BoosterStatus",
-    header: "Status",
-    render: (item) => (
-      <Badge variant={item.BoosterStatus === "Active" ? "success" : "destructive"}>
-        {item.BoosterStatus}
-      </Badge>
-    ),
-  },
-];
-
 type FilterType = "1" | "2" | "3" | null;
 
 const FILTER_OPTIONS: { value: string; label: string }[] = [
-  { value: "1", label: "Trading" },
-  { value: "2", label: "Legacy Reborn" },
-  { value: "3", label: "Legacy Reborn 2.0" },
+  { value: "1", label: "Liquidity Provider" },
+  { value: "2", label: "Smart Bonds" },
+  { value: "3", label: "Adjust Bonds" },
 ];
 
-type TabType = "investment-fund" | "booster";
+type TabType = "investment-fund";
 
 export function OrderHistoryTable() {
   const [activeTab, setActiveTab] = useState<TabType>("investment-fund");
   const [filterType, setFilterType] = useState<FilterType>(null);
   const { data, isLoading, isError, refetch } = useOrderHistory(filterType ?? undefined);
-  const { data: boosterData, isLoading: isBoosterLoading, isError: isBoosterError, refetch: refetchBooster } = useBoosterOrderHistory();
 
   return (
     <div className="space-y-4">
@@ -73,16 +56,7 @@ export function OrderHistoryTable() {
         >
           Investment Fund
         </button>
-        <button
-          onClick={() => setActiveTab("booster")}
-          className={`flex-1 py-3 px-2 rounded-sm font-medium text-xs transition-all duration-200 ${
-            activeTab === "booster"
-              ? "bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff] text-white font-bold shadow-sm shadow-blue-500/20"
-              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
-          }`}
-        >
-          Booster
-        </button>
+       
       </div>
 
       {activeTab === "investment-fund" && (
@@ -114,17 +88,6 @@ export function OrderHistoryTable() {
         </div>
       )}
 
-      {activeTab === "booster" && (
-        <DataTable
-          columns={boosterColumns}
-          data={boosterData?.data ?? []}
-          getRowId={(item: BoosterOrderHistoryItem) => `${item.ActivationDate}-${item.BoosterValue}`}
-          isLoading={isBoosterLoading}
-          isError={isBoosterError}
-          onRetry={() => refetchBooster()}
-          emptyTitle="No booster order history found"
-        />
-      )}
     </div>
   );
 }

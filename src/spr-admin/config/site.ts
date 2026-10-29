@@ -1,4 +1,4 @@
 export const siteConfig = {
-  name: "KALKII",
+  name: "Fyntix",
   description: "Production-ready Next.js admin frontend.",
 } as const;

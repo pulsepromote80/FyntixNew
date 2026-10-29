@@ -19,7 +19,7 @@ const features = [
     num: "03 / DISCIPLINE",
     title: "Systems Over Speculation",
     description:
-      "Structured tools, clear rules, and consistent execution. Kalkii is built for traders who treat the markets as a craft, not a lottery.",
+      "Structured tools, clear rules, and consistent execution. Fyntix is built for traders who treat the markets as a craft, not a lottery.",
   },
   {
     num: "04 / SECURITY",
@@ -37,7 +37,7 @@ const features = [
     num: "06 / VISION",
     title: "A Long-Term View",
     description:
-      "Kalkii is not built for a season. Every product decision looks past the next quarter, toward a platform that lasts a generation.",
+      "Fyntix is not built for a season. Every product decision looks past the next quarter, toward a platform that lasts a generation.",
   },
 ];
 
@@ -66,7 +66,7 @@ export function Features() {
     <section className="py-20 bg-[#0f0f23]">
       <div className="max-w-7xl mx-auto px-8">
         <span className="text-indigo-500 text-sm font-semibold tracking-widest uppercase block text-center mb-4">
-          Why Kalkii
+          Why Fyntix
         </span>
         <h2 className="text-4xl font-bold text-white text-center mb-12">
           Built on Principles, Not Promises

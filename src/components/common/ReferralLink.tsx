@@ -11,7 +11,7 @@ const ReferralLink = () => {
   const { user } = useAuthStore();
   const { data: dashboardData } = useDashboardSummary();
   const authLogin = dashboardData?.data?.[0]?.AuthLogin || user?.email || "user123";
-  const referralLink = `https://Kalkii.io/register?RefID=${authLogin}`;
+  const referralLink = `https://fyntix.club/register?RefID=${authLogin}`;
 
   const handleCopyClick = () => {
     const fullMessage = `🚀 𝐉𝐨𝐢𝐧 Kalikii – 𝐄𝐦𝐩𝐨𝐰𝐞𝐫𝐢𝐧𝐠 𝐭𝐡𝐞 𝐅𝐮𝐭𝐮𝐫𝐞 𝐨𝐟 𝐓𝐫𝐚𝐝𝐢𝐧𝐠.
