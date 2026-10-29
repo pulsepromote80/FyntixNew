@@ -248,11 +248,14 @@ export default function AIBUSINESSHUB() {
   const weakLeg = Math.min(leftBusvolume, rightBusvolume);
 
   const kpis = [
-    { label: "Direct Income", value: directBonus, prefix: "$", dec: 2, tone: "green", icon: "arrowUp", trend: "+12%", series: [12, 15, 18, 22, 25, 28, 30] },
-    { label: "Binary Income", value: matchingIncome, prefix: "$", dec: 2, tone: "blue", icon: "chart", trend: "+8%", series: [10, 12, 14, 16, 18, 20, 22] },
-    { label: "Rank & Reward", value: rewardBonus, prefix: "$", dec: 2, tone: "violet", icon: "award", trend: "+15%", series: [8, 10, 12, 15, 18, 20, 25] },
-    { label: "ROI Income", value: yieldIncome, prefix: "$", dec: 2, tone: "amber", icon: "rocket", trend: "+20%", series: [15, 18, 22, 25, 28, 32, 35] },
-    { label: "Level Income", value: levelIncome, prefix: "$", dec: 2, tone: "violet", icon: "group", trend: "+10%", series: [10, 12, 14, 16, 18, 20, 22] },
+    { label: "Dynamic Referral Yield", value: directBonus, prefix: "$", dec: 2, tone: "green", icon: "arrowUp", trend: "+12%", series: [12, 15, 18, 22, 25, 28, 30] },
+    { label: "Daily Revenue Sharing", value: matchingIncome, prefix: "$", dec: 2, tone: "blue", icon: "chart", trend: "+8%", series: [10, 12, 14, 16, 18, 20, 22] },
+    { label: "Booster Profit", value: rewardBonus, prefix: "$", dec: 2, tone: "violet", icon: "award", trend: "+15%", series: [8, 10, 12, 15, 18, 20, 25] },
+    { label: "Unity Revenue Yield", value: yieldIncome, prefix: "$", dec: 2, tone: "amber", icon: "rocket", trend: "+20%", series: [15, 18, 22, 25, 28, 32, 35] },
+    { label: "Performance Revenue", value: levelIncome, prefix: "$", dec: 2, tone: "violet", icon: "group", trend: "+10%", series: [10, 12, 14, 16, 18, 20, 22] },
+    { label: "Smart Bonds", value: smartBonds, prefix: "$", dec: 2, tone: "blue", icon: "briefcase", trend: "+18%", series: [12, 14, 16, 18, 20, 22, 24] },
+    { label: "Smart Growth", value: yieldIncome, prefix: "$", dec: 2, tone: "green", icon: "share", trend: "+25%", series: [15, 18, 21, 24, 27, 30, 33] },
+    { label: "Secure Bonds", value: smartBonds, prefix: "$", dec: 2, tone: "amber", icon: "refresh", trend: "+22%", series: [10, 13, 16, 19, 22, 25, 28] },
   ];
 
   const wallets = [
@@ -349,7 +352,7 @@ export default function AIBUSINESSHUB() {
 
         {/* KPI Tiles */}
         <section className="mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {kpis.map((k, i) => (
               <Reveal key={k.label} delay={i * 90}>
                 <div className={`hub-card hub-k2 hub-tone-${k.tone}`}>
@@ -368,69 +371,6 @@ export default function AIBUSINESSHUB() {
           </div>
         </section>
 
-        {/* Wallets + Income History */}
-        <section className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <Reveal>
-              <div className="hub-card">
-                <div className="hub-card-head">
-                  <h3>Wallet Overview</h3>
-                  <span className="hub-chip green">Live</span>
-                </div>
-                <div className="hub-total-bal">
-                  <div><small className="hub-lbl">Total balance</small><b className="mono" style={{ display: 'block' }}><CountUp value={wallets.reduce((a, w) => a + w.value, 0)} prefix="$" dec={2} /></b></div>
-                  <span className="hub-badge" style={{ marginTop: 0 }}>4 wallets</span>
-                </div>
-                <div className="grid grid-cols-2 gap-3" style={{ gap: 12 }}>
-                  {wallets.map((w, i) => (
-                    <div className={`hub-wc w${i + 1}`} key={w.label}>
-                      <div className="row"><small>{w.label}</small><span className="chipmark" /></div>
-                      <b className="mono"><CountUp value={w.value} prefix="$" dec={2} /></b>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-3" style={{ marginTop: 16 }}>
-                  <button className="hub-btn blue" style={{ flex: 1 }} onClick={() => say("Withdraw request started")}><Icon name="arrowUp" size={14} /> Withdraw</button>
-                  <button className="hub-btn" style={{ flex: 1 }} onClick={() => say("Reinvest request started")}><Icon name="refresh" size={14} /> Reinvest</button>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div className="hub-card">
-                <div className="hub-card-head">
-                  <h3>Income History</h3>
-                </div>
-                <div className="hub-inc-top">
-                  <Donut
-                    size={120}
-                    stroke={16}
-                    parts={incomeHistory.filter((i) => i.amount > 0).map((i, n) => ({ pct: (i.amount / incomeTotal) * 100, color: palette[n % palette.length] || '#666' }))}
-                    center={<><b style={{ fontSize: 16 }}>{money(incomeTotal)}</b><small>EARNED</small></>}
-                  />
-                  <div style={{ flex: 1, minWidth: 160 }}>
-                    <small className="hub-lbl">Top stream</small>
-                    <div style={{ fontWeight: 800, fontSize: 17, margin: '4px 0' }}>{topStream?.name || 'N/A'}</div>
-                    <div className="sub">{topStream ? ((topStream.amount / incomeTotal) * 100).toFixed(0) : 0}% of total income</div>
-                  </div>
-                </div>
-                {incomeHistory.map((i) => {
-                  const n = incomeHistory.filter((x) => x.amount > 0).findIndex((x) => x.name === i.name);
-                  const col = n >= 0 ? palette[n % palette.length] : "var(--hub-muted)";
-                  return (
-                    <div className="hub-inc2" key={i.name}>
-                      <div className="ic" style={{ background: col }}><Icon name={i.icon} size={16} /></div>
-                      <div>
-                        <div className="nm">{i.name}<span>{((i.amount / incomeTotal) * 100).toFixed(1)}%</span></div>
-                        <div className="hub-bar"><div style={{ width: `${(i.amount / incomeTotal) * 100}%` }} /></div>
-                      </div>
-                      <div className={`am mono ${i.amount ? "" : "zero"}`}>+{money(i.amount)}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Reveal>
-          </div>
-        </section>
 
         {/* Trading Packages */}
         <section className="mb-8">

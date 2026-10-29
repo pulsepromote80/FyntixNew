@@ -282,7 +282,7 @@ export default function ROIHistory() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">ROI History</h1>
             <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
-              View and manage all ROI withdrawal requests
+              View and manage all Mentor withdrawal requests
             </p>
           </div>
         </div>
