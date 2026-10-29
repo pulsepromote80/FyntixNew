@@ -30,13 +30,15 @@ export interface DashboardData {
   MentorWallet: number;
   FundWallet: number;
   LiquidityProvider?: number | string;
-  SmartBonds?: number | string;
-  "Secure Bonds"?: number | string;
+  SmartBondPack?: number | string;
+  "SecureBondPack"?: number | string;
   TradingPackage?: number;
   RebornPacakge?: number;
   Reborn2Pacakge?: number;
   BoosterPackage?: number;
   LevelBoosterPackage?: number;
+  Boostertype?: string;
+  YieldPer?: string;
 }
 
 export interface DashboardSummary {

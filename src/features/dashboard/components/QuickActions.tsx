@@ -19,7 +19,6 @@ export function QuickActions() {
     { label: "Incomes", icon: "💰", href: "/fund-director?tab=income" },
     { label: "Wallets", icon: "👛", href: "/reports" },
     { label: "Transactions", icon: "📋", href: "/transactions" },
-    { label: "Settings", icon: "⚙️", href: "/settings" },
     { label: "History", icon: "📜", href: "/order-history" },
     { label: "Reports", icon: "📈", href: "/reports" },
     { label: "Referrals", icon: "👥", href: "/direct-partners" },

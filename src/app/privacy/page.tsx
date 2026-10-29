@@ -3,9 +3,9 @@ import { PublicNavbar } from "@/components/layout/PublicNavbar";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata = {
-  title: "Privacy Policy | Kalkii",
+  title: "Privacy Policy | Fyntix",
   description:
-    "Learn how Kalkii collects, uses, and protects your personal information.",
+    "Learn how Fyntix collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPage() {
@@ -106,10 +106,10 @@ export default function PrivacyPage() {
         <p>
           For privacy-related questions, contact us at{" "}
           <a
-            href="mailto:support@kalkii.com"
+            href="mailto:support@fyntix.com"
             className="text-blue-700 underline transition-colors hover:text-[#7d75ff] dark:text-[#25c6e8] dark:hover:text-[#7d75ff]"
           >
-            support@kalkii.com
+            support@fyntix.com
           </a>
           .
         </p>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
           <div className="relative mb-12 overflow-hidden rounded-2xl border border-blue-200/70 bg-white/80 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700/70 dark:bg-slate-900/65 md:p-8">
             <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-[#1680ff] via-[#25c6e8] to-[#7d75ff]" />
             <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 md:text-base">
-              At Kalkii, your privacy is important to us. This Privacy Policy
+              At Fyntix, your privacy is important to us. This Privacy Policy
               explains how we collect, use, disclose, and safeguard your
               information when you use our platform.
             </p>
