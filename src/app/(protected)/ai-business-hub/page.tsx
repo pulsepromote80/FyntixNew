@@ -169,7 +169,7 @@ export default function AIBUSINESSHUB() {
   const [affiliate, setAffiliate] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
-  const boosterRemDateTime = getText(affiliate?.BoosterRemDateTime, "");
+  const boosterRemDateTime = "";
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -223,29 +223,35 @@ export default function AIBUSINESSHUB() {
   };
 
   // Data from affiliate
-  const activeDirectMembers = getNumber(affiliate?.ActiveDirectMembers);
+  const activeDirectMembers = getText(affiliate?.ActiveDirectMembers, "0");
   const directBusiness = getNumber(affiliate?.DirectBusiness);
-  const subscription = getNumber(affiliate?.Subscription);
-  const teamBusiness = getNumber(affiliate?.ROIAmt);
-  const directBonus = getNumber(affiliate?.DirectBonus);
-  const matchingIncome = getNumber(affiliate?.MatchingIncome);
-  const rewardBonus = getNumber(affiliate?.RewardBonus);
-  const yieldIncome = getNumber(affiliate?.YieldIncome);
-  const levelIncome = getNumber(affiliate?.LevelIncome);
-  const performanceWithdrawal = getNumber(affiliate?.PerformanceWithdrawal);
-  const yieldWithdrawal = getNumber(affiliate?.YieldWithdrawal);
-  const tradingPackage = getNumber(affiliate?.TradingPackage);
-  const smartBonds = getNumber(affiliate?.RebornPacakge);
-  const leftBusvolume = getNumber(affiliate?.LeftBusvolume);
-  const rightBusvolume = getNumber(affiliate?.RightBusvolume);
-  const strongLegID = getText(affiliate?.Reborn2Pacakge, "N/A");
-  const leadershipRank = getText(affiliate?.LeadershipRank, "N/A");
-  const rankPercentage = getNumber(affiliate?.Levelopen);
+  const subscription = getNumber(affiliate?.EarningLimit);
+  const teamBusiness = getNumber(affiliate?.TeamBusiness);
+  const directBonus = getNumber(affiliate?.DynamicReferralYield);
+  const matchingIncome = getNumber(affiliate?.DailyRevenueSharing);
+  const rewardBonus = getNumber(affiliate?.BoosterProfit);
+  const yieldIncome = getNumber(affiliate?.UnityRevenueYield);
+  const levelIncome = getNumber(affiliate?.PerformanceRevenue);
+  const performanceWithdrawal = getNumber(affiliate?.IncomeWithdrawal);
+  const yieldWithdrawal = getNumber(affiliate?.MentorWithdrawal);
+  const tradingPackage = getNumber(affiliate?.BoosterPackage);
+  const smartBonds = getNumber(affiliate?.SmartBonds);
+  const smartGrowth = getNumber(affiliate?.SmartGrowth);
+  const secureBonds = getNumber(affiliate?.SecureBonds);
+  const leftBusvolume = getNumber(affiliate?.PowerTeamBusines);
+  const rightBusvolume = getNumber(affiliate?.WeakerTeamBusines);
+  const strongLegID = getText(affiliate?.PowerTeamID, "N/A");
+  const leadershipRank = getText(affiliate?.UserRank, "N/A");
+  const rankPercentage = getNumber(affiliate?.YieldPer);
+  const totalEarning = getNumber(affiliate?.TotalEarning);
+  const remainingLimit = getNumber(affiliate?.RemainingLimit);
+  const totalTeam = getText(affiliate?.TotalTeam, "0");
+  const activeTeam = getText(affiliate?.ActiveTeam, "0");
 
   // Calculated values
   const teamTotal = Number(leftBusvolume) + Number(rightBusvolume);
-  const powerLeg = Math.max(leftBusvolume, rightBusvolume);
-  const weakLeg = Math.min(leftBusvolume, rightBusvolume);
+  const powerLeg = Math.max(Number(leftBusvolume), Number(rightBusvolume));
+  const weakLeg = Math.min(Number(leftBusvolume), Number(rightBusvolume));
 
   const kpis = [
     { label: "Dynamic Referral Yield", value: directBonus, prefix: "$", dec: 2, tone: "green", icon: "arrowUp", trend: "+12%", series: [12, 15, 18, 22, 25, 28, 30] },
@@ -254,21 +260,21 @@ export default function AIBUSINESSHUB() {
     { label: "Unity Revenue Yield", value: yieldIncome, prefix: "$", dec: 2, tone: "amber", icon: "rocket", trend: "+20%", series: [15, 18, 22, 25, 28, 32, 35] },
     { label: "Performance Revenue", value: levelIncome, prefix: "$", dec: 2, tone: "violet", icon: "group", trend: "+10%", series: [10, 12, 14, 16, 18, 20, 22] },
     { label: "Smart Bonds", value: smartBonds, prefix: "$", dec: 2, tone: "blue", icon: "briefcase", trend: "+18%", series: [12, 14, 16, 18, 20, 22, 24] },
-    { label: "Smart Growth", value: yieldIncome, prefix: "$", dec: 2, tone: "green", icon: "share", trend: "+25%", series: [15, 18, 21, 24, 27, 30, 33] },
-    { label: "Secure Bonds", value: smartBonds, prefix: "$", dec: 2, tone: "amber", icon: "refresh", trend: "+22%", series: [10, 13, 16, 19, 22, 25, 28] },
+    { label: "Smart Growth", value: smartGrowth, prefix: "$", dec: 2, tone: "green", icon: "share", trend: "+25%", series: [15, 18, 21, 24, 27, 30, 33] },
+    { label: "Secure Bonds", value: secureBonds, prefix: "$", dec: 2, tone: "amber", icon: "refresh", trend: "+22%", series: [10, 13, 16, 19, 22, 25, 28] },
   ];
 
   const wallets = [
-    { label: "Subscription", value: subscription },
-    { label: "Trade Fund", value: teamBusiness },
-    { label: "Working Wallet", value: performanceWithdrawal },
-    { label: "ROI Wallet", value: yieldWithdrawal },
+    { label: "Total Earning", value: totalEarning },
+    { label: "Earning Limit", value: subscription },
+    { label: "Remaining Limit", value: remainingLimit },
+    { label: "Team Business", value: teamBusiness },
   ];
 
   const packages = [
-    { key: "lp", name: "Liquidity Provider", desc: "LP Trade", active: tradingPackage, total: tradingPackage, limit: 10000, pending: 5000, tone: "blue" },
+    { key: "lp", name: "Liquidity Provider", desc: "LP Trade", active: 0, total: 0, limit: 10000, pending: 5000, tone: "blue" },
     { key: "sb", name: "Smart Bonds", desc: "Fixed returns", active: smartBonds, total: smartBonds, limit: 15000, pending: 7000, tone: "violet" },
-    { key: "sec", name: "Secure Bonds", desc: "Secure growth", active: smartBonds, total: smartBonds, limit: 20000, pending: 8000, tone: "amber" },
+    { key: "sec", name: "Secure Bonds", desc: "Secure growth", active: secureBonds, total: secureBonds, limit: 20000, pending: 8000, tone: "amber" },
   ];
 
   const boosters = [
@@ -445,15 +451,15 @@ export default function AIBUSINESSHUB() {
                 </div>
                 <div className="hub-tiers">
                   {dryTiers.map((t) => (
-                    <div className={`hub-tier ${t.dir === activeDirectMembers ? "current" : ""}`} key={t.dir}>
+                    <div className={`hub-tier ${t.dir === Number(activeDirectMembers) ? "current" : ""}`} key={t.dir}>
                       <span className="mono">{t.dir} direct{t.dir > 1 ? "s" : ""}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b>
                     </div>
                   ))}
                 </div>
-                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[Number(activeDirectMembers) - 1]?.pct || 0}% yield</b></div>
+                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[Number(activeDirectMembers || 0) - 1]?.pct || 0}% yield</b></div>
               </div>
             </Reveal>
-            <Reveal delay={100}>
+            <Reveal delay={100}> 
               <div className="hub-card">
                 <div className="hub-card-head">
                   <div><h3>Unity Revenue Yield</h3><div className="sub">Differential on total volume · 15% to 100%</div></div><span className="hub-chip green">Volume scaling</span>
@@ -512,17 +518,14 @@ export default function AIBUSINESSHUB() {
                   <span className="hub-chip blue">Direct line</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3" style={{ gap: 10, gridTemplateColumns: 'repeat(3,1fr)' }}>
-                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct ID</small><b className="mono" style={{ color: 'var(--hub-text)' }}><CountUp value={getNumber(affiliate?.UserId)} /></b></div>
-                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Active Direct</small><b className="mono"><CountUp value={activeDirectMembers} /></b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct ID</small><b className="mono" style={{ color: 'var(--hub-text)' }}>{getText(affiliate?.AuthloginId, "N/A")}</b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Active Direct</small><b className="mono">{activeDirectMembers}</b></div>
                   <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Direct Business</small><b className="mono"><CountUp value={directBusiness} prefix="$" dec={0} /></b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Total Team</small><b className="mono">{totalTeam}</b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Active Team</small><b className="mono">{activeTeam}</b></div>
+                  <div className="hub-wallet" style={{ textAlign: 'center' }}><small>Team Business</small><b className="mono"><CountUp value={teamBusiness} prefix="$" dec={0} /></b></div>
                 </div>
                 <div className="hub-kv" style={{ marginTop: 14 }}><span>Current Booster Rank</span><span>{leadershipRank}</span></div>
-                <div style={{ marginTop: 10, fontSize: 12, color: 'var(--hub-muted)' }}>Booster Time</div>
-                <div className="hub-timer">
-                  <div><b className="mono">{String(hours).padStart(2, '0')}</b><small>hours</small></div>
-                  <div><b className="mono">{String(minutes).padStart(2, '0')}</b><small>minutes</small></div>
-                  <div><b className="mono">{String(seconds).padStart(2, '0')}</b><small>seconds</small></div>
-                </div>
                 <div className="hub-kv"><span>Booster Status</span><span>Active</span></div>
               </div>
             </Reveal>
@@ -532,7 +535,9 @@ export default function AIBUSINESSHUB() {
                   <h3>Personal Info</h3>
                   <span className="hub-chip muted">Active</span>
                 </div>
-                <div className="hub-kv"><span>User ID</span><span className="mono">{getText(affiliate?.UserId, "N/A")}</span></div>
+                <div className="hub-kv"><span>User ID</span><span className="mono">{getText(affiliate?.AuthloginId, "N/A")}</span></div>
+                <div className="hub-kv"><span>Email</span><span className="mono">{getText(affiliate?.EmailId, "N/A")}</span></div>
+                <div className="hub-kv"><span>Mobile</span><span className="mono">{getText(affiliate?.Mobile, "N/A")}</span></div>
                 <div className="hub-kv"><span>Sponsor</span><span className="mono">{getText(affiliate?.SponsorId, "N/A")}</span></div>
                 <div className="hub-kv"><span>Current Rank</span><span>{leadershipRank}</span></div>
                 <div className="hub-kv"><span>Rank Progress</span><span>{rankPercentage}%</span></div>

@@ -11,7 +11,7 @@ const recentUsers = [
 
 // Static data for Recent Withdrawals
 const recentWithdrawals = [
-  { user: "kalki", amount: "$200.00", status: "Pending", date: "Sep 17, 2026" },
+  { user: "fyntix", amount: "$200.00", status: "Pending", date: "Sep 17, 2026" },
   { user: "Radhika Thakur", amount: "$72.80", status: "Pending", date: "Sep 12, 2026" },
   { user: "PAPYA POREI", amount: "$41.00", status: "Pending", date: "Sep 17, 2026" },
   { user: "Kalyan B Mandal", amount: "$77.00", status: "Pending", date: "Sep 17, 2026" },

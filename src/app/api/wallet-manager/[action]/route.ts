@@ -14,12 +14,12 @@ const walletActions = {
     path: "/WalletReport/getIncomeWalletStatement",
     needsTransactionType: true,
   },
-  yield: {
+  mentor: {
     path: "/WalletReport/getRentWalletStatement",
     needsTransactionType: true,
   },
-  legacy: {
-    path: "/WalletReport/getRentWalletStatement",
+  fund: {
+    path: "/WalletReport/getFundWalletStatement",
     needsTransactionType: true,
   },
   rank: {
@@ -29,6 +29,14 @@ const walletActions = {
   income: {
     path: "/WalletReport/getTransactionIncomeHistory",
     needsTransactionType: true,
+  },
+  unity: {
+    path: "/WalletReport/getUnityRevenuerpt",
+    needsTransactionType: false,
+  },
+  dao: {
+    path: "/WalletReport/getDaoRewardRptrpt",
+    needsTransactionType: false,
   },
 } as const;
 
