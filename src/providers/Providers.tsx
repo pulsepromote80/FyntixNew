@@ -11,7 +11,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
  */
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" storageKey="kalkii-theme">
+    <ThemeProvider attribute="class" defaultTheme="light" storageKey="fyntix-theme">
       <QueryProvider>{children}</QueryProvider>
     </ThemeProvider>
   );
