@@ -1036,7 +1036,7 @@ export default function FundDirectorPage() {
       if (veltResult.status === "fulfilled") {
         setSelfBalances((current) => ({
           ...current,
-          velt: Number(getNestedValue(veltResult.value, "VELTBalance", "velttBalance")) || 0,
+          velt: Number(getNestedValue(veltResult.value, "ELTBalance", "VELTBalance", "velttBalance")) || 0,
         }));
       } else {
         console.error("Could not load VELT self deposit balance:", veltResult.reason);
@@ -1352,7 +1352,7 @@ export default function FundDirectorPage() {
     }
   };
 
-  const submitSelfDeposit = async (asset: "USDT" | "VELT") => {
+  const submitSelfDeposit = async (asset: "USDT" | "Fyntix") => {
     const balance = asset === "USDT" ? selfBalances.usdt : selfBalances.velt;
     if (balance < 10) {
       toast.error(`A minimum ${asset} balance of 10 is required to submit a deposit.`);
@@ -1780,29 +1780,39 @@ export default function FundDirectorPage() {
                       </p>
 
                       <div className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
-                        <div className="min-w-0 flex-none rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400">USDT Balance</p>
-                          <p className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
-                            {money(selfBalances.usdt)}
-                          </p>
+                        <div className="flex flex-col items-center gap-2">
+                          <div className="min-w-0 flex-none rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400">USDT Balance</p>
+                            <p className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
+                              {money(selfBalances.usdt)}
+                            </p>
+                          </div>
+                          <PrimaryButton
+                            type="button"
+                            disabled={isSubmittingSelfDeposit}
+                            onClick={() => void submitSelfDeposit("USDT")}
+                          >
+                            <ArrowDownLeft className="h-4 w-4" />
+                            {isSubmittingSelfDeposit ? "Processing..." : "USDT Deposit"}
+                          </PrimaryButton>
                         </div>
-                        <PrimaryButton
-                          type="button"
-                          disabled={isSubmittingSelfDeposit}
-                          onClick={() => void submitSelfDeposit("USDT")}
-                        >
-                          <ArrowDownLeft className="h-4 w-4" />
-                          {isSubmittingSelfDeposit ? "Processing..." : "USDT Deposit"}
-                        </PrimaryButton>
-                        {/* <button
-                        type="button"
-                        disabled={isSubmittingSelfDeposit}
-                        onClick={() => void submitSelfDeposit("VELT")}
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-                      >
-                        <ArrowDownLeft className="h-4 w-4" />
-                        {isSubmittingSelfDeposit ? "Processing..." : "VELT Deposit"}
-                      </button> */}
+                        <div className="flex flex-col items-center gap-2">
+                          <div className="min-w-0 flex-none rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400">FYNTIX Balance</p>
+                            <p className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
+                              {money(selfBalances.velt)}
+                            </p>
+                          </div>
+                          <PrimaryButton
+                            type="button"
+                            disabled={isSubmittingSelfDeposit}
+                            onClick={() => void submitSelfDeposit("Fyntix")}
+                            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                          >
+                            <ArrowDownLeft className="h-4 w-4" />
+                            {isSubmittingSelfDeposit ? "Processing..." : "FYNTIX Deposit"}
+                          </PrimaryButton>
+                        </div>
                       </div>
                     </div>
 

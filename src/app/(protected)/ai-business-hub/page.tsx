@@ -450,13 +450,17 @@ export default function AIBUSINESSHUB() {
                   <div><h3>Dynamic Referral Yield</h3><div className="sub">Leader opportunity · 10% to 100%</div></div><span className="hub-chip blue">Leader</span>
                 </div>
                 <div className="hub-tiers">
-                  {dryTiers.map((t) => (
-                    <div className={`hub-tier ${t.dir === Number(activeDirectMembers) ? "current" : ""}`} key={t.dir}>
-                      <span className="mono">{t.dir} direct{t.dir > 1 ? "s" : ""}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b>
-                    </div>
-                  ))}
+                  {dryTiers.map((t) => {
+                    const isReached = t.dir <= Number(activeDirectMembers);
+                    const isCurrent = t.dir === Number(activeDirectMembers);
+                    return (
+                      <div className={`hub-tier ${isCurrent ? "current" : ""}`} key={t.dir}>
+                        <span className="mono">{t.dir} direct{t.dir > 1 ? "s" : ""}</span><div className="hub-bar"><div style={{ width: `${isReached ? 100 : t.pct}%`, background: isReached ? '' : 'rgba(120, 160, 200, 0.3)' }} /></div><b className="mono">{t.pct}%</b>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers[Number(activeDirectMembers || 0) - 1]?.pct || 0}% yield</b></div>
+                <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers.filter(t => t.dir <= Number(activeDirectMembers)).pop()?.pct || 0}% yield</b></div>
               </div>
             </Reveal>
             <Reveal delay={100}> 
