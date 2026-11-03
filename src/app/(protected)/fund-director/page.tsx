@@ -115,7 +115,7 @@ const actionMethods: Record<string, "GET" | "POST"> = {
   getVeltBalance: "POST",
   getSelfDepositHistory: "GET",
   requestUsdtDeposit: "POST",
-  requestVeltDeposit: "POST",
+  requestFyDeposit: "POST",
   getWalletReport: "GET",
   getWithdrawalStatement: "GET",
   sendIncomeTransferOtp: "POST",
@@ -1354,11 +1354,14 @@ export default function FundDirectorPage() {
 
   const submitSelfDeposit = async (asset: "USDT" | "Fyntix") => {
     const balance = asset === "USDT" ? selfBalances.usdt : selfBalances.velt;
-    if (balance < 10) {
-      toast.error(`A minimum ${asset} balance of 10 is required to submit a deposit.`);
+    // if (balance < 10) {
+    //   toast.error(`A minimum ${asset} balance of 10 is required to submit a deposit.`);
+    const minimumBalance = asset === "USDT" ? 10 : 1;
+    if (balance < minimumBalance) {
+      toast.error(`A minimum ${asset} balance of ${minimumBalance} is required to submit a deposit.`);
       return;
     }
-    const action = asset === "USDT" ? "requestUsdtDeposit" : "requestVeltDeposit";
+    const action = asset === "USDT" ? "requestUsdtDeposit" : "requestFyDeposit";
     setIsSubmittingSelfDeposit(true);
     try {
       const payload = await runFundDirectorAction(action);

@@ -13,9 +13,9 @@ const actions = {
     path: "/Self/getSelfDepositDetailsByURID",
   },
   requestUsdtDeposit: { method: "POST", path: "/Self/SendUSDTDepositRequest" },
-  requestVeltDeposit: {
+  requestFyDeposit: {
     method: "POST",
-    path: "/Self/SendVELTTokenDepositRequest",
+    path: "/api/Self/SendFyDepositRequest",
   },
   getWalletReport: {
     method: "GET",
