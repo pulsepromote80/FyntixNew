@@ -14,7 +14,7 @@ const ReferralLink = () => {
   const referralLink = `https://fyntix.club/register?RefID=${authLogin}`;
 
   const handleCopyClick = () => {
-    const fullMessage = `🚀 𝐉𝐨𝐢𝐧 Kalikii – 𝐄𝐦𝐩𝐨𝐰𝐞𝐫𝐢𝐧𝐠 𝐭𝐡𝐞 𝐅𝐮𝐭𝐮𝐫𝐞 𝐨𝐟 𝐓𝐫𝐚𝐝𝐢𝐧𝐠.
+    const fullMessage = `🚀 𝐉𝐨𝐢𝐧 Fyntix – 𝐄𝐦𝐩𝐨𝐰𝐞𝐫𝐢𝐧𝐠 𝐭𝐡𝐞 𝐅𝐮𝐭𝐮𝐫𝐞 𝐨𝐟 𝐓𝐫𝐚𝐝𝐢𝐧𝐠.
      Start your trading journey today and explore exciting market opportunities. Sign up using my referral link and unlock exclusive rewards:
 👉 ${referralLink}`;
     navigator.clipboard
@@ -95,7 +95,7 @@ const ReferralLink = () => {
           <a
             href={`https://wa.me/?text=${encodeURIComponent(
               `*AI is the future – and you can profit from it today!*
-Join Kalikii using my referral link: ${referralLink} Earn rewards by leasing AI agents. Don't miss out!`
+Join Fyntix using my referral link: ${referralLink} Earn rewards by AI Marketing. Don't miss out!`
             )}&media=${encodeURIComponent(
               "https://imagedelivery.net/nq9qT5FHZv9Sg48UUnD1-A/6db933b4-d8e8-4cb4-f94d-5ff7533aba00/public"
             )}`}
@@ -112,7 +112,7 @@ Join Kalikii using my referral link: ${referralLink} Earn rewards by leasing AI 
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
               referralLink
             )}&quote=${encodeURIComponent(
-              "✨ *Imagine earning by leasing AI Agents!* Kalikii makes it possible. Join today using my referral link: Start your AI-powered income journey now! #AILeasing #AIRevolution #Kalikii #TechFuture"
+              "✨ *Imagine earning by AI Marketing!* Fyntix makes it possible. Join today using my referral link: Start your AI-powered income journey now! #AIRevolution #Fyntix #TechFuture"
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -125,10 +125,10 @@ Join Kalikii using my referral link: ${referralLink} Earn rewards by leasing AI 
           {/* Twitter/X */}
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              "💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI leasing marketplace – Kalikii. Sign up now using my link and enjoy rewards:"
+              "💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI marketplace – Fyntix. Sign up now using my link and enjoy rewards:"
             )}&url=${encodeURIComponent(
               referralLink
-            )} 💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI leasing marketplace – Kalikii. Sign up now using my link and enjoy rewards:`}
+            )} 💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI marketplace – Fyntix. Sign up now using my link and enjoy rewards:`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-white bg-[#000000] hover:bg-[#1DA1F2]/90 focus:ring-4 focus:outline-none focus:ring-[#1DA1F2]/50 font-medium rounded-lg text-sm px-2.5 py-1.5 text-center inline-flex items-center dark:focus:ring-[#1DA1F2]/55 me-2 mb-2"
@@ -150,7 +150,7 @@ Join Kalikii using my referral link: ${referralLink} Earn rewards by leasing AI 
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
               referralLink
             )} 💡 *Own, Rent & Profit from AI Agents!*
-Join the world's first AI leasing marketplace – Kalikii.
+Join the world's first AI marketplace – Fyntix.
 Sign up now using my link and enjoy rewards:`}
             target="_blank"
             rel="noopener noreferrer"
@@ -171,7 +171,7 @@ Sign up now using my link and enjoy rewards:`}
             href={`https://t.me/share/url?url=${encodeURIComponent(
               referralLink
             )}&text=${encodeURIComponent(
-              "💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI leasing marketplace – Kalikii.Sign up now using my link and enjoy rewards"
+              "💡 *Own, Rent & Profit from AI Agents!* Join the world's first AI marketplace – Fyntix.Sign up now using my link and enjoy rewards"
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -184,9 +184,9 @@ Sign up now using my link and enjoy rewards:`}
           {/* Email */}
           <a
             href={`mailto:?subject=${encodeURIComponent(
-              "🚀 *Work smarter with AI!* Join me on Kalikii and start earning."
+              "🚀 *Work smarter with AI!* Join me on Fyntix and start earning."
             )}&body=${encodeURIComponent(
-              `Hi! I wanted to share this great opportunity with you. Join Kalikii using my referral link and start earning rewards: ${referralLink}`
+              `Hi! I wanted to share this great opportunity with you. Join Fyntix using my referral link and start earning rewards: ${referralLink}`
             )}`}
             className="text-white bg-[#34495e] hover:bg-[#34495e]/90 focus:ring-4 focus:outline-none focus:ring-[#34495e]/50 font-medium rounded-lg text-sm px-2.5 py-1.5 text-center inline-flex items-center me-2 mb-2"
           >
