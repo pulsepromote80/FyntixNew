@@ -248,6 +248,20 @@ export default function AIBUSINESSHUB() {
   const totalTeam = getText(affiliate?.TotalTeam, "0");
   const activeTeam = getText(affiliate?.ActiveTeam, "0");
 
+  // Package API values
+  const totalTradingPackage = getNumber(affiliate?.TotalTradingPackage);
+  const activeTradingPackage = getNumber(affiliate?.TradingPackage);
+  const activeSmartBondPack = getNumber(affiliate?.SmartBondPack);
+  const activeSecureBondPack = getNumber(affiliate?.SecureBondPack);
+  const totalSmartBondPack = getNumber(affiliate?.TotalSmartBondPack);
+  const totalSecureBondPack = getNumber(affiliate?.TotalSecureBondPack);
+  const liquidityEarningLimit = getNumber(affiliate?.LiquidityEarningLimit);
+  const liquidityPendingLimit = getNumber(affiliate?.LiquidityPendingLimit);
+  const secureEarningLimit = getNumber(affiliate?.SecureEarningLimit);
+  const securePendingLimit = getNumber(affiliate?.SecurePendingLimit);
+  const smartEarningLimit = getNumber(affiliate?.SmartEarningLimit);
+  const smartPendingLimit = getNumber(affiliate?.SmartPendingLimit);
+
   // Calculated values
   const teamTotal = Number(leftBusvolume) + Number(rightBusvolume);
   const powerLeg = Math.max(Number(leftBusvolume), Number(rightBusvolume));
@@ -272,9 +286,9 @@ export default function AIBUSINESSHUB() {
   ];
 
   const packages = [
-    { key: "lp", name: "Liquidity Provider", desc: "LP Trade", active: 0, total: 0, limit: 10000, pending: 5000, tone: "blue" },
-    { key: "sb", name: "Smart Bonds", desc: "Fixed returns", active: smartBonds, total: smartBonds, limit: 15000, pending: 7000, tone: "violet" },
-    { key: "sec", name: "Secure Bonds", desc: "Secure growth", active: secureBonds, total: secureBonds, limit: 20000, pending: 8000, tone: "amber" },
+    { key: "lp", name: "Liquidity Provider", desc: "LP Trade", active: activeTradingPackage, total: totalTradingPackage, limit: liquidityEarningLimit, pending: liquidityPendingLimit, tone: "blue" },
+    { key: "sb", name: "Smart Bonds", desc: "Fixed returns", active: activeSmartBondPack, total: totalSmartBondPack, limit: smartEarningLimit, pending: smartPendingLimit, tone: "violet" },
+    { key: "sec", name: "Secure Bonds", desc: "Secure growth", active: activeSecureBondPack, total: totalSecureBondPack, limit: secureEarningLimit, pending: securePendingLimit, tone: "amber" },
   ];
 
   const boosters = [
@@ -386,7 +400,7 @@ export default function AIBUSINESSHUB() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {packages.map((p, i) => {
-              const pct = ((p.limit - p.pending) / p.limit) * 100;
+              const pct = p.limit > 0 ? ((p.limit - p.pending) / p.limit) * 100 : 0;
               return (
                 <Reveal key={p.key} delay={i * 100}>
                   <div className="hub-card pkg">
