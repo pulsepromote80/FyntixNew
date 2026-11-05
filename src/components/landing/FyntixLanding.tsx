@@ -1,15 +1,162 @@
+
+
+
 "use client";
 
+import {
+  ArrowLeftRight,
+  Boxes,
+  CalendarClock,
+  Check,
+  CircleDollarSign,
+  Coins,
+  Copy,
+  Cpu,
+  Droplets,
+  ExternalLink,
+  Gift,
+  Globe,
+  Lock,
+  Network,
+  Pickaxe,
+  Settings2,
+  ShieldCheck,
+  Sprout,
+  Users,
+  Zap,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { LiquidityDashboard } from "@/components/landing/LiquidityDashboard";
+
+/* ========================================================================== */
+/*  TOKEN SECTION DATA (Token / Minting / Tokenomics images ke hisaab se)      */
+/* ========================================================================== */
+
+const tokenFunctions: { icon: ReactNode; title: string; text: string }[] = [
+  {
+    icon: <ArrowLeftRight size={20} />,
+    title: "Protocol Transactions",
+    text: "Used for seamless and efficient protocol operations.",
+  },
+  {
+    icon: <Droplets size={20} />,
+    title: "Liquidity Incentives",
+    text: "Rewards liquidity providers and boosts market depth.",
+  },
+  {
+    icon: <Users size={20} />,
+    title: "Governance Participation",
+    text: "Empowers holders to shape the future of the protocol.",
+  },
+  {
+    icon: <CircleDollarSign size={20} />,
+    title: "Fee Settlement",
+    text: "Enables fast, low-cost fee payments across the ecosystem.",
+  },
+  {
+    icon: <Globe size={20} />,
+    title: "Global Accessibility",
+    text: "Driving transparent, permissionless access to global FX markets.",
+  },
+];
+
+const tokenBadges = [
+  { icon: <ShieldCheck size={15} />, label: "Secure" },
+  { icon: <Zap size={15} />, label: "Efficient" },
+  { icon: <Lock size={15} />, label: "Transparent" },
+  { icon: <Globe size={15} />, label: "Global" },
+  { icon: <Users size={15} />, label: "Community Driven" },
+];
+
+const mintingRows = [
+  { year: "June 2026", vmm: "1000", cost: "$2,000", daily: "2.00", yearly: "730.000", token: "$2.74" },
+  { year: "June 2027", vmm: "1000", cost: "$3,500", daily: "1.75", yearly: "638.750", token: "$5.48" },
+  { year: "June 2028", vmm: "1000", cost: "$5,000", daily: "1.50", yearly: "547.500", token: "$9.13" },
+  { year: "June 2029", vmm: "1000", cost: "$7,500", daily: "1.25", yearly: "456.250", token: "$16.44" },
+  { year: "June 2030", vmm: "1000", cost: "$11,000", daily: "0.90", yearly: "328.500", token: "$33.49" },
+];
+
+const mintingTraits = [
+  { icon: <ShieldCheck size={18} />, label: "Controlled Issuance" },
+  { icon: <Sprout size={18} />, label: "Sustainable Growth" },
+  { icon: <Network size={18} />, label: "Long-term Ecosystem" },
+  { icon: <Settings2 size={18} />, label: "Deterministic Emission" },
+];
+
+const allocation = [
+  { label: "Minting", value: 54.02, color: "#1d4ed8" },
+  { label: "Liquidity Rewards", value: 30.0, color: "#1680ff" },
+  { label: "I.C.O", value: 4.0, color: "#22d3ee" },
+  { label: "Advisory Board", value: 4.0, color: "#3b82f6" },
+  { label: "Ecosystem", value: 3.98, color: "#14b8a6" },
+  { label: "Founders", value: 4.0, color: "#8b5cf6" },
+];
+
+const tokenomicsHighlights = [
+  { icon: <Pickaxe size={20} />, title: "Optimized Minting", text: "for long-term sustainability" },
+  { icon: <Gift size={20} />, title: "Strong Liquidity Rewards", text: "to support market stability" },
+  { icon: <Users size={20} />, title: "Community & Ecosystem", text: "focused growth" },
+  { icon: <ShieldCheck size={20} />, title: "Transparent & Fair", text: "distribution model" },
+];
+
+function AllocationDonut() {
+  const labels = [
+    { label: "Minting", value: "54.02%", top: "54%", left: "78%", big: true },
+    { label: "Liquidity Rewards", value: "30.00%", top: "66%", left: "25%", big: true },
+    { label: "ICO", value: "4.00%", top: "25%", left: "20%" },
+    { label: "Advisory Board", value: "4.00%", top: "18%", left: "27%" },
+    { label: "Ecosystem", value: "3.98%", top: "13%", left: "35%" },
+    { label: "Founders", value: "4.00%", top: "10%", left: "45%" },
+  ];
+
+  const gradient = `conic-gradient(
+    #1e3fbf 0 54%,      #fff 54% 54.4%,
+    #1e9bf0 54.4% 83.8%, #fff 83.8% 84.2%,
+    #22d3ee 84.2% 87.8%, #fff 87.8% 88.2%,
+    #2563eb 88.2% 91.8%, #fff 91.8% 92.2%,
+    #14b8c4 92.2% 95.8%, #fff 95.8% 96.2%,
+    #7c3aed 96.2% 99.8%, #fff 99.8% 100%
+  )`;
+
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-[340px] rounded-full border-[5px] border-white shadow-[0_14px_30px_rgba(37,99,235,0.4)]">
+      {/* pie */}
+      <div className="size-full rounded-full" style={{ background: gradient }} />
+
+      {/* labels */}
+      {labels.map((s) => (
+        <span
+          key={s.label}
+          title={`${s.label}: ${s.value}`}
+          className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-semibold text-black ${s.big ? "text-lg" : "text-[11px]"
+            }`}
+          style={{ top: s.top, left: s.left }}
+        >
+          {s.value}
+        </span>
+      ))}
+
+      {/* center logo (same patch) */}
+      <div className="absolute left-1/2 top-1/2 grid size-[26%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white shadow-[0_0_0_6px_rgba(30,64,175,0.35)]">
+        <img src="/icons/favicon.png" alt="Logo" className="size-[60%] object-contain" />
+      </div>
+    </div>
+  );
+}
+
 
 export default function FyntixLanding() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [contractCopyStatus, setContractCopyStatus] = useState<"idle" | "copied" | "error">(
+    "idle",
+  );
+  const contractAddress = "0xA9650709005e8ad1798e42c539D3F1576E3b9850";
 
   useEffect(() => {
     setMounted(true);
@@ -17,6 +164,15 @@ export default function FyntixLanding() {
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const copyContractAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(contractAddress);
+      setContractCopyStatus("copied");
+    } catch {
+      setContractCopyStatus("error");
+    }
   };
 
   if (!mounted) {
@@ -1701,339 +1857,267 @@ export default function FyntixLanding() {
           </div>
         </div>
       </section>
-
       <section
         id="token"
-        className="token-section border-line bg-panel relative overflow-hidden border-y"
+        className="relative overflow-hidden s py-20 lg:py-28 dark:bg-slate-950"
       >
-        <div className="token-section-glow" aria-hidden="true"></div>
-        <div className="relative mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-mint text-xs font-bold uppercase tracking-[.22em]">Token Utility</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-              What the FYNTIX token is for
-            </h2>
-            <p className="mt-4 leading-7 text-muted">
-              The token&apos;s role is functional — it powers the mechanics of the protocol itself, not a
-              promise of return.
-            </p>
-          </div>
-          <div
-            className="scroll-reveal is-visible token-feature border-mint/25 bg-ink/70 shadow-glow mt-12 grid items-center gap-5 overflow-hidden rounded-3xl border p-5 sm:p-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-10"
-            style={{ "--reveal-delay": "0ms" } as React.CSSProperties}
-          >
-            <div className="landing-illustration token-coin-art h-64 sm:h-72">
-              <img
-                alt="Blue FYNTIX token coin illustration representing protocol utility"
-                loading="lazy"
-                decoding="async"
-                data-nimg="fill"
-                className="object-contain"
-                style={{
-                  position: "absolute",
-                  height: "100%",
-                  width: "100%",
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  color: "transparent",
-                }}
-                src="/images/token-core.svg"
-              />
+        {/* Background Grid & Glow Effects */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e0f2fe_1px,transparent_1px),linear-gradient(to_bottom,#e0f2fe_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] opacity-60"></div>
+        <div className="absolute left-1/2 top-0 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/20 blur-[120px] dark:bg-blue-900/20"></div>
+
+        <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="grid items-center gap-16 lg:grid-cols-[1fr_.9fr]">
+
+            {/* Left Side: Content */}
+            <div>
+              <div className="mb-4 flex items-center gap-2">
+                <p className="text-sm font-bold uppercase tracking-[.22em] text-blue-600 dark:text-blue-400">
+                </p>
+              </div>
+
+              <h2 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
+                <span className="text-blue-700 dark:text-blue-500">Tokenomics </span>
+                <br />
+                <span className="mt-2 block text-2xl font-semibold text-slate-800 sm:text-3xl dark:text-white">
+                  Powering the Future of On-Chain FX Trading
+                </span>
+              </h2>
+
+              <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
+                We are launching the native token of our decentralized Forex liquidity protocol,
+                designed to power{" "}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">on-chain FX trading</span>.
+                The token serves as the primary medium for protocol transactions, liquidity incentives,
+                governance participation, and fee settlement, enabling{" "}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">efficient</span>,{" "}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">transparent</span>, and{" "}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">permissionless</span> global Forex markets.
+              </p>
             </div>
-            <div className="token-feature-copy px-2 py-3 sm:px-4">
-              <p className="text-mint flex items-center gap-2 text-xs font-bold uppercase tracking-[.2em]">
-                <span className="bg-mint size-2 rounded-full shadow-[0_0_12px_#1680ff]"></span>
-                Designed for utility
-              </p>
-              <h3 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
-                One token. Four protocol functions.
-              </h3>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
-                From settling fees to community governance, token utility is built into how the
-                ecosystem works.
-              </p>
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="token-function-chip border-line bg-panel/50 flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
-                  <span className="text-mint">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-coins"
-                    >
-                      <circle cx="8" cy="8" r="6"></circle>
-                      <path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path>
-                      <path d="M7 6h1v4"></path>
-                      <path d="m16.71 13.88.7.71-2.82 2.82"></path>
-                    </svg>
-                  </span>
-                  <span>
-                    <span className="text-mint/70 mr-1">01</span>Protocol Transactions
-                  </span>
+
+            {/* Right Side: 3D Coin & Floating Badges */}
+            <div className="relative mx-auto w-full max-w-[450px]">
+              {/* Base Glow */}
+              <div className="absolute left-1/2 top-1/2 -z-10 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/30 blur-3xl"></div>
+
+              {/* The 3D Coin Container (CSS Illustration) */}
+              <div className="relative z-10 mx-auto flex aspect-square max-w-[320px] items-center justify-center">
+
+                {/* Outer Rings (Orbit) */}
+                <div className="absolute inset-0 rounded-full border border-blue-200 dark:border-blue-800"></div>
+                <div className="absolute inset-4 rounded-full border border-dashed border-blue-300 dark:border-blue-700"></div>
+
+                {/* Main Coin Body */}
+                <div className="relative flex size-56 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 to-white shadow-[0_20px_40px_rgba(0,100,255,0.2),inset_0_-10px_20px_rgba(0,0,0,0.05)] border-8 border-slate-50 dark:from-slate-800 dark:to-slate-900 dark:border-slate-800">
+                  {/* Inner Blue Ring */}
+                  <div className="absolute inset-2 rounded-full border-4 border-blue-500/20"></div>
+
+                  {/* Coin Content */}
+                  <div className="relative flex flex-col items-center">
+                    <img src="/icons/favicon.png" alt="FYNTIX Logo" className="h-16 w-auto object-contain mb-2" />
+
+                  </div>
                 </div>
-                <div className="token-function-chip border-line bg-panel/50 flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
-                  <span className="text-mint">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-droplets"
-                    >
-                      <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"></path>
-                      <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"></path>
-                    </svg>
-                  </span>
-                  <span>
-                    <span className="text-mint/70 mr-1">02</span>Liquidity Incentives
-                  </span>
+
+                {/* Base Pedestal 3D Effect */}
+                <div className="absolute -bottom-6 h-12 w-48 rounded-[100%] bg-blue-600/20 blur-md"></div>
+                <div className="absolute -bottom-2 h-8 w-40 rounded-[100%] bg-blue-500/40"></div>
+              </div>
+
+              {/* Floating Badges (Absolute Positioning) */}
+              <div className="absolute inset-0 z-20 pointer-events-none">
+
+                {/* Secure (Top Left) */}
+                <div className="absolute left-0 top-10 flex animate-bounce flex-col items-center gap-1 [animation-duration:3s]">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white shadow-xl dark:bg-slate-800">
+                    <ShieldCheck className="text-blue-500" size={24} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Secure</span>
                 </div>
-                <div className="token-function-chip border-line bg-panel/50 flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
-                  <span className="text-mint">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-vote"
-                    >
-                      <path d="m9 12 2 2 4-4"></path>
-                      <path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"></path>
-                      <path d="M22 19H2"></path>
-                    </svg>
-                  </span>
-                  <span>
-                    <span className="text-mint/70 mr-1">03</span>Governance Participation
-                  </span>
+
+                {/* Efficient (Top Right) */}
+                <div className="absolute right-0 top-6 flex animate-bounce flex-col items-center gap-1 [animation-duration:3.5s]">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white shadow-xl dark:bg-slate-800">
+                    <Zap className="text-blue-500" size={24} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Efficient</span>
                 </div>
-                <div className="token-function-chip border-line bg-panel/50 flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
-                  <span className="text-mint">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-receipt"
-                    >
-                      <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path>
-                      <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
-                      <path d="M12 17.5v-11"></path>
-                    </svg>
-                  </span>
-                  <span>
-                    <span className="text-mint/70 mr-1">04</span>Fee Settlement
-                  </span>
+
+                {/* Transparent (Mid Left) */}
+                <div className="absolute -left-4 top-1/2 flex animate-bounce flex-col items-center gap-1 [animation-duration:4s]">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white shadow-xl dark:bg-slate-800">
+                    <Lock className="text-blue-500" size={24} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Transparent</span>
                 </div>
+
+                {/* Global (Mid Right) */}
+                <div className="absolute -right-4 top-1/2 flex animate-bounce flex-col items-center gap-1 [animation-duration:3.2s]">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white shadow-xl dark:bg-slate-800">
+                    <Globe className="text-blue-500" size={24} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Global</span>
+                </div>
+
+                {/* Community Driven (Bottom) */}
+                <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 animate-bounce flex-col items-center gap-1 [animation-duration:2.8s]">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white shadow-xl dark:bg-slate-800">
+                    <Users className="text-blue-500" size={24} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Community Driven</span>
+                </div>
+
               </div>
             </div>
           </div>
-          <div className="mt-12 flex items-center gap-4">
-            <span className="bg-line h-px flex-1"></span>
-            <span className="text-xs font-bold uppercase tracking-[.2em] text-muted">
-              Token utility
-            </span>
-            <span className="bg-line h-px flex-1"></span>
+
+          {/* Bottom Functions Grid */}
+          <div className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {tokenFunctions.map((f) => (
+              <div
+                key={f.title}
+                className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
+              >
+                {/* Top Border Color Accent on Hover */}
+                <div className="absolute left-0 top-0 h-1 w-full origin-left scale-x-0 bg-blue-500 transition-transform duration-300 group-hover:scale-x-100"></div>
+
+                <span className="flex size-12 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white dark:bg-slate-800 dark:text-blue-400 dark:group-hover:bg-blue-500 dark:group-hover:text-white">
+                  {f.icon}
+                </span>
+                <h3 className="mt-5 font-bold text-slate-900 dark:text-white">{f.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{f.text}</p>
+              </div>
+            ))}
           </div>
-          <div
-            className="scroll-reveal is-visible mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            style={{ "--reveal-delay": "0ms" } as React.CSSProperties}
-          >
-            <div className="token-utility-card border-line bg-panel/60 hover:border-mint/50 group relative overflow-hidden rounded-2xl border p-6 transition hover:-translate-y-1">
-              <span className="token-card-index">01</span>
-              <span className="border-mint/20 bg-mint/10 text-mint group-hover:bg-mint group-hover:text-ink grid size-11 place-items-center rounded-xl border transition">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-coins"
-                >
-                  <circle cx="8" cy="8" r="6"></circle>
-                  <path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path>
-                  <path d="M7 6h1v4"></path>
-                  <path d="m16.71 13.88.7.71-2.82 2.82"></path>
-                </svg>
-              </span>
-              <h4 className="mt-5 font-semibold">Protocol Transactions</h4>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Used for seamless, efficient operation across the protocol.
+        </div>
+      </section>
+
+      <section aria-label="Official contract" className="border-line bg-ink border-b">
+        <div className="mx-auto max-w-7xl px-5 py-8 lg:px-8">
+          <div className="border-line bg-panel/70 flex flex-col gap-5 rounded-2xl border px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+            <div className="min-w-0">
+              <p className="text-xs font-bold uppercase tracking-[.14em] text-blue-700">
+                Official Contract
               </p>
-              <div className="bg-mint/60 mt-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
+              <p className="mt-2 break-all font-mono text-sm font-semibold text-foreground sm:truncate">
+                {contractAddress}
+              </p>
             </div>
-            <div className="token-utility-card border-line bg-panel/60 hover:border-mint/50 group relative overflow-hidden rounded-2xl border p-6 transition hover:-translate-y-1">
-              <span className="token-card-index">02</span>
-              <span className="border-mint/20 bg-mint/10 text-mint group-hover:bg-mint group-hover:text-ink grid size-11 place-items-center rounded-xl border transition">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-droplets"
-                >
-                  <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"></path>
-                  <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"></path>
-                </svg>
-              </span>
-              <h4 className="mt-5 font-semibold">Liquidity Incentives</h4>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Directs incentives toward participants who deepen market liquidity.
-              </p>
-              <div className="bg-mint/60 mt-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
-            </div>
-            <div className="token-utility-card border-line bg-panel/60 hover:border-mint/50 group relative overflow-hidden rounded-2xl border p-6 transition hover:-translate-y-1">
-              <span className="token-card-index">03</span>
-              <span className="border-mint/20 bg-mint/10 text-mint group-hover:bg-mint group-hover:text-ink grid size-11 place-items-center rounded-xl border transition">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-vote"
-                >
-                  <path d="m9 12 2 2 4-4"></path>
-                  <path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"></path>
-                  <path d="M22 19H2"></path>
-                </svg>
-              </span>
-              <h4 className="mt-5 font-semibold">Governance Participation</h4>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Lets holders take part in decisions about the protocol&apos;s future.
-              </p>
-              <div className="bg-mint/60 mt-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
-            </div>
-            <div className="token-utility-card border-line bg-panel/60 hover:border-mint/50 group relative overflow-hidden rounded-2xl border p-6 transition hover:-translate-y-1">
-              <span className="token-card-index">04</span>
-              <span className="border-mint/20 bg-mint/10 text-mint group-hover:bg-mint group-hover:text-ink grid size-11 place-items-center rounded-xl border transition">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-receipt"
-                >
-                  <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path>
-                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
-                  <path d="M12 17.5v-11"></path>
-                </svg>
-              </span>
-              <h4 className="mt-5 font-semibold">Fee Settlement</h4>
-              <p className="mt-2 text-sm leading-6 text-muted">
-                Enables low-cost fee payment for actions across the ecosystem.
-              </p>
-              <div className="bg-mint/60 mt-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={copyContractAddress}
+                aria-live="polite"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
+              >
+                {contractCopyStatus === "copied" ? (
+                  <Check size={16} />
+                ) : (
+                  <Copy size={16} />
+                )}
+                {contractCopyStatus === "copied"
+                  ? "Copied"
+                  : contractCopyStatus === "error"
+                    ? "Copy failed"
+                    : "Copy address"}
+              </button>
+              <a
+                href={`https://bscscan.com/token/${contractAddress}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-line inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition hover:bg-subtle"
+              >
+                View on BscScan
+                <ExternalLink size={16} />
+              </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ============================= TOKENOMICS ============================= */}
+      <section id="tokenomics" className="border-line bg-panel border-b">
+        <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+          <div className="max-w-2xl">
+
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Balanced Token Distribution
+            </h2>
+          </div>
+
+          <div className="mt-10 grid items-center gap-10 lg:grid-cols-[.8fr_1.1fr_.9fr]">
+            <div className="grid gap-4">
+              <div className="border-line bg-ink/60 flex items-center gap-4 rounded-2xl border p-5">
+                <span className="border-mint/20 bg-mint/10 text-mint grid size-12 place-items-center rounded-xl border">
+                  <Coins size={22} />
+                </span>
+                <div>
+                  <p className="text-xs text-muted">Token Symbol</p>
+                  <p className="text-mint text-2xl font-semibold tracking-tight">FYNTIX</p>
+                </div>
+              </div>
+              <div className="border-line bg-ink/60 flex items-center gap-4 rounded-2xl border p-5">
+                <span className="border-mint/20 bg-mint/10 text-mint grid size-12 place-items-center rounded-xl border">
+                  <Boxes size={22} />
+                </span>
+                <div>
+                  <p className="text-xs text-muted">Total Supply</p>
+                  <p className="text-mint text-2xl font-semibold tracking-tight">5 Million</p>
+                </div>
+              </div>
+              <p className="border-line bg-ink/40 flex items-start gap-3 rounded-2xl border p-4 text-xs leading-5 text-muted">
+                <ShieldCheck size={16} className="text-mint mt-0.5 shrink-0" />
+                Designed for sustainable growth and ecosystem expansion with balanced token
+                distribution.
+              </p>
+            </div>
+
+            <AllocationDonut />
+
+            <ul className="grid gap-3">
+              {allocation.map((s) => (
+                <li
+                  key={s.label}
+                  className="border-line bg-ink/60 flex items-center justify-between gap-4 rounded-xl border px-4 py-3"
+                >
+                  <span className="flex items-center gap-3 text-sm font-medium">
+                    <span
+                      className="size-3 shrink-0 rounded-full"
+                      style={{ backgroundColor: s.color }}
+                      aria-hidden="true"
+                    ></span>
+                    {s.label}
+                  </span>
+                  <span className="text-mint text-lg font-semibold tabular-nums">
+                    {s.value.toFixed(2)}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <ul className="border-line bg-ink/50 mt-12 grid gap-6 rounded-2xl border p-6 sm:grid-cols-2 lg:grid-cols-4">
+            {tokenomicsHighlights.map((h) => (
+              <li key={h.title} className="flex items-center gap-3">
+                <span className="border-mint/20 bg-mint/10 text-mint grid size-11 shrink-0 place-items-center rounded-xl border">
+                  {h.icon}
+                </span>
+                <span className="text-sm leading-5">
+                  <span className="block font-semibold">{h.title}</span>
+                  <span className="text-muted">{h.text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+
           <p className="token-disclaimer border-line/70 bg-ink/40 mx-auto mt-8 flex max-w-4xl items-start gap-3 rounded-xl border p-4 text-xs leading-5 text-muted">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-shield-check text-mint mt-0.5 shrink-0"
-            >
-              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-              <path d="m9 12 2 2 4-4"></path>
-            </svg>
+            <ShieldCheck size={16} className="text-mint mt-0.5 shrink-0" />
             <span>
               Digital assets carry risk, including loss of value and loss of principal. Nothing on
-              this page is investment advice, and token allocation details are provided for
-              transparency about protocol mechanics, not as a projection of returns. Always review
-              audited contract code and consult independent advice before participating.
+              this page is investment advice. Always review audited contract code and consult
+              independent advice before participating.
             </span>
           </p>
-          <div
-            className="scroll-reveal is-visible token-stats border-line bg-line mt-10 grid gap-px overflow-hidden rounded-2xl border sm:grid-cols-2 lg:grid-cols-4"
-            style={{ "--reveal-delay": "0ms" } as React.CSSProperties}
-          >
-            <div className="token-stat bg-ink p-6 text-center sm:p-7">
-              <span className="border-mint/20 bg-mint/10 text-mint mb-3 inline-flex size-7 items-center justify-center rounded-full border text-[10px] font-bold">
-                01
-              </span>
-              <p className="text-mint text-3xl font-semibold tracking-tight">
-                <span>$9.6T</span>
-              </p>
-              <p className="mt-3 text-sm font-medium">Daily forex market volume</p>
-              <p className="mt-1 text-xs text-muted">Global market, 2025 est.</p>
-            </div>
-            <div className="token-stat bg-ink p-6 text-center sm:p-7">
-              <span className="border-mint/20 bg-mint/10 text-mint mb-3 inline-flex size-7 items-center justify-center rounded-full border text-[10px] font-bold">
-                02
-              </span>
-              <p className="text-mint text-3xl font-semibold tracking-tight">
-                <span>24</span>
-              </p>
-              <p className="mt-3 text-sm font-medium">Hours of continuous access</p>
-              <p className="mt-1 text-xs text-muted">Protocol design target</p>
-            </div>
-            <div className="token-stat bg-ink p-6 text-center sm:p-7">
-              <span className="border-mint/20 bg-mint/10 text-mint mb-3 inline-flex size-7 items-center justify-center rounded-full border text-[10px] font-bold">
-                03
-              </span>
-              <p className="text-mint text-3xl font-semibold tracking-tight">
-                <span>10,000</span>
-              </p>
-              <p className="mt-3 text-sm font-medium">Virtual mining machines planned</p>
-              <p className="mt-1 text-xs text-muted">Roadmap allocation</p>
-            </div>
-            <div className="token-stat bg-ink p-6 text-center sm:p-7">
-              <span className="border-mint/20 bg-mint/10 text-mint mb-3 inline-flex size-7 items-center justify-center rounded-full border text-[10px] font-bold">
-                04
-              </span>
-              <p className="text-mint text-3xl font-semibold tracking-tight">
-                <span>5Y</span>
-              </p>
-              <p className="mt-3 text-sm font-medium">Progressive vesting period</p>
-              <p className="mt-1 text-xs text-muted">Token emission schedule</p>
-            </div>
-          </div>
         </div>
       </section>
 

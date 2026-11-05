@@ -26,6 +26,10 @@ export const primaryNav: NavItem[] = [
     href: "/ai-engine",
   },
   {
+    label: "AI Assistant",
+    href: "/ai-assistant",
+  },
+  {
     label: "Analytics",
     href: "/analytics",
   },
