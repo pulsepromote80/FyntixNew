@@ -1434,3 +1434,14 @@ html:not(.dark) .hub-tbl .reward {
   color: var(--hub-muted);
   padding: 20px;
 }
+
+/* Hide Google Translate Bar */
+.goog-te-banner-frame,
+.skiptranslate,
+.goog-te-gadget {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}

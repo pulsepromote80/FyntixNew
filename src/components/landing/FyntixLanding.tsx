@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import { LiquidityDashboard } from "@/components/landing/LiquidityDashboard";
+import GoogleTranslate from "@/components/common/GoogleTranslate";
 
 /* ========================================================================== */
 /*  TOKEN SECTION DATA (Token / Minting / Tokenomics images ke hisaab se)      */
@@ -220,6 +221,9 @@ export default function FyntixLanding() {
               >
                 Register
               </Link>
+              <div className="w-16">
+                <GoogleTranslate />
+              </div>
               <button
                 type="button"
                 onClick={toggleTheme}
@@ -398,6 +402,9 @@ export default function FyntixLanding() {
                 >
                   Register
                 </Link>
+                <div className="w-16">
+                  <GoogleTranslate />
+                </div>
               </div>
             </nav>
           )}
@@ -730,11 +737,11 @@ export default function FyntixLanding() {
               </p>
             </div>
             <div
-              className="scroll-reveal is-visible border-line mt-10 space-y-6 border-l pl-6"
+              className="scroll-reveal is-visible border-line mt-10 space-y-6 border-l pl-6 sm:pl-8"
               style={{ "--reveal-delay": "0ms" } as React.CSSProperties}
             >
               <div className="relative">
-                <span className="bg-mint absolute -left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
+                <span className="bg-mint absolute -left-[27px] sm:-left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
                 <p className="text-mint text-xs font-bold uppercase tracking-[.16em]">2026 Q2</p>
                 <h4 className="mt-1 font-semibold">Protocol design &amp; audit</h4>
                 <p className="mt-1 text-sm leading-6 text-muted">
@@ -742,7 +749,7 @@ export default function FyntixLanding() {
                 </p>
               </div>
               <div className="relative">
-                <span className="bg-mint absolute -left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
+                <span className="bg-mint absolute -left-[27px] sm:-left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
                 <p className="text-mint text-xs font-bold uppercase tracking-[.16em]">2026 Q4</p>
                 <h4 className="mt-1 font-semibold">Public bug bounty</h4>
                 <p className="mt-1 text-sm leading-6 text-muted">
@@ -750,7 +757,7 @@ export default function FyntixLanding() {
                 </p>
               </div>
               <div className="relative">
-                <span className="bg-mint absolute -left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
+                <span className="bg-mint absolute -left-[27px] sm:-left-[31px] top-1.5 size-2.5 rounded-full shadow-[0_0_12px_#1680ff]"></span>
                 <p className="text-mint text-xs font-bold uppercase tracking-[.16em]">2027 Q1</p>
                 <h4 className="mt-1 font-semibold">Mainnet &amp; wallet launch</h4>
                 <p className="mt-1 text-sm leading-6 text-muted">
@@ -763,8 +770,8 @@ export default function FyntixLanding() {
             className="scroll-reveal is-visible"
             style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
           >
-            <div className="glass rounded-3xl p-6 sm:p-9">
-              <div className="landing-illustration h-56 sm:h-64">
+            <div className="glass rounded-3xl p-5 sm:p-9">
+              <div className="landing-illustration h-48 sm:h-64">
                 <img
                   src="/images/protocol-network.svg"
                   alt="Illustration of the decentralized protocol network connecting traders, wallets, and liquidity"
@@ -773,8 +780,8 @@ export default function FyntixLanding() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <div className="mt-3 flex items-center justify-between gap-3 text-center text-xs font-semibold uppercase tracking-[.14em]">
-                <span className="border-line bg-panel flex-1 rounded-xl border p-4">Traders</span>
+              <div className="mt-3 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center text-xs font-semibold uppercase tracking-[.14em]">
+                <span className="border-line bg-panel w-full sm:flex-1 rounded-xl border p-3 sm:p-4">Traders</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -785,12 +792,12 @@ export default function FyntixLanding() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="lucide lucide-arrow-right text-mint shrink-0"
+                  className="lucide lucide-arrow-right text-mint shrink-0 rotate-90 sm:rotate-0"
                 >
                   <path d="M5 12h14"></path>
                   <path d="m12 5 7 7-7 7"></path>
                 </svg>
-                <span className="bg-mint text-ink flex-1 rounded-xl p-4">DFL Protocol</span>
+                <span className="bg-mint text-ink w-full sm:flex-1 rounded-xl p-3 sm:p-4">DFL Protocol</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -801,14 +808,14 @@ export default function FyntixLanding() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="lucide lucide-arrow-right text-mint shrink-0"
+                  className="lucide lucide-arrow-right text-mint shrink-0 rotate-90 sm:rotate-0"
                 >
                   <path d="M5 12h14"></path>
                   <path d="m12 5 7 7-7 7"></path>
                 </svg>
-                <span className="border-line bg-panel flex-1 rounded-xl border p-4">Liquidity</span>
+                <span className="border-line bg-panel w-full sm:flex-1 rounded-xl border p-3 sm:p-4">Liquidity</span>
               </div>
-              <p className="mt-6 text-center text-sm leading-6 text-muted">
+              <p className="mt-4 sm:mt-6 text-center text-sm leading-6 text-muted">
                 Peer-to-contract routing — no intermediary bank sits between traders and liquidity
                 providers.
               </p>

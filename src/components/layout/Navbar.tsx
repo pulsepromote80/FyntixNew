@@ -12,6 +12,7 @@ import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useTheme } from "next-themes";
 import { ThemeLogo } from "@/components/common/ThemeLogo";
 import type { NavItem } from "@/types/common";
+import GoogleTranslate from "@/components/common/GoogleTranslate";
 
 type HeaderNotification = Record<string, unknown>;
 
@@ -421,7 +422,12 @@ export function Navbar() {
         </nav>
       </div>
 
+      {/* <div>
+        <GoogleTranslate/>
+      </div> */}
+
       <div className="flex items-center gap-2 sm:gap-4">
+        <GoogleTranslate/>
         <button
           className="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-white/5"
           aria-label="Toggle theme"
