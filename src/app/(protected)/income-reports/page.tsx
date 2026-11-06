@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { NftSection } from "@/app/components/NftSection";
 import { usePathname } from 'next/navigation';
 import { getPageName } from "@/lib/utils";
@@ -19,6 +19,14 @@ export default function Reports() {
   const [activeTab, setActiveTab] = useState("Dynamic Referral Yield");
   const pathname = usePathname();
   const pageName = getPageName(pathname);
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem('incomeTab');
+    if (savedTab) {
+      setActiveTab(savedTab);
+      localStorage.removeItem('incomeTab');
+    }
+  }, []);
 
   const getTransactionType = (tabName: string) => {
     const map: Record<string, string> = {
