@@ -366,6 +366,7 @@ export default function AIBUSINESSHUB() {
                 <div className="sub">Power leg carries {((powerLeg / teamTotal) * 100).toFixed(2)}% of total volume</div>
               </div>
               <div className="hub-idcard"><small className="mono">Strong Team ID</small><b className="mono">{strongLegID}</b></div>
+              <div className="hub-idcard hub-rank-card"><small className="mono">Current Rank</small><b className="mono" style={{ background: 'linear-gradient(90deg, var(--hub-green), var(--hub-blue))', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>{leadershipRank}</b></div>
             </div>
           </Reveal>
         </section>
@@ -477,54 +478,30 @@ export default function AIBUSINESSHUB() {
                 <div className="sub" style={{ marginTop: 12 }}>You have {activeDirectMembers} active directs → <b style={{ color: 'var(--hub-amber)' }}>{dryTiers.filter(t => t.dir <= Number(activeDirectMembers)).pop()?.pct || 0}% yield</b></div>
               </div>
             </Reveal>
-            <Reveal delay={100}> 
+            <Reveal delay={100}>
               <div className="hub-card">
                 <div className="hub-card-head">
-                  <div><h3>Unity Revenue Yield</h3><div className="sub">Differential on total volume · 15% to 100%</div></div><span className="hub-chip green">Volume scaling</span>
+                  <div><h3>Unity Revenue Yield</h3><div className="sub">Differential on total volume · 15% to 100%</div></div><span className="hub-chip green" style={{ cursor: 'pointer' }} onClick={() => { localStorage.setItem('incomeTab', 'Unity Revenue Yield'); router.push('/income-reports'); }}>Volume scaling</span>
                 </div>
-                <div className="hub-tiers">
-                  {unityTiers.map((t) => (
-                    <div className="hub-tier" key={t.vol}><span>{t.vol}</span><div className="hub-bar"><div style={{ width: `${t.pct}%` }} /></div><b className="mono">{t.pct}%</b></div>
-                  ))}
+                <div style={{ marginTop: 16 }}>
+                  <div className="hub-bar" style={{ background: 'rgba(255,255,255,0.1)', position: 'relative' }}>
+                    <div style={{ width: '100%', height: '100%', background: `linear-gradient(90deg, var(--hub-blue) 0%, var(--hub-blue) ${rankPercentage}%, rgba(255,255,255,0.1) ${rankPercentage}%, rgba(255,255,255,0.1) 100%)` }} />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: 12, color: 'var(--hub-muted)' }}>
+                    <span className="mono">15%</span>
+                    <span className="mono">100%</span>
+                  </div>
                 </div>
                 <div className="sub" style={{ marginTop: 12 }}>Higher volume → higher percentage. You earn the difference between your rate and your team&apos;s rate.</div>
+                <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.05)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--hub-text)' }}>Achived: {rankPercentage.toFixed(0)}%</div>
+                </div>
               </div>
             </Reveal>
           </div>
         </section>
 
-        {/* Performance Revenue Yield */}
-        <section className="mb-8">
-          <div className="flex items-baseline gap-3 mb-4">
-            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: '.2px' }}>Performance Revenue Yield</h2>
-            <span style={{ color: 'var(--hub-muted)', fontSize: 13 }}>Weekly rank income on matching volume · 50% power leg + 50% weaker leg</span>
-          </div>
-          <Reveal>
-            <div className="hub-card">
-              <div className="flex items-center gap-6 mb-6">
-                <Ring pct={rankPercentage} size={104} color="var(--hub-amber)" sub={`to next rank`} />
-                <div style={{ flex: 1 }}>
-                  <h3>Current rank: {leadershipRank}</h3>
-                  <div className="sub">Next target needs matching volume</div>
-                  <div className="flex gap-4" style={{ marginTop: 14 }}>
-                    <div className="leg"><small>Power leg (50%)</small><b className="mono" style={{ color: 'var(--hub-green)' }}>{money(powerLeg, 0)}</b></div>
-                    <div className="leg"><small>Weaker leg (50%)</small><b className="mono" style={{ color: 'var(--hub-amber)' }}>{money(weakLeg, 0)}</b></div>
-                  </div>
-                </div>
-              </div>
-              <div className="overflow-x-auto" style={{ marginTop: 18 }}>
-                <table className="hub-tbl">
-                  <thead><tr><th>Rank</th><th>Matching Business</th><th>Weekly Reward</th><th>Duration</th><th>Progress</th></tr></thead>
-                  <tbody>
-                    <tr><td><b>Bronze</b></td><td className="mono">{money(1000, 0)}</td><td className="reward mono">{money(50, 0)}</td><td>4 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '100%' }} /></div></td></tr>
-                    <tr><td><b>Silver</b></td><td className="mono">{money(5000, 0)}</td><td className="reward mono">{money(100, 0)}</td><td>6 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '75%' }} /></div></td></tr>
-                    <tr><td><b>Gold</b></td><td className="mono">{money(10000, 0)}</td><td className="reward mono">{money(200, 0)}</td><td>8 Weeks</td><td style={{ minWidth: 120 }}><div className="hub-bar"><div style={{ width: '50%' }} /></div></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </Reveal>
-        </section>
+    
 
         {/* Team + Personal */}
         <section className="mb-8">
