@@ -22,12 +22,13 @@ export const primaryNav: NavItem[] = [
     href: "/fund-director",
   },
   {
-    label: "AI Engine",
+    label: "Tools",
     href: "/ai-engine",
-  },
-  {
-    label: "AI Assistant",
-    href: "/ai-assistant",
+    isDropdown: true,
+    dropdownItems: [
+      { label: "AI Engine", href: "/ai-engine" },
+      { label: "AI Assistant", href: "/ai-assistant" },
+    ],
   },
   {
     label: "Analytics",

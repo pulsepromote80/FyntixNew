@@ -49,6 +49,18 @@ interface DepthRow {
 
 const ACCENT_COLOR = "#1680ff";
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = shuffled[i]!;
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp;
+  }
+  return shuffled;
+};
+
 export default function AIEnginePage() {
   const [status, setStatus] = useState("Running");
   const [uptime, setUptime] = useState("69d 15:21:38");
@@ -132,32 +144,7 @@ export default function AIEnginePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Simulate live console logs
-  useEffect(() => {
-    const logTypes: LogType[] = ["SCAN", "ROUTE", "SIM", "EXEC", "SETTLE"];
-    const messages = [
-      "SOL ETH/USDC · Curve → Meteora · gap 14.0 bps",
-      "perp-spot · 2 legs · Curve → Meteora · expect 22.4 bps net",
-      "ok · 2 legs simulated · $1,188 · 22.4 bps",
-      "0xabf62c…56e1 sent · SOL · gas 0.0037 BNB · 126 ms",
-      "filled · ETH/USDC · $1,188 · +22.4 bps · +$11.76",
-    ];
-
-    const addLog = () => {
-      const now = new Date();
-      const Datex = now.toISOString();
-      const type = logTypes[Math.floor(Math.random() * logTypes.length)]!;
-      const message = messages[Math.floor(Math.random() * messages.length)]!;
-
-      setConsoleLines((prev) => {
-        const newLines: ConsoleLine[] = [{ Datex, type, message }, ...prev].slice(0, 50);
-        return newLines;
-      });
-    };
-
-    const interval = setInterval(addLog, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  
 
   // Auto-scroll console to top
   useEffect(() => {
@@ -256,10 +243,12 @@ export default function AIEnginePage() {
     });
   };
 
-  const filteredLines = consoleLines.filter(
-    (line) =>
-      activeFilters.has(line.type) &&
-      (searchQuery === "" || line.message.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredLines = shuffleArray(
+    consoleLines.filter(
+      (line) =>
+        activeFilters.has(line.type) &&
+        (searchQuery === "" || line.message.toLowerCase().includes(searchQuery.toLowerCase()))
+    )
   );
 
   const getTypeColor = (type: LogType): string => {
