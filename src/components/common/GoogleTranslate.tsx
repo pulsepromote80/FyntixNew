@@ -296,7 +296,7 @@ const GoogleTranslate = () => {
   const [currentLang, setCurrentLang] = useState(languages[0]!);
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const dropdownRef = useRef<HTMLUListElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
