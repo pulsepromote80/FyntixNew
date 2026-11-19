@@ -31,3 +31,22 @@ httpClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+
+// 👇 NAYA CLIENT: Sirf Proxy Routes ke liye
+export const proxyClient = axios.create({
+  baseURL: "/api", // Ye direct /api/proxy/... par hit karega
+  withCredentials: true, // Taaki auth cookie proxy route tak pahuche
+  timeout: 15000, 
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// (Optional) Proxy client ke liye bhi error interceptor laga sakte hain
+proxyClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    return Promise.reject(error);
+  },
+);
